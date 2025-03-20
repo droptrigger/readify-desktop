@@ -1,19 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Readify.DTO.Library;
+using Readify.DTO.Reviews;
+using Microsoft.AspNetCore.Http;
 
-namespace Readify.DTO
+namespace Readify.DTO.Users
 {
-    /// <summary>
-    /// Класс, хранящий свойства пользователя
-    /// </summary>
     public class UserDTO
     {
         /// <summary>
-        /// ID пользователя
+        /// Id пользователя
         /// </summary>
         public int? Id { get; set; }
 
@@ -28,29 +22,19 @@ namespace Readify.DTO
         public string? Description { get; set; }
 
         /// <summary>
-        /// True - если присутствует картинка
+        /// Фотография профиля пользователя
         /// </summary>
-        public bool? HasAvatarImage { get; set; }
-
-        /// <summary>
-        /// Аватар пользователя
-        /// </summary>
-        public IFormFile? AvatarImage { get; set; }
+        public byte[]? AvatarImage { get; set; } = null!;
 
         /// <summary>
         /// Имя пользователя
         /// </summary>
-        public string? Name { get; set; }
+        public string? Name { get; set; } = null!;
 
         /// <summary>
         /// Email пользователя
         /// </summary>
         public string? Email { get; set; } = null!;
-
-        /// <summary>
-        /// Пароль пользователя
-        /// </summary>
-        public string? Password { get; set; } = null!;
 
         /// <summary>
         /// Роль пользователя
@@ -63,13 +47,28 @@ namespace Readify.DTO
         public bool? IsBanned { get; set; }
 
         /// <summary>
-        /// Дата создания аккаунта пользователя
+        /// Дата создания аккаунта
         /// </summary>
         public DateTime? CreatedAt { get; set; }
 
         /// <summary>
-        /// Access-токен
+        /// Список книг пользователя
         /// </summary>
-        public string? AccessToken { get; set; }
+        public List<LibraryDTO>? Books { get; set; }
+
+        /// <summary>
+        /// Список подписчиков пользователя
+        /// </summary>
+        public List<AuthorDTO>? Subscribers { get; set; }
+
+        /// <summary>
+        /// Список подписок пользователя
+        /// </summary>
+        public List<AuthorDTO>? Subscriptions { get; set; }
+
+        /// <summary>
+        /// Список отзывов пользователя
+        /// </summary>
+        public List<SeeReviewDTO>? Reviews { get; set; }
     }
 }

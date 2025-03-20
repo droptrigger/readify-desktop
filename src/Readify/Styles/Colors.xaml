@@ -1,0 +1,32 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Readify">
+
+    <Color x:Key="WhiteColor">#FFF</Color>
+    <SolidColorBrush x:Key="WhiteColorBrush" Color="{StaticResource WhiteColor}" />
+
+    <Color x:Key="BlackColor">#000</Color>
+    <SolidColorBrush x:Key="BlackColorBrush" Color="{StaticResource BlackColor}" />
+
+    <Color x:Key="LightGray">#C5C5C5</Color>
+    <SolidColorBrush x:Key="LightGrayColorBrush" Color="{StaticResource LightGray}" />
+
+    <Color x:Key="Gray">#C8C8C8</Color>
+    <Color x:Key="TextGray">#878787</Color>
+    <Color x:Key="HeavyGray">#3E3E3E</Color>
+    <Color x:Key="BlackGray">#25292E</Color>
+    
+    <Color x:Key="ButtonGray">#262626</Color>
+    <SolidColorBrush x:Key="ButtonGrayColorBrush" Color="{StaticResource LightGray}" />
+
+    <Color x:Key="BlockGray">#EFEFEF</Color>
+    
+    <Color x:Key="Blue">#0B6BD7</Color>
+    
+    <Color x:Key="Red">#D1242F</Color>
+    <SolidColorBrush x:Key="RedColorBrush" Color="{StaticResource Red}" />
+
+    <Color x:Key="Green">#30C352</Color>
+    <SolidColorBrush x:Key="GreenColorBrush" Color="{StaticResource Green}" />
+</ResourceDictionary>
