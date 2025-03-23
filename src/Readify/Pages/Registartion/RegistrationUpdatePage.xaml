@@ -1,0 +1,163 @@
+﻿<UserControl x:Class="Readify.Pages.Registartion.RegistrationUpdatePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Readify.Pages.Registartion" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:registration="clr-namespace:Readify.ViewModels.Registration" 
+             d:DataContext="{d:DesignInstance Type=registration:RegistrationUpdateViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        
+
+        <Border Grid.Column="0" Background="#25292E" Padding="70 63 100 0">
+            <StackPanel>
+                <TextBlock FontFamily="{StaticResource Inter}" 
+                           Text="Последние штрихи"
+                           FontSize="30" TextWrapping="Wrap" Foreground="#FFFFFF"
+                           FontWeight="Bold"
+                           Margin="0 0 0 15" />
+                <TextBlock FontFamily="{StaticResource Inter}"
+                           Text="Расскажите немного о себе, нам очень интересно!"
+                           FontSize="20" TextWrapping="Wrap" Foreground="#FFFFFF"
+                           FontWeight="Light" />
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Column="1" Background="#F9F9F9" Padding="20 20 20 0">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                    <TextBlock Style="{StaticResource RegistrationLinkText}"
+                               Text="Пропустить →" >
+                        <TextBlock.InputBindings>
+                            <MouseBinding
+                                    Command="{Binding GoToProfilePageCommand}"
+                                    MouseAction="LeftClick" />
+                        </TextBlock.InputBindings>
+                    </TextBlock>
+                </StackPanel>
+                <Border VerticalAlignment="Center"
+                        Width="450"  
+                        Margin="0 20 0 0">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource RegistrationHeaderText}"
+                                   Text="Давайте оформим ваш профиль" TextAlignment="Center"/>
+
+                        <Border Width="130" 
+                                Height="130" 
+                                CornerRadius="100"
+                                Margin="0 10 0 10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" 
+                                Cursor="Hand">
+                            <Border.Clip>
+                                <EllipseGeometry Center="65,65" RadiusX="65" RadiusY="65"/>
+                            </Border.Clip>
+
+                            <Grid>
+                                <!-- Основное изображение -->
+                                <Image Source="{Binding AvatarBytes, Converter={StaticResource ImageConverter}}"
+                                       Stretch="UniformToFill"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                    <Image.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="0" Y="0"/>
+                                        </TransformGroup>
+                                    </Image.RenderTransform>
+                                </Image>
+
+                                <!-- Затемнение при наведении -->
+                                <Border x:Name="HoverOverlay"
+                                        Background="#40000000"
+                                        CornerRadius="100"
+                                        Visibility="Collapsed">
+                                    <Border.Clip>
+                                        <EllipseGeometry Center="65,65" RadiusX="65" RadiusY="65"/>
+                                    </Border.Clip>
+                                </Border>
+                            </Grid>
+
+                            <!-- Триггеры -->
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverOverlay"
+                                                 Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverOverlay"
+                                                 Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
+
+                            <!-- Обработчик клика -->
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding SelectAvatarCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Border>
+
+                        <TextBlock Style="{StaticResource RegistrationInputLabel}"
+                                   Text="Как вас называть?" />
+                        <TextBox Style="{StaticResource RoundedShadowLoginTextBox}" 
+                                 Text="{Binding Name}" Name="Name" MaxLength="100"
+                                 Tag="Как вас называть?" TabIndex="0"
+                                 PreviewKeyDown="Enter_PreviewKeyDown">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="GotFocus">
+                                    <i:InvokeCommandAction Command="{Binding CloseNameErrorCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <TextBlock Style="{StaticResource RegistrationErrorText}"
+                                   Visibility="{Binding IsNameErrorVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                   Text="{Binding NameErrorMessage}" />
+
+                        <TextBlock Style="{StaticResource RegistrationInputLabel}"
+                                   Text="Расскажите немного о себе" />
+                        <TextBox Style="{StaticResource RoundedShadowAboutTextBox}" 
+                                 Text="{Binding About}" Name="About"
+                                 Tag="Расскажите немного о себе" TabIndex="1" MaxLength="250"
+                                 PreviewKeyDown="Enter_PreviewKeyDown">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="GotFocus">
+                                    <i:InvokeCommandAction Command="{Binding CloseNameErrorCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <TextBlock Style="{StaticResource RegistrationErrorText}"
+                                   Visibility="{Binding IsAboutErrorVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                   Text="{Binding AboutErrorMessage}" />
+
+                        <Button Style="{StaticResource RegistrationButton}"
+                                Command="{Binding FinishRegistrationCommand}"
+                                Content="Завершить регистрацию" TabIndex="2"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
+        </Border>
+    </Grid>
+</UserControl>

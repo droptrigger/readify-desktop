@@ -1,0 +1,258 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="RoundedShadowTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="#F2F2F2"/>
+        <Setter Property="BorderBrush" Value="#C8C8C8"/>
+        <Setter Property="Height" Value="39"/>
+        <Setter Property="MaxLength" Value="150"/>
+        <Setter Property="Margin" Value="0 5 0 13"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource Inter}" />
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" 
+                            CornerRadius="4"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            Padding="6">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" 
+                                              Direction="0"
+                                              BlurRadius="4"
+                                              Opacity="0.3"
+                                              ShadowDepth="0"/>
+                        </Border.Effect>
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#0078D4"/>
+                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RoundedShadowPasswordBox" TargetType="{x:Type PasswordBox}">
+        <Setter Property="Background" Value="#F2F2F2"/>
+        <Setter Property="BorderBrush" Value="#C8C8C8"/>
+        <Setter Property="Height" Value="39"/>
+        <Setter Property="Margin" Value="0 5 0 13"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}" />
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Border x:Name="border" 
+                        CornerRadius="4"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        Padding="6">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" 
+                                        Direction="0"
+                                        BlurRadius="4"
+                                        Opacity="0.3"
+                                        ShadowDepth="0"/>
+                        </Border.Effect>
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#0078D4"/>
+                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RoundedShadowLoginTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="#FFFFFF"/>
+        <Setter Property="BorderBrush" Value="#C8C8C8"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}" />
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Margin" Value="0 0 0 2"/>
+        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" 
+                        CornerRadius="4"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" 
+                                        Direction="0"
+                                        BlurRadius="4"
+                                        Opacity="0.3"
+                                        ShadowDepth="0"/>
+                        </Border.Effect>
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                            VerticalAlignment="Center"
+                                            Margin="10,0"/>
+                            <TextBlock x:Name="placeholder"
+                                         Text="{TemplateBinding Tag}"
+                                         Foreground="#C8C8C8"
+                                         Visibility="Collapsed"
+                                         Margin="10,0"
+                                         VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#0078D4"/>
+                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="placeholder" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="placeholder" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CodeInputBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="#FFFFFF"/>
+        <Setter Property="BorderBrush" Value="#C8C8C8"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="60"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="2 0"/>
+        <Setter Property="MaxLength" Value="1"/>
+        <Setter Property="Height" Value="85"/>
+        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="InputScope">
+            <Setter.Value>
+                <InputScope>
+                    <InputScope.Names>
+                        <InputScopeName NameValue="Number"/>
+                    </InputScope.Names>
+                </InputScope>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" 
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="2"
+                        CornerRadius="10">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#0078D4"/>
+                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RoundedShadowAboutTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="#FFFFFF"/>
+        <Setter Property="BorderBrush" Value="#C8C8C8"/>
+        <Setter Property="MinHeight" Value="100"/>
+        <Setter Property="MaxHeight" Value="200"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Margin" Value="0 0 0 2"/>
+        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="AcceptsTab" Value="True"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" 
+                        CornerRadius="4"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" 
+                                        Direction="0"
+                                        BlurRadius="4"
+                                        Opacity="0.3"
+                                        ShadowDepth="0"/>
+                        </Border.Effect>
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                    VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                    HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                                    Margin="10,5"/>
+                            <TextBlock x:Name="placeholder"
+                                 Text="{TemplateBinding Tag}"
+                                 Foreground="#C8C8C8"
+                                 Visibility="Collapsed"
+                                 Margin="10,5"
+                                 VerticalAlignment="Top"
+                                 TextWrapping="Wrap"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#0078D4"/>
+                            <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="placeholder" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsKeyboardFocused" Value="True"/>
+                                <Condition Property="Text" Value=""/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="placeholder" Property="Visibility" Value="Hidden"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
