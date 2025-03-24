@@ -120,10 +120,10 @@ namespace Readify.ViewModels.Registration
             {
                 try
                 {
-                    await _registrationService.SendMailCodeAsync(_registrationDTO.Email!);
-                    CloseCaptchaError();
                     var mainWindow = Application.Current.MainWindow as MainWindow;
                     mainWindow?.MainFrame.Navigate(new RegistrationEmailPage(_registrationDTO));
+                    await _registrationService.SendMailCodeAsync(_registrationDTO.Email!);
+                    CloseCaptchaError();
                 }
                 catch (Exception ex) 
                 {
