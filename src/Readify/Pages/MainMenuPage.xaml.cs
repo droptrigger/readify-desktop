@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Readify.Pages.MainMenu;
+using Readify.ViewModels;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Readify.Pages
 {
@@ -23,6 +13,8 @@ namespace Readify.Pages
         public MainMenuPage()
         {
             InitializeComponent();
+            NavigateToProfilePage();
+            DataContext = new MainMenuViewModel();
         }
 
         /// <summary>
@@ -34,6 +26,11 @@ namespace Readify.Pages
             {
                 e.Handled = true;
             }
+        }
+
+        private void NavigateToProfilePage()
+        {
+            MainMenuFrame.Navigate(new ProfilePage());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Readify.ViewModels.MainMenu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace Readify.Pages.MainMenu
         public ProfilePage()
         {
             InitializeComponent();
+            DataContext = new ProfileViewModel();
         }
     }
 }

@@ -10,7 +10,7 @@
         Icon="pack://application:,,,/Images/Logo/Logo.png">
     
     <Frame 
-        Name="MainFrame" 
+        Name="MainFrame" Margin="0 0 0 0"
         NavigationUIVisibility="Hidden"
         PreviewKeyDown="MainFrame_PreviewKeyDown"/>
 </Window>

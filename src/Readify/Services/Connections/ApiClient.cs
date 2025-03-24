@@ -15,6 +15,10 @@ namespace Readify.Services.Connections
     /// </summary>
     public class ApiClient
     {
+        private const string REFRESH_ENDPOINT = "/api/auth/refresh";
+        private const string LOGIN_ENDPOINT = "/api/auth/login";
+        private const string LOGOUT_ENDPOINT = "/api/auth/logout";
+
         /// <summary>
         /// Клиент, для отправки Http-запросов на сервер
         /// </summary>
@@ -91,7 +95,7 @@ namespace Readify.Services.Connections
         /// <returns>True - если авторизация успешна</returns>
         public async Task<bool> LoginAsync(LoginDTO loginDTO)
         {
-            var response = await SendRequestAsync(HttpMethod.Post, "/api/auth/login", loginDTO);
+            var response = await SendRequestAsync(HttpMethod.Post, LOGIN_ENDPOINT, loginDTO);
 
             if (response.IsSuccessStatusCode)
             {
@@ -99,6 +103,43 @@ namespace Readify.Services.Connections
                 SaveTokens(content!.Token!, content!.RefreshToken!);
                 App.CurrentUser = content!.User!;
                 return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Метод выхода из аккаунта
+        /// </summary>
+        /// <returns>True - если успешно</returns>
+        /// <exception cref="HttpRequestException">Ошибка подключения</exception>
+        public async Task<bool> LogoutAsync()
+        {
+            var appRefreshToken = Settings.Default.RefreshToken;
+            if (string.IsNullOrEmpty(appRefreshToken))
+                return false;
+
+            try
+            {
+                var response = await SendRequestAsync(HttpMethod.Post, LOGOUT_ENDPOINT, new 
+                {
+                    RefreshToken = appRefreshToken,
+                }, true);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ClearTokens();
+                    return true;
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
             }
 
             return false;
@@ -118,7 +159,7 @@ namespace Readify.Services.Connections
 
             try
             {
-                var response = await SendRequestAsync(HttpMethod.Post, "/api/auth/refresh", new RefreshDTO { 
+                var response = await SendRequestAsync(HttpMethod.Post, REFRESH_ENDPOINT, new RefreshDTO { 
                     Token = appRefreshToken,
                     DeviceType = appDevice
                 });
