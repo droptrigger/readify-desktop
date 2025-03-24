@@ -44,9 +44,10 @@ namespace Readify.Services
         /// <summary>
         /// Метод выхода из аккаунта
         /// </summary>
-        public void Logout()
+        /// <returns>True - если обновление успешно</returns>
+        public async Task<bool> LogoutAsync()
         {
-            throw new NotImplementedException();
+            return await _apiClient.LogoutAsync();
         }
     }
 }

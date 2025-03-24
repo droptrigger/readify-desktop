@@ -23,6 +23,6 @@ namespace Readify.Services.Base
         /// <summary>
         /// Метод выхода из аккаунта
         /// </summary>
-        void Logout();
+        Task<bool> LogoutAsync();
     }
 }

@@ -4,90 +4,102 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Readify.Pages" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:menu="clr-namespace:Readify.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=menu:MainMenuViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
-    <Grid Background="#FFFFFF">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="1150"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Border Grid.Row="0" Grid.Column="1" Background="#EDEDED" CornerRadius="30" Padding="40 0" Height="60">
-            <Grid>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Background="#FFFFFF">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="1150"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                <TextBlock Text="Readify" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                <Border Grid.Row="0" Grid.Column="1" Background="#EDEDED" CornerRadius="30" Padding="40 0" Height="60">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Readify" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"
                            FontSize="25" FontFamily="{StaticResource Inter}"
-                           FontWeight="Black" Cursor="Hand"/>
+                           FontWeight="Black" Cursor="Hand">
+                            <TextBlock.InputBindings>
+                                <MouseBinding
+                                    Command="{Binding LogoutCommand}"
+                                    MouseAction="LeftClick" />
+                            </TextBlock.InputBindings>
+                        </TextBlock>
 
-                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Книги" FontFamily="{StaticResource Inter}" TextAlignment="Center"
-                               FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
-                        
-                    </TextBlock>
-                    <TextBlock Text="Поиск" FontFamily="{StaticResource Inter}" TextAlignment="Center"
-                               FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
-
-                    </TextBlock>
-                    <TextBlock Text="Библиотека" FontFamily="{StaticResource Inter}"  TextAlignment="Center"
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Книги" FontFamily="{StaticResource Inter}" TextAlignment="Center"
                                FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
 
-                    </TextBlock>
-                    <TextBlock Text="Подписки" FontFamily="{StaticResource Inter}" TextAlignment="Center"
+                            </TextBlock>
+                            <TextBlock Text="Поиск" FontFamily="{StaticResource Inter}" TextAlignment="Center"
                                FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
 
-                    </TextBlock>
-                    <TextBlock Text="Профиль" FontFamily="{StaticResource Inter}"  TextAlignment="Center"
+                            </TextBlock>
+                            <TextBlock Text="Библиотека" FontFamily="{StaticResource Inter}"  TextAlignment="Center"
                                FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
 
-                    </TextBlock>
-                </StackPanel>
+                            </TextBlock>
+                            <TextBlock Text="Подписки" FontFamily="{StaticResource Inter}" TextAlignment="Center"
+                               FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
 
-                <Border Grid.Column="2" HorizontalAlignment="Right" 
+                            </TextBlock>
+                            <TextBlock Text="Профиль" FontFamily="{StaticResource Inter}"  TextAlignment="Center"
+                               FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
+
+                            </TextBlock>
+                        </StackPanel>
+
+                        <Border Grid.Column="2" HorizontalAlignment="Right" 
                         Height="50" Width="50" Background="#FFFFFF"
                         CornerRadius="100" Cursor="Hand">
-                    <Border.Clip>
-                        <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25"/>
-                    </Border.Clip>
-
-                    <Grid>
-                        <Image Source="{Binding AvatarBytes, Converter={StaticResource ImageConverter}}"
-                                       Stretch="UniformToFill"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center">
-                            <Image.RenderTransform>
-                                <TransformGroup>
-                                    <TranslateTransform X="0" Y="0"/>
-                                </TransformGroup>
-                            </Image.RenderTransform>
-                        </Image>
-
-                        <Border x:Name="HoverOverlay"
-                                        Background="#40000000"
-                                        CornerRadius="100"
-                                        Visibility="Collapsed">
                             <Border.Clip>
                                 <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25"/>
                             </Border.Clip>
+
+                            <Grid>
+                                <Image Source="{Binding ApplicationUserAvatarBytes, Converter={StaticResource ImageConverter}}"
+                                       Stretch="UniformToFill"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                    <Image.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="0" Y="0"/>
+                                        </TransformGroup>
+                                    </Image.RenderTransform>
+                                </Image>
+
+                                <Border x:Name="HoverOverlay"
+                                        Background="#90000000"
+                                        CornerRadius="100"
+                                        Visibility="Collapsed">
+                                    <Border.Clip>
+                                        <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25"/>
+                                    </Border.Clip>
+                                </Border>
+                            </Grid>
                         </Border>
                     </Grid>
                 </Border>
-            </Grid>
-        </Border>
 
-        <Frame Grid.Row="1" Grid.Column="1"
-            Name="MainMenuFrame" 
+                <Frame Grid.Row="1" Grid.Column="1"
+            Name="MainMenuFrame" Margin="30 20 30 0"
             NavigationUIVisibility="Hidden"
             PreviewKeyDown="MainMenuFrame_PreviewKeyDown"/>
 
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>
