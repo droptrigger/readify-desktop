@@ -3,13 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Readify.Pages" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:Readify.Pages" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:menu="clr-namespace:Readify.ViewModels" 
              d:DataContext="{d:DesignInstance Type=menu:MainMenuViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Style="{StaticResource MainScrollViewerStyle}"
+                      PreviewMouseWheel="MainScrollViewer_PreviewMouseWheel">
             <Grid Background="#FFFFFF">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -21,84 +23,171 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Border Grid.Row="0" Grid.Column="1" Background="#EDEDED" CornerRadius="30" Padding="40 0" Height="60">
+                <!-- Top Navigation Bar -->
+                <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource TopBarStyle}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="200"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Readify" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                           FontSize="25" FontFamily="{StaticResource Inter}"
-                           FontWeight="Black" Cursor="Hand">
-                            <TextBlock.InputBindings>
-                                <MouseBinding
-                                    Command="{Binding LogoutCommand}"
-                                    MouseAction="LeftClick" />
-                            </TextBlock.InputBindings>
+
+                        <!-- Logo -->
+                        <TextBlock Style="{StaticResource HeaderTextStyle}" 
+                                FontSize="25"
+                                Grid.Column="0" 
+                                HorizontalAlignment="Left" 
+                                Text="Readify" 
+                                   Visibility="{Binding IsLogoVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                         </TextBlock>
 
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="Книги" FontFamily="{StaticResource Inter}" TextAlignment="Center"
-                               FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
+                        <Border Visibility="{Binding IsBackVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                 HorizontalAlignment="Left">
+                            <Path Data="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"
+                                      Fill="#25292E" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Stretch="Fill" Width="20"/>
+                            <Border.Style>
+                                <Style TargetType="Border" BasedOn="{StaticResource RoundAvatarBorderStyle}">
+                                    <Setter Property="Background" Value="#F2F2F2"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <!-- Изменяем цвет при наведении -->
+                                            <Setter Property="Background" Value="#BBBFC2"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding BackFramePageCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Border>
 
-                            </TextBlock>
-                            <TextBlock Text="Поиск" FontFamily="{StaticResource Inter}" TextAlignment="Center"
-                               FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
 
-                            </TextBlock>
-                            <TextBlock Text="Библиотека" FontFamily="{StaticResource Inter}"  TextAlignment="Center"
-                               FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
 
-                            </TextBlock>
-                            <TextBlock Text="Подписки" FontFamily="{StaticResource Inter}" TextAlignment="Center"
-                               FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
 
-                            </TextBlock>
-                            <TextBlock Text="Профиль" FontFamily="{StaticResource Inter}"  TextAlignment="Center"
-                               FontSize="20" FontWeight="Black" Margin="20 0" Cursor="Hand">
-
-                            </TextBlock>
+                        <!-- Menu Items -->
+                        <StackPanel Grid.Column="1" 
+                                    Orientation="Horizontal" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource MenuTextStyle}" Text="Книги"/>
+                            <TextBlock Style="{StaticResource MenuTextStyle}" Text="Поиск"/>
+                            <TextBlock Style="{StaticResource MenuTextStyle}" Text="Библиотека"/>
+                            <TextBlock Style="{StaticResource MenuTextStyle}" Text="Подписки"/>
+                            <TextBlock Style="{StaticResource MenuTextStyle}" Text="Профиль"/>
                         </StackPanel>
 
-                        <Border Grid.Column="2" HorizontalAlignment="Right" 
-                        Height="50" Width="50" Background="#FFFFFF"
-                        CornerRadius="100" Cursor="Hand">
-                            <Border.Clip>
-                                <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25"/>
-                            </Border.Clip>
 
-                            <Grid>
-                                <Image Source="{Binding ApplicationUserAvatarBytes, Converter={StaticResource ImageConverter}}"
-                                       Stretch="UniformToFill"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center">
-                                    <Image.RenderTransform>
-                                        <TransformGroup>
-                                            <TranslateTransform X="0" Y="0"/>
-                                        </TransformGroup>
-                                    </Image.RenderTransform>
-                                </Image>
+                        <Popup x:Name="UserPopup"
+                           PlacementTarget="{Binding ElementName=UserAvatarBorder}"
+                           Placement="Bottom" HorizontalOffset="-110" VerticalOffset="-55"
+                           StaysOpen="False"
+                           AllowsTransparency="True"
+                           PopupAnimation="Fade" MouseEnter="UserAvatarBorder_MouseEnter" Cursor="Hand"
+                                 MouseLeave="UserAvatarBorder_MouseLeave">
+                            <Border Background="#DEDEDE" 
+                                Width="200"
+                                CornerRadius="0 30 30 30"
+                                Padding="0"
+                                MouseEnter="Popup_MouseEnter"
+                                MouseLeave="Popup_MouseLeave">
+                                <StackPanel Height="113">
+                                    <DockPanel Height="60">
+                                        <TextBlock Text="{Binding ApplicationUserUsername}" FontFamily="{StaticResource Inter}" FontWeight="Medium" VerticalAlignment="Center"
+                                                   FontSize="20" Margin="15 0 0 0" Width="80" />
+                                        <Border
+                                 Style="{StaticResource RoundAvatarBorderStyle}"
+                                 HorizontalAlignment="Right" Cursor="Arrow"  Margin="0 0 40 0">
+                                            <Grid>
+                                                <Image Source="{Binding ApplicationUserAvatarBytes, Converter={StaticResource ImageConverter}}"
+                                            Stretch="UniformToFill" 
+                                            RenderOptions.BitmapScalingMode="HighQuality"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                                    <Image.RenderTransform>
+                                                        <TransformGroup>
+                                                            <TranslateTransform X="0" Y="0"/>
+                                                        </TransformGroup>
+                                                    </Image.RenderTransform>
+                                                </Image>
 
-                                <Border x:Name="HoverOverlay"
-                                        Background="#90000000"
-                                        CornerRadius="100"
-                                        Visibility="Collapsed">
-                                    <Border.Clip>
-                                        <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25"/>
-                                    </Border.Clip>
-                                </Border>
-                            </Grid>
+                                                <Border
+                                         Background="#90000000"
+                                         CornerRadius="100"
+                                         Visibility="Collapsed">
+                                                    <Border.Clip>
+                                                        <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25"/>
+                                                    </Border.Clip>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DockPanel>
+                                    <TextBlock VerticalAlignment="Center" Text="Выход" FontFamily="{StaticResource Inter}" FontWeight="Medium" TextAlignment="Left"
+                                               FontSize="20" Margin="15 10 0 0" Foreground="#D1242F" 
+                                               Cursor="Hand" Width="60" HorizontalAlignment="Left">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding Command="{Binding LogoutCommand}"
+                                                 MouseAction="LeftClick"/>
+                                        </TextBlock.InputBindings>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                                <Setter Property="TextDecorations" Value="{x:Null}"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="TextDecorations" Value="Underline"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+
+                            </Border>
+                        </Popup>
+
+                        <!-- User Avatar -->
+                        <Border Grid.Column="2" x:Name="HoverRegion" Padding="0 0 40 0" Width="200" Height="60" CornerRadius="0 30 30 0"  Background="Transparent"
+                                 MouseEnter="UserAvatarBorder_MouseEnter" Cursor="Hand"
+                                 MouseLeave="UserAvatarBorder_MouseLeave">
+
+                            <Border x:Name="UserAvatarBorder"
+                                 Style="{StaticResource RoundAvatarBorderStyle}"
+                                 HorizontalAlignment="Right">
+                                <Grid>
+                                    <Image Source="{Binding ApplicationUserAvatarBytes, Converter={StaticResource ImageConverter}}"
+                                            Stretch="UniformToFill" 
+                                            RenderOptions.BitmapScalingMode="HighQuality"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" >
+                                        <Image.RenderTransform>
+                                            <TransformGroup>
+                                                <TranslateTransform X="0" Y="0"/>
+                                            </TransformGroup>
+                                        </Image.RenderTransform>
+                                    </Image>
+
+                                    <Border x:Name="HoverOverlay"
+                                         Background="#90000000"
+                                         CornerRadius="100"
+                                         Visibility="Collapsed">
+                                        <Border.Clip>
+                                            <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25"/>
+                                        </Border.Clip>
+                                    </Border>
+                                </Grid>
+                            </Border>
                         </Border>
                     </Grid>
                 </Border>
 
+                <!-- Main Content Frame -->
                 <Frame Grid.Row="1" Grid.Column="1"
-            Name="MainMenuFrame" Margin="30 20 30 0"
-            NavigationUIVisibility="Hidden"
-            PreviewKeyDown="MainMenuFrame_PreviewKeyDown"/>
-
+                       Name="MainMenuFrame" JournalOwnership="OwnsJournal"
+                       Margin="30 20 30 0"
+                       NavigationUIVisibility="Hidden"
+                       PreviewKeyDown="MainMenuFrame_PreviewKeyDown"/>
             </Grid>
         </ScrollViewer>
     </Grid>

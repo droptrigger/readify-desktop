@@ -8,7 +8,7 @@
              xmlns:registration="clr-namespace:Readify.ViewModels.Registration" 
              d:DataContext="{d:DesignInstance Type=registration:RegistrationMainViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1300">
+             d:DesignHeight="800" d:DesignWidth="1300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <Border Grid.Column="0" Background="#25292E" Padding="70 63 100 0">
+        <Border Grid.Column="0" Background="#25292E" Padding="70 80 100 0">
             <StackPanel>
                 <TextBlock FontFamily="{StaticResource Inter}" 
                            Text="Создайте свой бесплатный аккаунт"
@@ -46,7 +46,7 @@
                 </StackPanel>
                 <Border VerticalAlignment="Center"
                         Width="450"  
-                        Margin="0 20 0 0">
+                        Margin="0 40 0 0">
                     <StackPanel>
                         <TextBlock Style="{StaticResource RegistrationHeaderText}"
                                    Text="Присоединитесь к Readify" />

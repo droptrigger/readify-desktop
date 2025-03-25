@@ -23,16 +23,19 @@
 	<ItemGroup>
 		<None Remove="logo.png" />
 		<None Remove="close.png" />
+		<None Remove="followers.png" />
 	</ItemGroup>
 	
 	<ItemGroup>
 		<Resource Include="Images\default-avatar.png" />
 		<Resource Include="Images\Logo\logo.png" />
 		<Resource Include="Images\close.png" />
-	</ItemGroup>
+		<Resource Include="Images\followers.png" />
+</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Fonts\" />
+		<Folder Include="Images\" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,18 +1,14 @@
-﻿using Readify.ViewModels.MainMenu;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Readify.DTO.Books;
+using Readify.DTO.Library;
+using Readify.DTO.Users;
+using Readify.ViewModels.MainMenu;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Brushes = System.Windows.Media.Brushes;
+using Color = System.Windows.Media.Color;
 
 namespace Readify.Pages.MainMenu
 {
@@ -21,10 +17,49 @@ namespace Readify.Pages.MainMenu
     /// </summary>
     public partial class ProfilePage : UserControl
     {
-        public ProfilePage()
+        private UserDTO _currentUser = null!;
+
+        public UserDTO CurrentUser
+        {
+            get => _currentUser;
+        }
+
+        public ProfilePage(UserDTO userDTO)
         {
             InitializeComponent();
-            DataContext = new ProfileViewModel();
+            _currentUser = userDTO;
+            DataContext = new ProfileViewModel(userDTO);
+        }
+
+        private void HorizontalScroll_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var scrollViewer = (ScrollViewer)sender;
+            if (scrollViewer.ExtentWidth > scrollViewer.ViewportWidth)
+            {
+                scrollViewer.ScrollToHorizontalOffset(
+                    scrollViewer.HorizontalOffset + (e.Delta > 0 ? -25 : 25)
+                );
+                e.Handled = true;
+            }
+        }
+
+        private void Followers_MouseEnter(object sender, MouseEventArgs e)
+        {
+            FollowersSVG.Fill = Brushes.Red;
+        }
+
+        private void Followers_MouseLeave(object sender, MouseEventArgs e)
+        {
+            FollowersSVG.Fill = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#515355"));
+        }
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var data = (sender! as TextBlock).DataContext as LibraryDTO;
+
+
+            var viewModel = DataContext as ProfileViewModel;
+            viewModel!.ShowAuthorCommand.Execute(data!.Book!.Author!.Id);
         }
     }
 }

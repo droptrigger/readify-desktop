@@ -112,14 +112,9 @@ namespace Readify.ViewModels
         /// </summary>
         private async void ExecuteLoginAsync()
         {
-            if (string.IsNullOrWhiteSpace(Username))
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrEmpty(Password))
             {
-                ShowError("Введите имя пользователя");
-                return;
-            }
-            if (string.IsNullOrEmpty(Password))
-            {
-                ShowError("Введите пароль");
+                ShowError("Заполните все поля");
                 return;
             }
             else
@@ -135,8 +130,10 @@ namespace Readify.ViewModels
                         Device = Settings.Default.Device
                     }))
                     {
+                        MainMenuPage mainMenuPage = new MainMenuPage();
+                        App.MainMenuPage = mainMenuPage;
                         var mainWindow = Application.Current.MainWindow as MainWindow;
-                        mainWindow?.MainFrame.Navigate(new MainMenuPage());
+                        mainWindow?.MainFrame.Navigate(mainMenuPage);
                     }
                     else
                     {

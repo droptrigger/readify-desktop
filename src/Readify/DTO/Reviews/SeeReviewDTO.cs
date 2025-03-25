@@ -1,4 +1,5 @@
-﻿using Readify.DTO.Users;
+﻿using Readify.DTO.Books;
+using Readify.DTO.Users;
 using System;
 using System.Collections.Generic;
 
@@ -19,7 +20,7 @@ namespace Readify.DTO.Reviews
         /// <summary>
         /// Id книги, на которую сделан отзыв
         /// </summary>
-        public int? IdBook { get; set; }
+        public SeeBookDTO? Book { get; set; }
 
         /// <summary>
         /// Текст отзыва
