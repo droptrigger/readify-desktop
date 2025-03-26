@@ -301,7 +301,7 @@ namespace Readify.ViewModels.Registration
 
             if (!_usernameChecker.Check(Username))
             {
-                ShowUsernameError("Имя пользователя не соответствует требованиям");
+                ShowUsernameError("Недопустимое имя пользователя");
                 return false;
             }
             try

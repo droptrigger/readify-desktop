@@ -1,4 +1,6 @@
 ﻿using Readify.DTO.Users;
+using Readify.Pages;
+using Readify.Pages.MainMenu;
 using Readify.Services;
 using System.Net.Http;
 using System.Windows;
@@ -17,6 +19,10 @@ namespace Readify
 
         private static UserDTO _currentUser = null!;
 
+        private static MainMenuPage _mainMenuPage = null!;
+
+        private static ProfilePage _profilePage = null!;
+
         /// <summary>
         /// Текущий авторизованный пользователь
         /// </summary>
@@ -24,6 +30,25 @@ namespace Readify
         {
             get => _currentUser;
             set => _currentUser = value;
+        }
+
+        /// <summary>
+        /// Текущий авторизованный пользователь
+        /// </summary>
+        public static MainMenuPage MainMenuPage
+        {
+            get => _mainMenuPage;
+            set => _mainMenuPage = value;
+        }
+
+
+        /// <summary>
+        /// Текущая страница профиля
+        /// </summary>
+        public static ProfilePage ProfilePage
+        {
+            get => _profilePage;
+            set => _profilePage = value;
         }
 
         /// <summary>

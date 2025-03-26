@@ -23,7 +23,9 @@ namespace Readify
         /// </summary>
         public void NavigateToMenu()
         {
-            MainFrame.Navigate(new MainMenuPage());
+            MainMenuPage mainMenuPage = new MainMenuPage();
+            App.MainMenuPage = mainMenuPage;
+            MainFrame.Navigate(mainMenuPage);
         }
 
         /// <summary>

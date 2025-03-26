@@ -16,21 +16,16 @@
         </Grid.ColumnDefinitions>
 
 
-        <Border Grid.Column="0" Background="#25292E" Padding="70 63 100 0">
+        <Border Grid.Column="0" Style="{StaticResource LeftBorderRegistartion}">
             <StackPanel>
-                <TextBlock FontFamily="{StaticResource Inter}" 
-                           Text="Подтвердите вашу электронную почту"
-                           FontSize="30" TextWrapping="Wrap" Foreground="#FFFFFF"
-                           FontWeight="Bold"
-                           Margin="0 0 0 15" />
-                <TextBlock FontFamily="{StaticResource Inter}"
-                           Text="Поверьте, она потом вам потребуется."
-                           FontSize="20" TextWrapping="Wrap" Foreground="#FFFFFF"
-                           FontWeight="Light" />
+                <TextBlock Style="{StaticResource RegistartionLeftHeaderText}"
+                           Text="Подтвердите вашу электронную почту" />
+                <TextBlock Style="{StaticResource RegistartionLeftText}"
+                           Text="Поверьте, она потом вам потребуется." />
             </StackPanel>
         </Border>
 
-        <Border Grid.Column="1" Background="#F9F9F9" Padding="20 20 20 0">
+        <Border Grid.Column="1" Style="{StaticResource RightBorderRegistartion}">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <TextBlock Style="{StaticResource RegistrationHelpLinkText}"
@@ -115,35 +110,46 @@
                                 Content="Продолжить" TabIndex="1"/>
                         <WrapPanel Orientation="Horizontal" >
                             <TextBlock FontFamily="{StaticResource Inter}" Margin="0 5 0 0" FontWeight="Regular" 
-                                   FontSize="14" Text="Не получили письмо? " TextWrapping="Wrap"/>
+                                   FontSize="13" Text="Не получили письмо? " TextWrapping="Wrap"/>
                             <TextBlock FontFamily="{StaticResource Inter}" Margin="0 5 0 0" FontWeight="Regular" 
-                                       Foreground="#0B6BD7" Cursor="Hand" TextWrapping="Wrap" TextDecorations="Underline"
-                                   FontSize="14" Text="Отправьте код повторно ">
+                                       Cursor="Hand" TextWrapping="Wrap" TextDecorations="Underline"
+                                   FontSize="13" Text="Отправьте код повторно">
                                 <TextBlock.InputBindings>
                                     <MouseBinding
-                                    Command="{Binding SendMailCommand}"
-                                    MouseAction="LeftClick" />
+                                        Command="{Binding SendMailCommand}"
+                                        MouseAction="LeftClick" />
                                 </TextBlock.InputBindings>
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#0B6BD7"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
                             </TextBlock>
                             <TextBlock FontFamily="{StaticResource Inter}" Margin="0 5 0 0" FontWeight="Regular" 
-                                   FontSize="14" Text="или " TextWrapping="Wrap"/>
+                                   FontSize="13" Text=" или " TextWrapping="Wrap"/>
                             <TextBlock FontFamily="{StaticResource Inter}" Margin="0 5 0 0" FontWeight="Regular" 
-                                       Foreground="#0B6BD7" Cursor="Hand" TextWrapping="Wrap" TextDecorations="Underline"
-                                       FontSize="14" Text="измените ">
+                                       Cursor="Hand" TextWrapping="Wrap" TextDecorations="Underline"
+                                       FontSize="13" Text="измените свой email">
                                 <TextBlock.InputBindings>
                                     <MouseBinding
                                     Command="{Binding GoToRegisterCommand}"
                                     MouseAction="LeftClick" />
                                 </TextBlock.InputBindings>
-                            </TextBlock>
-                            <TextBlock FontFamily="{StaticResource Inter}" Margin="0 5 0 0" FontWeight="Regular" 
-                                       Foreground="#0B6BD7" Cursor="Hand" TextWrapping="Wrap" TextDecorations="Underline"
-                                       FontSize="14" Text="свой email">
-                                <TextBlock.InputBindings>
-                                    <MouseBinding
-                                    Command="{Binding GoToLoginCommand}"
-                                    MouseAction="LeftClick" />
-                                </TextBlock.InputBindings>
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#0B6BD7"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
                             </TextBlock>
                             <TextBlock FontFamily="{StaticResource Inter}" Margin="0 5 0 0" FontWeight="Regular" 
                                    FontSize="14" Text="." TextWrapping="Wrap"/>

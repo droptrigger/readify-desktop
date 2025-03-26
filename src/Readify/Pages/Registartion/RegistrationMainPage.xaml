@@ -8,7 +8,7 @@
              xmlns:registration="clr-namespace:Readify.ViewModels.Registration" 
              d:DataContext="{d:DesignInstance Type=registration:RegistrationMainViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1300">
+             d:DesignHeight="800" d:DesignWidth="1300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -16,21 +16,16 @@
         </Grid.ColumnDefinitions>
 
 
-        <Border Grid.Column="0" Background="#25292E" Padding="70 63 100 0">
+        <Border Grid.Column="0" Style="{StaticResource LeftBorderRegistartion}">
             <StackPanel>
-                <TextBlock FontFamily="{StaticResource Inter}" 
-                           Text="Создайте свой бесплатный аккаунт"
-                           FontSize="30" TextWrapping="Wrap" Foreground="#FFFFFF"
-                           FontWeight="Bold"
-                           Margin="0 0 0 15" />
-                <TextBlock FontFamily="{StaticResource Inter}"
-                           Text="И начните использовать Readify для комфортного чтения!"
-                           FontSize="20" TextWrapping="Wrap" Foreground="#FFFFFF"
-                           FontWeight="Light" />
+                <TextBlock Style="{StaticResource RegistartionLeftHeaderText}"
+                           Text="Создайте свой бесплатный аккаунт" />
+                <TextBlock Style="{StaticResource RegistartionLeftText}"
+                           Text="И начните использовать Readify для комфортного чтения!" />
             </StackPanel>
         </Border>
 
-        <Border Grid.Column="1" Background="#F9F9F9" Padding="20 20 20 0">
+        <Border Grid.Column="1" Style="{StaticResource RightBorderRegistartion}">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <TextBlock Style="{StaticResource RegistrationHelpLinkText}"
@@ -46,7 +41,7 @@
                 </StackPanel>
                 <Border VerticalAlignment="Center"
                         Width="450"  
-                        Margin="0 20 0 0">
+                        Margin="0 40 0 0">
                     <StackPanel>
                         <TextBlock Style="{StaticResource RegistrationHeaderText}"
                                    Text="Присоединитесь к Readify" />
@@ -83,7 +78,7 @@
                                    Visibility="{Binding IsPasswordErrorVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                                    Text="{Binding PasswordErrorMessage}" />
                         <TextBlock Style="{StaticResource RegistrationInstructionText}"
-                                   Text="Пароль должен содержать минимум 8 символов, включая 1 цифру, 1 заглавную букву, 1 строчную букву и 1 специальный символ (максимум символов - 50)"/>
+                                   Text="Пароль должен содержать минимум 8 символов, включая 1 цифру, 1 заглавную букву, 1 строчную букву и 1 специальный символ (максимум 50 символов)"/>
 
                         <TextBlock Style="{StaticResource RegistrationInputLabel}"
                                    Text="Повторите пароль*" />
@@ -116,7 +111,7 @@
                                    Visibility="{Binding IsUsernameErrorVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                                    Text="{Binding UsernameErrorMessage}" />
                         <TextBlock Style="{StaticResource RegistrationInstructionText}"
-                                   Text="Имя пользователя может содержать только английские буквы и цифры."/>
+                                   Text="Имя пользователя может содержать только английские буквы и цифры (минимум 5 символов)"/>
                         
                         <Button Style="{StaticResource RegistrationButton}"
                                 Command="{Binding ContinueCommand}"

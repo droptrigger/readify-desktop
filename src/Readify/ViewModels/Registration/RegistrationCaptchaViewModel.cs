@@ -86,7 +86,7 @@ namespace Readify.ViewModels.Registration
         /// <returns>Строка со случайными символами</returns>
         private string GenerateRandomText(int length)
         {
-            string _chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+            string _chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz0123456789";
             Random _random = new Random();
 
             var chars = new char[length];
@@ -120,10 +120,10 @@ namespace Readify.ViewModels.Registration
             {
                 try
                 {
-                    await _registrationService.SendMailCodeAsync(_registrationDTO.Email!);
-                    CloseCaptchaError();
                     var mainWindow = Application.Current.MainWindow as MainWindow;
                     mainWindow?.MainFrame.Navigate(new RegistrationEmailPage(_registrationDTO));
+                    await _registrationService.SendMailCodeAsync(_registrationDTO.Email!);
+                    CloseCaptchaError();
                 }
                 catch (Exception ex) 
                 {

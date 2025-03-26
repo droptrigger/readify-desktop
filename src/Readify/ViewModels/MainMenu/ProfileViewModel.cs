@@ -1,4 +1,9 @@
-﻿using Readify.DTO.Users;
+﻿using CommunityToolkit.Mvvm.Input;
+using Readify.DTO.Users;
+using Readify.Pages;
+using Readify.Pages.MainMenu;
+using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels.Base;
 using System.Windows;
 using System.Windows.Input;
@@ -7,6 +12,13 @@ namespace Readify.ViewModels.MainMenu
 {
     public class ProfileViewModel : BaseViewModel
     {
+        private const string NULL_BOOKS_CURRENT_TEXT = "Вы не добавили ни одной книги";
+        private const string NULL_BOOKS_USER_TEXT = "Пользователь не добавил ни одной книги";
+        private const string NULL_REVIEWS_CURRENT_TEXT = "Вы не написали ни одного отзыва";
+        private const string NULL_REVIEWS_USER_TEXT = "Пользователь не написал ни одного отзыва";
+
+        private UserService _userService;
+
         private byte[] _currentUserAvatarBytes = null!;
 
         private string _currentUserName = string.Empty!;
@@ -19,9 +31,120 @@ namespace Readify.ViewModels.MainMenu
         private int _currentUserCountLikes;
         private int _currentUserId;
 
-        private bool _isEditButtonVisible;
-        private bool _isFollowButtonVisible;
-        private bool _isUnfollowButtonVisible;
+        private UserDTO _currentUser;
+
+        /// <summary>
+        /// Пользователь приложения
+        /// </summary>
+        public UserDTO ApplicationUser
+        {
+            get => App.CurrentUser;
+        }
+
+        /// <summary>
+        /// Текущий пользователь, чья страница показывается
+        /// </summary>
+        public UserDTO CurrentUser
+        {
+            get => _currentUser;
+            set => SetField(ref _currentUser, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public AuthorDTO AppplicationUserAsAuthor
+        {
+            get
+            {
+                return new AuthorDTO
+                {
+                    Id = ApplicationUser.Id,
+                    Nickname = ApplicationUser.Nickname,
+                    AvatarImage = ApplicationUser.AvatarImage,
+                    Name = ApplicationUser.Name
+                };
+            }
+        }
+
+        /// <summary>
+        /// Текск "Книг не добавлено"
+        /// </summary>
+        public string NullBooksText
+        {
+            get
+            {
+                if (App.CurrentUser.Id == CurrentUser.Id)
+                    return NULL_BOOKS_CURRENT_TEXT;
+                else return NULL_BOOKS_USER_TEXT;
+            }
+        }
+
+        /// <summary>
+        /// Текск "Отзывов не написано"
+        /// </summary>
+        public string NullReviewsText
+        {
+            get 
+            {
+                if (App.CurrentUser.Id == CurrentUser.Id)
+                    return NULL_REVIEWS_CURRENT_TEXT;
+                else return NULL_REVIEWS_USER_TEXT;
+            }
+        }
+
+        /// <summary>
+        /// Видимость "Книг не добавлено"
+        /// </summary>
+        public bool IsNullBooksVisible
+        {
+            get 
+            {
+                if (CurrentUser.Books?.Count == 0)
+                    return true;
+                else return false;
+            }
+
+        }
+
+        /// <summary>
+        /// Видимость "Отзывов не написано"
+        /// </summary>
+        public bool IsNullReviewsVisible
+        {
+            get
+            {
+                if (CurrentUser.Reviews?.Count == 0)
+                    return true;
+                else return false;
+            }
+        }
+
+        /// <summary>
+        /// Видимость "Показать все" книг
+        /// </summary>
+        public bool IsShowAllBooksVisible
+        {
+            get
+            {
+                if (CurrentUser.Books?.Count > 3)
+                    return true;
+                else return false;
+            }
+        }
+
+        /// <summary>
+        /// Видимость "Показать все" отзывов
+        /// </summary>
+        public bool IsShowAllReviewsVisible
+        {
+            get
+            {
+                if (CurrentUser.Reviews?.Count > 3)
+                    return true;
+                else return false;
+            }
+        }
 
         /// <summary>
         /// Аватар текущего пользователя
@@ -73,7 +196,7 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public string CurrentDescriptrion
         {
-            get => _currentUserDescription;
+            get => _currentUserDescription == null ? "Чудесный пользователь Readify" : _currentUserDescription;
             set => SetField(ref _currentUserDescription, value);
         }
 
@@ -109,8 +232,12 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public bool IsEditButtonVisible
         {
-            get => _isEditButtonVisible;
-            set => SetField(ref _isEditButtonVisible, value);
+            get
+            {
+                if (ApplicationUser.Id == CurrentUser.Id)
+                    return true;
+                else return false;
+            }
         }
 
         /// <summary>
@@ -118,42 +245,43 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public bool IsFollowButtonVisible
         {
-            get => _isFollowButtonVisible;
-            set => SetField(ref _isFollowButtonVisible, value);
+            get
+            {
+                if (!CurrentUser.Subscribers!.Contains(AppplicationUserAsAuthor) && !IsEditButtonVisible)
+                    return true;
+                else return false;
+            }
         }
 
         /// <summary>
-        /// Видимость кнопки оnписки
+        /// Видимость кнопки отписки
         /// </summary>
         public bool IsUnfollowButtonVisible
         {
-            get => _isUnfollowButtonVisible;
-            set => SetField(ref _isUnfollowButtonVisible, value);
+            get
+            {
+                if (CurrentUser.Subscribers!.Contains(AppplicationUserAsAuthor) && !IsEditButtonVisible)
+                    return true;
+                else return false;
+            }
         }
 
         /// <summary>
         /// Текст для блока с подписками
         /// </summary>
-        public string SubsText
+        public string Followers
         {
-            get => $"{CurrentSubscribers} Подписчиков · {CurrentSubscribtions} Подписок";
+            get => $"{CurrentSubscribers} подписчиков";
         }
 
         /// <summary>
         /// Текст для блока с подписками
         /// </summary>
-        public string LikesText
+        public string Following
         {
-            get => $"{CurrentLikes} Лайков";
+            get => $"{CurrentSubscribtions} подписок";
         }
 
-        /// <summary>
-        /// Текст для блока с подписками
-        /// </summary>
-        public string ReviewsText
-        {
-            get => $"{CurrentLikes} Отзывов";
-        }
 
         /// <summary>
         /// Команда срабатывающая при нажатии на кнопку "Подписаться"
@@ -170,35 +298,61 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public ICommand EditUserCommand { get; }
 
+        /// <summary>
+        /// Команда, срабатывающая при нажатии на никнейм автора книги
+        /// </summary>
+        public ICommand ShowAuthorCommand { get; }
 
         private void SetUserValues(UserDTO userDTO)
         {
+            CurrentUser = userDTO;
+
             CurrentUserAvatarBytes = userDTO.AvatarImage!;
             CurrentName = userDTO.Name!;
             CurrentUsername = userDTO.Nickname!;
             CurrentDescriptrion = userDTO.Description!;
             CurrentDescriptrion = userDTO.Description!;
 
-            CurrentSubscribers = userDTO.Subscribers!.Count;
-            CurrentSubscribtions = userDTO.Subscriptions!.Count;
-            CurrentReviews = userDTO.Reviews!.Count;
-            // CurrentLikes = userDTO.Reviews!.;
+            CurrentSubscribers = userDTO.Subscribers?.Count ?? 0;
+            CurrentSubscribtions = userDTO.Subscriptions?.Count ?? 0;
+            CurrentReviews = userDTO.Reviews?.Count ?? 0;
             CurrentId = userDTO.Id!;
         }
 
-        private void SetVisibleButtons()
-        {
-            if (CurrentId == App.CurrentUser.Id)
-                IsEditButtonVisible = true;
-
-            // TODO
-
-        }
 
         public ProfileViewModel()
         {
-            SetUserValues(App.CurrentUser);
-            SetVisibleButtons();
+            SetUserValues(ApplicationUser);
+            _userService = new UserService();
+
+            ShowAuthorCommand = new AsyncRelayCommand<int>(ExecuteShowAuthorAsync);
+        }
+
+        public ProfileViewModel(UserDTO userDTO)
+        {
+            SetUserValues(userDTO);
+            _userService = new UserService();
+
+            ShowAuthorCommand = new AsyncRelayCommand<int>(ExecuteShowAuthorAsync);
+        }
+
+        public async Task ExecuteShowAuthorAsync(int idAuthor)
+        {
+            if (idAuthor != CurrentId)
+            {
+                var getUser = await _userService.GetUserByIdAsync(idAuthor);
+
+                if (getUser == null)
+                    MessageBox.Show("Ошибка");
+
+                ProfilePage newProfilePage = new ProfilePage(getUser!);
+                App.ProfilePage = newProfilePage;
+
+                var mainMenuPageData = App.MainMenuPage?.DataContext! as MainMenuViewModel;
+                mainMenuPageData!.UpdateVisibility();
+
+                App.MainMenuPage!.MainMenuFrame.Navigate(newProfilePage);
+            }
         }
     }
 }

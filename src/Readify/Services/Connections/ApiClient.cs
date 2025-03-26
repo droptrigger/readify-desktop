@@ -101,7 +101,7 @@ namespace Readify.Services.Connections
             {
                 var content = await response.Content.ReadFromJsonAsync<LoginResponce>();
                 SaveTokens(content!.Token!, content!.RefreshToken!);
-                App.CurrentUser = content!.User!;
+                App.CurrentUser = content?.User!;
                 return true;
             }
 
@@ -169,7 +169,7 @@ namespace Readify.Services.Connections
                     var content = await response.Content.ReadFromJsonAsync<LoginResponce>();
 
                     SaveTokens(content?.Token!, content?.RefreshToken!);
-                    App.CurrentUser = content!.User!;
+                    App.CurrentUser = content?.User!;
                     return true;
                 }
             }

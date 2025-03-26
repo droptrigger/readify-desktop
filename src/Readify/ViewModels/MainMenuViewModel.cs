@@ -1,10 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Readify.Pages;
+using Readify.Pages.MainMenu;
 using Readify.Pages.Registartion;
 using Readify.Services;
 using Readify.ViewModels.Base;
+using Readify.ViewModels.MainMenu;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Navigation;
+using System.Xml.Schema;
 
 namespace Readify.ViewModels
 {
@@ -14,10 +18,30 @@ namespace Readify.ViewModels
         private string _applicationUserUsername = string.Empty!;
         private string _searchText = string.Empty!;
 
+        private bool _isLogoVisibility = true;
+        private bool _isBackVisibility = false;
+
         /// <summary>
         /// Сервис для выхода из аккаунта
         /// </summary>
         private AuthService _authService;
+
+        private ProfileViewModel DataContextProfilePage
+        {
+            get => App.ProfilePage?.DataContext! as ProfileViewModel;
+        }
+
+        public bool IsLogoVisibility
+        {
+            get => _isLogoVisibility;
+            set => SetField(ref _isLogoVisibility, value);
+        }
+
+        public bool IsBackVisibility
+        {
+            get => _isBackVisibility;
+            set => SetField(ref _isBackVisibility, value);
+        }
 
         /// <summary>
         /// Изображение профиля пользователя
@@ -71,11 +95,40 @@ namespace Readify.ViewModels
         /// </summary>
         public ICommand LogoutCommand { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand BackFramePageCommand { get; }
+
         public MainMenuViewModel()
         {
             _authService = new AuthService();
-            _applicationUserAvatarBytes = App.CurrentUser.AvatarImage!;
+            ApplicationUserAvatarBytes = App.CurrentUser.AvatarImage!;
+            ApplicationUserUsername = App.CurrentUser.Nickname!;
             LogoutCommand = new AsyncRelayCommand(ExecuteLogoutAsync);
+            BackFramePageCommand = new RelayCommand(ExecuteBackFramePageCommand);
+        }
+
+        private void ExecuteBackFramePageCommand()
+        {
+            if (App.MainMenuPage?.MainMenuFrame?.CanGoBack ?? false)
+            {
+                App.MainMenuPage.MainMenuFrame.GoBack();
+                var page = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
+
+                App.ProfilePage = page;
+                DataContextProfilePage.CurrentUser = page!.CurrentUser;
+                UpdateVisibility();
+            }
+        }
+
+        public void UpdateVisibility()
+        {
+            bool isCurrentUser = DataContextProfilePage.CurrentUser.Id == App.CurrentUser.Id;
+            IsLogoVisibility = isCurrentUser;
+            IsBackVisibility = !isCurrentUser;
+
+            MessageBox.Show(DataContextProfilePage.CurrentUser.Id + " " + App.CurrentUser.Id);
         }
 
         /// <summary>

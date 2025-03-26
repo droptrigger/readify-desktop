@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- Стиль для названий полей логина -->
     <Style x:Key="FormLabelLoginTextBlockStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
@@ -9,6 +10,7 @@
         <Setter Property="FontSize" Value="16"/>
     </Style>
 
+    <!-- Стиль для надписи "Забыли пароль?" -->
     <Style x:Key="HyperlinkLoginTextBlockStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="DockPanel.Dock" Value="Right"/>
         <Setter Property="Foreground" Value="#0B6BD7"/>
@@ -16,28 +18,38 @@
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="FontSize" Value="16"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="Red"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-    <Style x:Key="BaseTextBlockStyle" TargetType="{x:Type TextBlock}">
+    <!-- Стиль для текста "Новичок в Readify?" -->
+    <Style x:Key="RegularLoginTextStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-    </Style>
-
-    <Style x:Key="RegularLoginTextStyle" TargetType="{x:Type TextBlock}"
-       BasedOn="{StaticResource BaseTextBlockStyle}">
         <Setter Property="Foreground" Value="#3E3E3E"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="FontSize" Value="15"/>
     </Style>
 
-    <Style x:Key="HyperlinkLoginTextStyle" TargetType="{x:Type TextBlock}"
-       BasedOn="{StaticResource BaseTextBlockStyle}">
+    <!-- Стиль для ссылки "Создайте аккаунт" -->
+    <Style x:Key="HyperlinkLoginTextStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="#0B6BD7"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="FontSize" Value="16"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="TextDecorations" Value="Underline"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
+    <!-- Стиль для блока ошибки на странице логина -->
     <Style x:Key="ErrorTextBlockStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
@@ -47,7 +59,8 @@
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         <Setter Property="FontSize" Value="16"/>
     </Style>
-
+    
+    <!-- Стиль для надписи "Войдите в Readify" -->
     <Style x:Key="CenteredHeaderTextStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontSize" Value="29"/>
@@ -59,14 +72,35 @@
         <Setter Property="FontWeight" Value="Regular"/>
     </Style>
 
-    <Style x:Key="RegistrationHeaderText" TargetType="TextBlock">
+    <!-- Стиль для заголовка на странице регистрации слева сверху -->
+    <Style x:Key="RegistartionLeftHeaderText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
-        <Setter Property="FontSize" Value="22"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Foreground" Value="#000000"/>
-        <Setter Property="Margin" Value="0 0 0 10"/>
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="0 0 0 15"/>
     </Style>
 
+    <!-- Стиль для текста на странице регистрации слева сверху -->
+    <Style x:Key="RegistartionLeftText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontSize" Value="23"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="FontWeight" Value="Light"/>
+    </Style>
+
+    <!-- Стиль для верхней надписи в правой части окна регистрации -->
+    <Style x:Key="RegistrationHeaderText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontSize" Value="26"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="#000000"/>
+        <Setter Property="Margin" Value="0 0 0 15"/>
+    </Style>
+
+    <!-- Стиль для названий полей на странице регистрации -->
     <Style x:Key="RegistrationInputLabel" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontSize" Value="18"/>
@@ -75,6 +109,7 @@
         <Setter Property="Margin" Value="0 8 0 5"/>
     </Style>
 
+    <!-- Стиль ошибок на странице регистрации -->
     <Style x:Key="RegistrationErrorText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontSize" Value="14"/>
@@ -83,6 +118,7 @@
         <Setter Property="Margin" Value="0 2 0 1"/>
     </Style>
     
+    <!-- Стиль для условий заполнения полей -->
     <Style x:Key="RegistrationInstructionText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontSize" Value="14"/>
@@ -93,6 +129,7 @@
         <Setter Property="Width" Value="441"/>
     </Style>
 
+    <!-- Стиль для нажписи "Уже есть аккаунт?" -->
     <Style x:Key="RegistrationHelpLinkText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontSize" Value="16"/>
@@ -100,6 +137,7 @@
         <Setter Property="Foreground" Value="#3E3E3E"/>
     </Style>
 
+    <!-- Стиль для ссылки "Войти" -->
     <Style x:Key="RegistrationLinkText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontSize" Value="16"/>
@@ -108,8 +146,14 @@
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="TextDecorations" Value="Underline"/>
         <Setter Property="Margin" Value="4 0 0 0"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="Red"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
+    <!-- Стиль для текста под кнопкой регистрации -->
     <Style x:Key="RegistrationUnderButtonText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontWeight" Value="Regular"/>
@@ -119,5 +163,46 @@
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="Margin" Value="0 3 0 0"/>
     </Style>
- 
+
+    <!-- Стиль для логотипа на странице главного меню -->
+    <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="MenuTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="20 0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="TextDecorations" Value="Underline"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="LogoutTextStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Width" Value="60"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="15 10 0 0"/>
+        <Setter Property="Foreground" Value="#D1242F"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="TextDecorations" Value="{x:Null}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="TextDecorations" Value="Underline"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

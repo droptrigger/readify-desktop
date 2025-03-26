@@ -11,8 +11,8 @@
     
     <Grid Background="#F9F9F9">
         <ScrollViewer
-            HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto">
+            HorizontalScrollBarVisibility="Hidden"
+            VerticalScrollBarVisibility="Hidden">
             <Border Padding="50 0 50 0"
                    Width="450"
                    VerticalAlignment="Center">
@@ -94,9 +94,9 @@
                        BorderBrush="#C5C5C5"
                        BorderThickness="2">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Новичок в Readify?" 
+                            <TextBlock Text="Новичок в Readify? " 
                                   Style="{StaticResource RegularLoginTextStyle}"/>
-                            <TextBlock Text=" Создайте аккаунт" 
+                            <TextBlock Text="Создайте аккаунт" 
                                   Style="{StaticResource HyperlinkLoginTextStyle}">
                                 <TextBlock.InputBindings>
                                     <MouseBinding

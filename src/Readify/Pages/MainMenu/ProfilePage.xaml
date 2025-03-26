@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Readify.Pages.MainMenu"
              xmlns:main="clr-namespace:Readify.ViewModels.MainMenu" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=main:ProfileViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1100">
@@ -22,18 +23,12 @@
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" Padding="30 0">
+                    <Border Style="{StaticResource ProfilePageMainBorderStyle}">
                         <StackPanel>
-                            <Border HorizontalAlignment="Center" 
-                                   Height="300" Width="300" Background="#EFEFEF"
-                                   CornerRadius="100">
-                                <Border.Clip>
-                                    <EllipseGeometry Center="150,150" RadiusX="150" RadiusY="150"/>
-                                </Border.Clip>
-
+                            <Border Style="{StaticResource ProfileAvatarStyle}">
                                 <Grid>
                                     <Image Source="{Binding CurrentUserAvatarBytes, Converter={StaticResource ImageConverter}}"
-                                          Stretch="UniformToFill"
+                                          Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center">
                                         <Image.RenderTransform>
@@ -44,38 +39,109 @@
                                     </Image>
                                 </Grid>
                             </Border>
-                            <TextBlock Margin="0 20 0 0" Text="{Binding CurrentName}" 
-                                       FontWeight="Bold" FontFamily="{StaticResource Inter}"
-                                       FontSize="20"/>
-                            <TextBlock Text="{Binding CurrentUsername}" 
-                                       FontWeight="Light" FontFamily="{StaticResource Inter}"
-                                       FontSize="18" Foreground="#595959"/>
+                            <TextBox Margin="-3 15 0 0" Text="{Binding CurrentName}" 
+                                     FontWeight="Bold" FontFamily="{StaticResource Inter}"
+                                     FontSize="22" IsReadOnly="True"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Cursor="IBeam"/>
 
-                            <Button Content="Обновить профиль" Style="{StaticResource UpdateUserButton}" 
+                            <TextBox Text="{Binding CurrentUsername}" 
+                                       FontWeight="Light" FontFamily="{StaticResource Inter}"
+                                       FontSize="21" Foreground="#595959"
+                                       IsReadOnly="True" Margin="-3 0 0 0"
+                                         BorderThickness="0"
+                                         Background="Transparent"
+                                         Cursor="IBeam"/>
+
+                            <Button Content="Обновить профиль" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding EditUserCommand}"
                                     Visibility="{Binding IsEditButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <Button Content="Подписаться" Style="{StaticResource UpdateUserButton}" 
+                            <Button Content="Подписаться" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding FollowUserCommand}"
                                     Visibility="{Binding IsFollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <Button Content="Отписаться" Style="{StaticResource UpdateUserButton}" 
+                            <Button Content="Отписаться" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding UnfollowUserCommand}" 
                                     Visibility="{Binding IsUnfollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                            <TextBlock Margin="0 5 0 0" Text="{Binding SubsText}" 
-                                   FontWeight="Bold" FontFamily="{StaticResource Inter}"
-                                   FontSize="15"/>
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Подписчики -->
+                                <StackPanel Orientation="Horizontal" Cursor="Hand" MouseEnter="Followers_MouseEnter" MouseLeave="Followers_MouseLeave">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <!-- Стили по умолчанию -->
+                                            <Setter Property="TextBlock.Foreground" Value="#515355"/>
+                                            <Setter Property="Path.Fill" Value="#9198A1"/>
 
-                            <TextBlock Margin="0 5 0 0" Text="{Binding LikesText}" 
-                                   FontWeight="Bold" FontFamily="{StaticResource Inter}"
-                                   FontSize="15"/>
+                                            <!-- Триггер при наведении -->
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <!-- Меняем цвет текста и иконки -->
+                                                    <Setter Property="TextBlock.Foreground" Value="Red"/>
+                                                    <Setter Property="Path.Fill" Value="Red"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
 
-                            <TextBlock Margin="0 5 0 0" Text="{Binding ReviewsText}" 
+                                    <!-- Иконка (SVG) -->
+                                    <Path VerticalAlignment="Center" Fill="#515355" x:Name="FollowersSVG"
+                                        Data="M2 5.5a3.5 3.5 0 1 1 5.898 2.549 5.508 5.508 0 0 1 3.034 4.084.75.75 0 1 1-1.482.235 4 4 0 0 0-7.9 0 .75.75 0 0 1-1.482-.236A5.507 5.507 0 0 1 3.102 8.05 3.493 3.493 0 0 1 2 5.5ZM11 4a3.001 3.001 0 0 1 2.22 5.018 5.01 5.01 0 0 1 2.56 3.012.749.749 0 0 1-.885.954.752.752 0 0 1-.549-.514 3.507 3.507 0 0 0-2.522-2.372.75.75 0 0 1-.574-.73v-.352a.75.75 0 0 1 .416-.672A1.5 1.5 0 0 0 11 5.5.75.75 0 0 1 11 4Zm-5.5-.5a2 2 0 1 0-.001 3.999A2 2 0 0 0 5.5 3.5Z"/>
+
+                                    <!-- Количество подписчиков -->
+                                    <TextBlock Margin="5 4 0 0" Text="{Binding CurrentSubscribers}" 
+                                                 FontWeight="Bold" FontFamily="{StaticResource Inter}"
+                                                 FontSize="15" VerticalAlignment="Center"/>
+
+                                    <!-- Текст "подписчиков" -->
+                                    <TextBlock Margin="0 4 0 0" Text=" подписчиков" 
+                                         FontWeight="DemiBold" FontFamily="{StaticResource Inter}"
+                                         FontSize="15" VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                                <TextBlock Margin="0 3 0 0" Text=" · " 
                                    FontWeight="Bold" FontFamily="{StaticResource Inter}"
-                                   FontSize="15"/>
-                            <Border Margin="0 15 0 0" Background="#EFEFEF" MinHeight="100" CornerRadius="11" Padding="15">
-                                <TextBlock TextWrapping="Wrap" FontFamily="{StaticResource Inter}" FontWeight="SemiBold"
-                                   Text="{Binding CurrentDescriptrion}" FontSize="15"/>
-                            </Border>
+                                   FontSize="15" VerticalAlignment="Center" Foreground="#515355"/>
+                                
+                                <StackPanel Orientation="Horizontal" Cursor="Hand">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="TextBlock.Foreground" Value="#515355"/>
+                                            <Setter Property="Path.Fill" Value="#9198A1"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="Red"/>
+                                                    <Setter Property="Path.Fill" Value="Red"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+
+                                    <TextBlock Margin="0 4 0 0" Text="{Binding CurrentSubscribtions}" 
+                 FontWeight="Bold" FontFamily="{StaticResource Inter}"
+                 FontSize="15" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="0 4 0 0" Text=" подписок" 
+                 FontWeight="DemiBold" FontFamily="{StaticResource Inter}"
+                 FontSize="15" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                          
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                                    <Path Data="M1.75 1h8.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 10.25 10H7.061l-2.574 2.573A1.458 1.458 0 0 1 2 11.543V10h-.25A1.75 1.75 0 0 1 0 8.25v-5.5C0 1.784.784 1 1.75 1ZM1.5 2.75v5.5c0 .138.112.25.25.25h1a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h3.5a.25.25 0 0 0 .25-.25v-5.5a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25Zm13 2a.25.25 0 0 0-.25-.25h-.5a.75.75 0 0 1 0-1.5h.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 14.25 12H14v1.543a1.458 1.458 0 0 1-2.487 1.03L9.22 12.28a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l2.22 2.22v-2.19a.75.75 0 0 1 .75-.75h1a.25.25 0 0 0 .25-.25Z"
+                                      Fill="#515355" VerticalAlignment="Top" Margin="0 5 0 0">
+                                    </Path>
+                                    <TextBox Margin="5 4 0 0" Text="{Binding CurrentDescriptrion}" 
+                                             FontWeight="SemiBold" FontFamily="{StaticResource Inter}"
+                                             FontSize="15" Foreground="#9198A1" TextWrapping="Wrap" MaxWidth="283"
+                                             IsReadOnly="True" HorizontalContentAlignment="Left" TextAlignment="Left"
+                                             BorderThickness="0"
+                                             Background="Transparent"
+                                             Cursor="IBeam" Padding="0">
+                                    </TextBox>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
                     </Border>
 
@@ -86,29 +152,184 @@
                                 <RowDefinition Height="315"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
+
+                            <Border Visibility="{Binding IsNullBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                Grid.Row="0" Background="#F8F8F8" CornerRadius="10" Margin="0 35 0 10">
+                                <TextBlock Text="{Binding NullBooksText}" 
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           FontSize="20" FontFamily="{StaticResource Inter}"
+                                           FontWeight="Medium" Foreground="#535353"/>
+                            </Border>
+
                             <StackPanel Grid.Row="0">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Добавленные книги" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Bold" FontSize="20"/>
+                                    <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Regular" FontSize="20" HorizontalAlignment="Right" 
+                                       Visibility="{Binding IsShowAllBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                       Cursor="Hand">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="#0B6BD7"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Foreground" Value="Red"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DockPanel>
+
+                                <ScrollViewer x:Name="BooksHorizontalScroll" Margin="-5 0"
+                                              VerticalScrollBarVisibility="Disabled"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              PreviewMouseWheel="HorizontalScroll_PreviewMouseWheel">
+                                    <ScrollViewer.Resources>
+                                        <Style TargetType="ScrollViewer">
+                                            <Setter Property="PanningMode" Value="HorizontalOnly"/>
+                                            <Setter Property="UseLayoutRounding" Value="True"/>
+                                            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True"/>
+                                        </Style>
+                                    </ScrollViewer.Resources>
+                                    <ItemsControl ItemsSource="{Binding CurrentUser.Books}"
+                                                    Margin="0 10 0 0">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
+                                                        Background="#EFEFEF" CornerRadius="8" HorizontalAlignment="Center">
+                                                    <StackPanel HorizontalAlignment="Center" Width="200">
+                                                        <Border Height="215" Width="145">
+                                                            <Image Source="{Binding Book.CoverImage, Converter={StaticResource ImageConverter}}"
+                                                                    Stretch="UniformToFill"  RenderOptions.BitmapScalingMode="HighQuality"
+                                                                    Margin="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        </Border>
+                                                       
+                                                        <TextBlock Text="{Binding Book.Name}" Width="145"
+                                                                   FontFamily="{StaticResource Inter}"
+                                                                   TextAlignment="Center" FontSize="20"
+                                                                   Margin="0 5 0 2" FontWeight="SemiBold"/>
+                                                        <TextBlock Text="{Binding Book.Author.Nickname}" MaxWidth="145" HorizontalAlignment="Center"
+                                                                   FontFamily="{StaticResource Inter}" FontWeight="Regular"
+                                                                    TextAlignment="Center" FontSize="16">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                                                    <Setter Property="TextDecorations" Value="{x:Null}"/>
+                                                                    <Setter Property="Foreground" Value="#7A7A7A"/>
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="TextDecorations" Value="Underline"/>
+                                                                            <Setter Property="Foreground" Value="#FF0000"/>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeftButtonDown"> <!-- Изменено с GotFocus -->
+                                                                    <i:InvokeCommandAction 
+                                                                        Command="{Binding DataContext.ShowAuthorCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        CommandParameter="{Binding Book.Author.Id}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBlock>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                <i:InvokeCommandAction 
+                                                                    Command="{Binding SelectAvatarCommand}"
+                                                                    CommandParameter="{Binding Book.Id}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </StackPanel>
+
+                            <Border Visibility="{Binding IsNullReviewsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Grid.Row="1" Background="#F8F8F8" CornerRadius="10" Margin="0 35 0 10">
+                                <TextBlock Text="{Binding NullReviewsText}" 
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           FontSize="20" FontFamily="{StaticResource Inter}"
+                                           FontWeight="Medium" Foreground="#535353"/>
+                            </Border>
+
+                            <StackPanel Grid.Row="1">
                                 <DockPanel LastChildFill="True">
                                     <TextBlock Text="Отзывы о книгах" FontFamily="{StaticResource Inter}"
                                        FontWeight="Bold" FontSize="20"/>
                                     <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
                                        FontWeight="Regular" FontSize="20" HorizontalAlignment="Right"
-                                       Foreground="#0B6BD7" Cursor="Hand"/>
+                                       Cursor="Hand" Visibility="{Binding IsShowAllReviewsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="#0B6BD7"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Foreground" Value="Red"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </DockPanel>
-                                <ListView Height="270" Margin="0 10 0 0">
+                                <ScrollViewer x:Name="ReviewsHorizontalScroll" Margin="-5 0"
+                                              VerticalScrollBarVisibility="Disabled"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              PreviewMouseWheel="HorizontalScroll_PreviewMouseWheel">
+                                    <ScrollViewer.Resources>
+                                        <Style TargetType="ScrollViewer">
+                                            <Setter Property="PanningMode" Value="HorizontalOnly"/>
+                                            <Setter Property="UseLayoutRounding" Value="True"/>
+                                            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True"/>
+                                        </Style>
+                                    </ScrollViewer.Resources>
+                                    <ItemsControl ItemsSource="{Binding CurrentUser.Reviews}"
+                                                    Margin="0 10 0 0">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
+                                                        Background="#EFEFEF" CornerRadius="8" HorizontalAlignment="Center">
+                                                    <StackPanel HorizontalAlignment="Center">
+                                                        <Border Height="215" Width="140">
+                                                            <Image Source="{Binding Book.CoverImage, Converter={StaticResource ImageConverter}}"
+                                                                    Stretch="UniformToFill" 
+                                                                    Margin="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        </Border>
 
-                                </ListView>
-                            </StackPanel>
-                            <StackPanel Grid.Row="1">
-                                <DockPanel LastChildFill="True">
-                                    <TextBlock Text="Добавленные книги" FontFamily="{StaticResource Inter}"
-                                       FontWeight="Bold" FontSize="20"/>
-                                    <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
-                                       FontWeight="Regular" FontSize="20" HorizontalAlignment="Right"
-                                       Foreground="#0B6BD7" Cursor="Hand"/>
-                                </DockPanel>
-                                <ListView Height="270" Margin="0 10 0 0">
-
-                                </ListView>
+                                                        <TextBlock Text="{Binding Book.Name}" 
+                                                                   FontFamily="{StaticResource Inter}"
+                                                                   TextAlignment="Center" FontSize="18"
+                                                                   Margin="0 5" FontWeight="SemiBold"
+                                                                   TextWrapping="Wrap"/>
+                                                        <TextBlock Text="{Binding Rating}" Width="190" Margin="0 0 0 0"
+                                                                   FontFamily="{StaticResource Inter}" FontWeight="Bold"
+                                                                   Foreground="#000000" TextAlignment="Right" FontSize="20"/>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                <i:InvokeCommandAction 
+                                                                    Command="{Binding SelectAvatarCommand}"
+                                                                    CommandParameter="{Binding Book.Id}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
                             </StackPanel>
                         </Grid>
                     </Border>

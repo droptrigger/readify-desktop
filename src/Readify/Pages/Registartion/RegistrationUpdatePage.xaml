@@ -14,23 +14,18 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        
 
-        <Border Grid.Column="0" Background="#25292E" Padding="70 63 100 0">
+
+        <Border Grid.Column="0" Style="{StaticResource LeftBorderRegistartion}">
             <StackPanel>
-                <TextBlock FontFamily="{StaticResource Inter}" 
-                           Text="Последние штрихи"
-                           FontSize="30" TextWrapping="Wrap" Foreground="#FFFFFF"
-                           FontWeight="Bold"
-                           Margin="0 0 0 15" />
-                <TextBlock FontFamily="{StaticResource Inter}"
-                           Text="Расскажите немного о себе, нам очень интересно!"
-                           FontSize="20" TextWrapping="Wrap" Foreground="#FFFFFF"
-                           FontWeight="Light" />
+                <TextBlock Style="{StaticResource RegistartionLeftHeaderText}"
+                           Text="Последние штрихи" />
+                <TextBlock Style="{StaticResource RegistartionLeftText}"
+                           Text="Расскажите немного о себе, нам очень интересно!" />
             </StackPanel>
         </Border>
 
-        <Border Grid.Column="1" Background="#F9F9F9" Padding="20 20 20 0">
+        <Border Grid.Column="1" Style="{StaticResource RightBorderRegistartion}">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
@@ -45,7 +40,7 @@
                 </StackPanel>
                 <Border VerticalAlignment="Center"
                         Width="450"  
-                        Margin="0 20 0 0">
+                        Margin="0 41 0 0">
                     <StackPanel>
                         <TextBlock Style="{StaticResource RegistrationHeaderText}"
                                    Text="Давайте оформим ваш профиль" TextAlignment="Center"/>
@@ -62,7 +57,6 @@
                             </Border.Clip>
 
                             <Grid>
-                                <!-- Основное изображение -->
                                 <Image Source="{Binding AvatarBytes, Converter={StaticResource ImageConverter}}"
                                        Stretch="UniformToFill"
                                        HorizontalAlignment="Center"
@@ -74,7 +68,6 @@
                                     </Image.RenderTransform>
                                 </Image>
 
-                                <!-- Затемнение при наведении -->
                                 <Border x:Name="HoverOverlay"
                                         Background="#40000000"
                                         CornerRadius="100"
@@ -85,7 +78,6 @@
                                 </Border>
                             </Grid>
 
-                            <!-- Триггеры -->
                             <Border.Triggers>
                                 <EventTrigger RoutedEvent="Mouse.MouseEnter">
                                     <BeginStoryboard>
@@ -110,7 +102,6 @@
                                 </EventTrigger>
                             </Border.Triggers>
 
-                            <!-- Обработчик клика -->
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseLeftButtonDown">
                                     <i:InvokeCommandAction Command="{Binding SelectAvatarCommand}"/>

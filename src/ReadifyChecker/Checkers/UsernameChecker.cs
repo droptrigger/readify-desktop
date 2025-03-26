@@ -15,13 +15,13 @@ namespace ReadifyChecker
         /// <returns>True - если проверка пройдена</returns>
         public override bool Check(string? username)
         {
-            return (
-                !string.IsNullOrEmpty(username) &&
-                Regex.IsMatch(username, "^[a-zA-Z0-9]+$") &&
-                username.All(char.IsLetterOrDigit) &&
-                username.Length >= 5 &&
-                username.Length <= 40
-                );
+            return !string.IsNullOrEmpty(username) &&
+                   Regex.IsMatch(username, @"^
+                        (?![_])                  # Не начинается с _
+                        (?!.*[_]{2,})            # Нет двух и более _ подряд
+                        (?!.*[_]$)               # Не заканчивается на _
+                        [a-zA-Z0-9_]{5,40}       # Длина 5-40, разрешенные символы
+                    $", RegexOptions.IgnorePatternWhitespace);
         }
     }
 }
