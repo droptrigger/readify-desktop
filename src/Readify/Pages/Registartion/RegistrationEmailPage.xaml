@@ -16,21 +16,16 @@
         </Grid.ColumnDefinitions>
 
 
-        <Border Grid.Column="0" Background="#25292E" Padding="70 63 100 0">
+        <Border Grid.Column="0" Style="{StaticResource LeftBorderRegistartion}">
             <StackPanel>
-                <TextBlock FontFamily="{StaticResource Inter}" 
-                           Text="Подтвердите вашу электронную почту"
-                           FontSize="30" TextWrapping="Wrap" Foreground="#FFFFFF"
-                           FontWeight="Bold"
-                           Margin="0 0 0 15" />
-                <TextBlock FontFamily="{StaticResource Inter}"
-                           Text="Поверьте, она потом вам потребуется."
-                           FontSize="20" TextWrapping="Wrap" Foreground="#FFFFFF"
-                           FontWeight="Light" />
+                <TextBlock Style="{StaticResource RegistartionLeftHeaderText}"
+                           Text="Подтвердите вашу электронную почту" />
+                <TextBlock Style="{StaticResource RegistartionLeftText}"
+                           Text="Поверьте, она потом вам потребуется." />
             </StackPanel>
         </Border>
 
-        <Border Grid.Column="1" Background="#F9F9F9" Padding="20 20 20 0">
+        <Border Grid.Column="1" Style="{StaticResource RightBorderRegistartion}">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <TextBlock Style="{StaticResource RegistrationHelpLinkText}"

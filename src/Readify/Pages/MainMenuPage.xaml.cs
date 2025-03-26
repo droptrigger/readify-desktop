@@ -20,6 +20,9 @@ namespace Readify.Pages
               "ReviewsHorizontalScroll",
         };
 
+        private bool _mayScroll = true;
+
+
         public MainMenuPage()
         {
             InitializeComponent();
@@ -54,7 +57,8 @@ namespace Readify.Pages
             }
 
             var scrollViewer = (ScrollViewer)sender;
-            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + (e.Delta > 0 ? -25 : 25));
+            if (_mayScroll)
+                scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + (e.Delta > 0 ? -25 : 25));
             e.Handled = true;
         }
 
@@ -63,7 +67,7 @@ namespace Readify.Pages
             var element = originalSource as DependencyObject;
             while (element != null)
             {
-                if (element is ScrollViewer sv && scrolls.Contains(sv.Name))
+                if ((element is ScrollViewer sv && scrolls.Contains(sv.Name)))
                     return true;
                 element = VisualTreeHelper.GetParent(element);
             }
@@ -72,24 +76,27 @@ namespace Readify.Pages
 
         private void UserAvatarBorder_MouseEnter(object sender, MouseEventArgs e)
         {
+            _mayScroll = false;
             UserPopup.IsOpen = true;
 
         }
 
         private void UserAvatarBorder_MouseLeave(object sender, MouseEventArgs e)
         {
+            _mayScroll = true;
             UserPopup.IsOpen = false;
         }
 
-
         private void Popup_MouseEnter(object sender, MouseEventArgs e)
         {
+            _mayScroll = false;
             // Удерживаем Popup открытым при наведении на него
             UserPopup.StaysOpen = true;
         }
 
         private void Popup_MouseLeave(object sender, MouseEventArgs e)
         {
+            _mayScroll = true;
             // Возвращаем стандартное поведение
             UserPopup.StaysOpen = false;
             UserPopup.IsOpen = false;

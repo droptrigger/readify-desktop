@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
+    <!-- Стиль для кнопки входа -->
     <Style x:Key="GreenLoginButton" TargetType="{x:Type Button}">
         <Setter Property="Height" Value="39"/>
         <Setter Property="Background" Value="#30C352"/>
@@ -33,6 +34,7 @@
         </Setter>
     </Style>
 
+    <!-- Стиль для кнопки регистрации -->
     <Style x:Key="RegistrationButton" TargetType="Button">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
@@ -68,80 +70,8 @@
         </Setter>
     </Style>
 
-    <Style x:Key="WindowControlButton" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="Foreground" Value="#000"/>
-        <Setter Property="Width" Value="50"/>
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
-        <Setter Property="FontWeight" Value="Medium"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#F2F2F2"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="WindowControlCloseButton" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="Foreground" Value="#000"/>
-        <Setter Property="Width" Value="50"/>
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
-        <Setter Property="FontWeight" Value="Medium"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="0 9 0 0">
-                        <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#E81123"/>
-                <Setter Property="Foreground" Value="#FFFFFF"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-
-    <Style x:Key="ModernResizeGrip" TargetType="ResizeGrip">
-        <Setter Property="Visibility" Value="Visible"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ResizeGrip">
-                    <Path Data="M0,8 L8,8 8,0" 
-                      Stretch="None"
-                      StrokeThickness="1"
-                      Stroke="#40000000"
-                      HorizontalAlignment="Right"
-                      VerticalAlignment="Bottom"
-                      Margin="0,0,5,5"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="UpdateUserButton" TargetType="Button">
+    <!-- Стиль для кнопок на странице профиля -->
+    <Style x:Key="ProfileUserButton" TargetType="Button">
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontWeight" Value="Bold"/>
@@ -175,70 +105,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="BusySpinner" TargetType="ProgressBar">
-        <Setter Property="Width" Value="20"/>
-        <Setter Property="Height" Value="20"/>
-        <Setter Property="IsIndeterminate" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ProgressBar">
-                    <Border Background="Transparent">
-                        <Grid>
-                            <Ellipse Stroke="{TemplateBinding Foreground}" 
-                                   StrokeThickness="2"/>
-                            <Path Data="M0,10 A10,10 0 0 1 10,0"
-                                  Stroke="{TemplateBinding Foreground}"
-                                  StrokeThickness="2"
-                                  StrokeStartLineCap="Round">
-                                <Path.RenderTransform>
-                                    <RotateTransform Angle="0" CenterX="10" CenterY="10"/>
-                                </Path.RenderTransform>
-                                <Path.Triggers>
-                                    <EventTrigger RoutedEvent="Loaded">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation 
-                                                    Storyboard.TargetProperty="(Path.RenderTransform).(RotateTransform.Angle)"
-                                                    From="0" To="360" Duration="0:0:1" 
-                                                    RepeatBehavior="Forever"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </Path.Triggers>
-                            </Path>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="PopupButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="#555555"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Padding" Value="5"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" 
-                        CornerRadius="3" 
-                        Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center" 
-                                      VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#777777"/>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

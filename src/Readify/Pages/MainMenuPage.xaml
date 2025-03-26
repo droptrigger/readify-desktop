@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
     <Grid>
-        <ScrollViewer Style="{StaticResource MainScrollViewerStyle}"
+        <ScrollViewer Style="{StaticResource MainScrollViewerStyle}" x:Name="MainScrollViewer"
                       PreviewMouseWheel="MainScrollViewer_PreviewMouseWheel">
             <Grid Background="#FFFFFF">
                 <Grid.ColumnDefinitions>
@@ -81,16 +81,11 @@
 
 
                         <Popup x:Name="UserPopup"
-                           PlacementTarget="{Binding ElementName=UserAvatarBorder}"
-                           Placement="Bottom" HorizontalOffset="-110" VerticalOffset="-55"
-                           StaysOpen="False"
-                           AllowsTransparency="True"
-                           PopupAnimation="Fade" MouseEnter="UserAvatarBorder_MouseEnter" Cursor="Hand"
-                                 MouseLeave="UserAvatarBorder_MouseLeave">
-                            <Border Background="#DEDEDE" 
-                                Width="200"
-                                CornerRadius="0 30 30 30"
-                                Padding="0"
+                               Style="{StaticResource UserPopupStyle}"
+                               PlacementTarget="{Binding ElementName=UserAvatarBorder}"
+                               MouseEnter="UserAvatarBorder_MouseEnter"
+                                MouseLeave="UserAvatarBorder_MouseLeave">
+                            <Border Style="{StaticResource PopupContentStyle}"
                                 MouseEnter="Popup_MouseEnter"
                                 MouseLeave="Popup_MouseLeave">
                                 <StackPanel Height="113">
@@ -98,14 +93,14 @@
                                         <TextBlock Text="{Binding ApplicationUserUsername}" FontFamily="{StaticResource Inter}" FontWeight="Medium" VerticalAlignment="Center"
                                                    FontSize="20" Margin="15 0 0 0" Width="80" />
                                         <Border
-                                 Style="{StaticResource RoundAvatarBorderStyle}"
-                                 HorizontalAlignment="Right" Cursor="Arrow"  Margin="0 0 40 0">
+                                             Style="{StaticResource RoundAvatarBorderStyle}"
+                                             HorizontalAlignment="Right" Cursor="Arrow"  Margin="0 0 40 0">
                                             <Grid>
                                                 <Image Source="{Binding ApplicationUserAvatarBytes, Converter={StaticResource ImageConverter}}"
-                                            Stretch="UniformToFill" 
-                                            RenderOptions.BitmapScalingMode="HighQuality"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                                    Stretch="UniformToFill" 
+                                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center">
                                                     <Image.RenderTransform>
                                                         <TransformGroup>
                                                             <TranslateTransform X="0" Y="0"/>
@@ -114,9 +109,9 @@
                                                 </Image>
 
                                                 <Border
-                                         Background="#90000000"
-                                         CornerRadius="100"
-                                         Visibility="Collapsed">
+                                                     Background="#90000000"
+                                                     CornerRadius="100"
+                                                     Visibility="Collapsed">
                                                     <Border.Clip>
                                                         <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25"/>
                                                     </Border.Clip>
@@ -124,23 +119,12 @@
                                             </Grid>
                                         </Border>
                                     </DockPanel>
-                                    <TextBlock VerticalAlignment="Center" Text="Выход" FontFamily="{StaticResource Inter}" FontWeight="Medium" TextAlignment="Left"
-                                               FontSize="20" Margin="15 10 0 0" Foreground="#D1242F" 
-                                               Cursor="Hand" Width="60" HorizontalAlignment="Left">
-                                        <TextBlock.InputBindings>
-                                            <MouseBinding Command="{Binding LogoutCommand}"
+                                    <TextBlock Style="{StaticResource LogoutTextStyle}"
+                                           Text="Выход">
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding Command="{Binding LogoutCommand}"
                                                  MouseAction="LeftClick"/>
-                                        </TextBlock.InputBindings>
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                                <Setter Property="TextDecorations" Value="{x:Null}"/>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="TextDecorations" Value="Underline"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
+                                    </TextBlock.InputBindings>
                                     </TextBlock>
                                 </StackPanel>
 

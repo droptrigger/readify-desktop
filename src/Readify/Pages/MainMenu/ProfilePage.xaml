@@ -23,15 +23,9 @@
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" Padding="30 0">
+                    <Border Style="{StaticResource ProfilePageMainBorderStyle}">
                         <StackPanel>
-                            <Border HorizontalAlignment="Center" 
-                                   Height="300" Width="300" Background="#EFEFEF"
-                                   CornerRadius="100">
-                                <Border.Clip>
-                                    <EllipseGeometry Center="150,150" RadiusX="150" RadiusY="150"/>
-                                </Border.Clip>
-
+                            <Border Style="{StaticResource ProfileAvatarStyle}">
                                 <Grid>
                                     <Image Source="{Binding CurrentUserAvatarBytes, Converter={StaticResource ImageConverter}}"
                                           Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"
@@ -45,7 +39,7 @@
                                     </Image>
                                 </Grid>
                             </Border>
-                            <TextBox Margin="-3 20 0 0" Text="{Binding CurrentName}" 
+                            <TextBox Margin="-3 15 0 0" Text="{Binding CurrentName}" 
                                      FontWeight="Bold" FontFamily="{StaticResource Inter}"
                                      FontSize="22" IsReadOnly="True"
                                      BorderThickness="0"
@@ -60,13 +54,13 @@
                                          Background="Transparent"
                                          Cursor="IBeam"/>
 
-                            <Button Content="Обновить профиль" Style="{StaticResource UpdateUserButton}" 
+                            <Button Content="Обновить профиль" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding EditUserCommand}"
                                     Visibility="{Binding IsEditButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <Button Content="Подписаться" Style="{StaticResource UpdateUserButton}" 
+                            <Button Content="Подписаться" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding FollowUserCommand}"
                                     Visibility="{Binding IsFollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <Button Content="Отписаться" Style="{StaticResource UpdateUserButton}" 
+                            <Button Content="Отписаться" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding UnfollowUserCommand}" 
                                     Visibility="{Binding IsUnfollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
 

@@ -21,7 +21,7 @@ namespace Readify.Converters
                 bitmap.EndInit();
                 return bitmap;
             }
-            return new BitmapImage(new Uri("pack://application:,,,/Readify;component/Images/default-avatar.png"));
+            return new BitmapImage(new Uri("pack://application:,,,/Readify;component/Images/default.png"));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

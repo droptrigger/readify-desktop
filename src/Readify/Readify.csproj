@@ -23,14 +23,13 @@
 	<ItemGroup>
 		<None Remove="logo.png" />
 		<None Remove="close.png" />
-		<None Remove="followers.png" />
+		<None Remove="default.png" />
 	</ItemGroup>
 	
 	<ItemGroup>
-		<Resource Include="Images\default-avatar.png" />
 		<Resource Include="Images\Logo\logo.png" />
 		<Resource Include="Images\close.png" />
-		<Resource Include="Images\followers.png" />
+		<Resource Include="Images\default.png" />
 </ItemGroup>
 
 	<ItemGroup>
