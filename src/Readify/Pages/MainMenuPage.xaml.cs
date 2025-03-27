@@ -14,6 +14,18 @@ namespace Readify.Pages
     /// </summary>
     public partial class MainMenuPage : UserControl
     {
+        /// <summary>
+        /// Список скроллов, при наведении мышки на которыз скролл не двигался
+        /// </summary>
+        private string[] _scrolls =
+        {
+              "BooksHorizontalScroll",
+              "ReviewsHorizontalScroll",
+        };
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public MainMenuPage()
         {
             InitializeComponent();
@@ -32,6 +44,9 @@ namespace Readify.Pages
             }
         }
 
+        /// <summary>
+        /// Логика навигации на страницу профиля
+        /// </summary>
         private void NavigateToProfilePage()
         {
             ProfilePage profilePage = new ProfilePage(App.CurrentUser);
@@ -39,6 +54,11 @@ namespace Readify.Pages
             MainMenuFrame.Navigate(profilePage);
         }
 
+        /// <summary>
+        /// Обработка прокрути колесиком на скроллере
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (IsMouseOverChildScrollViewer(e.OriginalSource))
@@ -51,34 +71,52 @@ namespace Readify.Pages
             e.Handled = true;
         }
 
+        /// <summary>
+        /// Метод проверки находится ли мышка на каком-нибудь скроллере
+        /// </summary>
+        /// <param name="originalSource"></param>
+        /// <returns></returns>
         private bool IsMouseOverChildScrollViewer(object originalSource)
         {
             var element = originalSource as DependencyObject;
             while (element != null)
             {
-                if (element is ItemsControl itemsControl)
+                if (element is ScrollViewer sv && _scrolls.Contains(sv.Name))
                     return true;
                 element = VisualTreeHelper.GetParent(element);
             }
             return false;
         }
 
-        private void UserAvatarBorder_MouseEnter(object sender, MouseEventArgs e)
-        {
-            UserPopup.IsOpen = true;
+        /// <summary>
+        /// Метод наведения мышки на область с аватаром
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UserAvatarBorder_MouseEnter(object sender, MouseEventArgs e) 
+            => UserPopup.IsOpen = true;
 
-        }
-
+        /// <summary>
+        /// Метод отведения мышки от области с аватаром
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserAvatarBorder_MouseLeave(object sender, MouseEventArgs e)
-        {
-            UserPopup.IsOpen = false;
-        }
+            => UserPopup.IsOpen = false;
 
+        /// <summary>
+        /// Метод наведения мышки на меню выхода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Popup_MouseEnter(object sender, MouseEventArgs e)
-        {
-            UserPopup.StaysOpen = true;
-        }
-
+            => UserPopup.StaysOpen = true;
+        
+        /// <summary>
+        /// Метод отведения мышки с меню выхода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Popup_MouseLeave(object sender, MouseEventArgs e)
         {
             UserPopup.StaysOpen = false;
