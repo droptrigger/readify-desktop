@@ -3,6 +3,7 @@ using Readify.DTO.Users;
 using Readify.Pages;
 using Readify.Pages.Registartion;
 using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels.Base;
 using System.Windows;
 using System.Windows.Input;
@@ -16,7 +17,7 @@ namespace Readify.ViewModels.Registration
     {
         private const string NOT_EQUALS_CAPTCHA_ERROR = "Попробуйте еще раз";
 
-        private readonly RegistrationService _registrationService;
+        private readonly IRegistrationService _registrationService;
         private readonly RegistrationDTO _registrationDTO;
 
         private string _captcha = string.Empty;
@@ -67,9 +68,9 @@ namespace Readify.ViewModels.Registration
         /// <summary>
         /// Конструктор
         /// </summary>
-        public RegistrationCaptchaViewModel(RegistrationDTO registrationDTO)
+        public RegistrationCaptchaViewModel(IRegistrationService registrationService, RegistrationDTO registrationDTO)
         {
-            _registrationService = new RegistrationService();
+            _registrationService = registrationService;
             _registrationDTO = registrationDTO;
 
             CloseCaptchaErrorCommand = new RelayCommand(CloseCaptchaError);

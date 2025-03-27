@@ -19,7 +19,7 @@ namespace Readify.ViewModels.Registration
     /// </summary>
     class RegistrationUpdateViewModel : BaseViewModel
     {
-        private RegistrationService _registrationService;
+        private IRegistrationService _registrationService;
 
         private byte[] _avatarBytes = null!;
         private IFormFile _avatarFile = null!;
@@ -130,11 +130,11 @@ namespace Readify.ViewModels.Registration
         /// <summary>
         /// Конструктор
         /// </summary>
-        public RegistrationUpdateViewModel()
+        public RegistrationUpdateViewModel(IRegistrationService registrationService)
         {
             Name = App.CurrentUser.Name!;
 
-            _registrationService = new RegistrationService();
+            _registrationService = registrationService;
 
             CloseNameErrorCommand = new RelayCommand(CloseNameError);
             CloseAboutErrorCommand = new RelayCommand(CloseAboutError);

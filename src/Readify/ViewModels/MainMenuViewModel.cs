@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Readify.DTO.Users;
 using Readify.Pages;
 using Readify.Pages.MainMenu;
 using Readify.Pages.Registartion;
 using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels.Base;
 using Readify.ViewModels.MainMenu;
 using System.Windows;
@@ -14,6 +16,8 @@ namespace Readify.ViewModels
 {
     public class MainMenuViewModel : BaseViewModel
     {
+        private Stack<UserDTO> _navigationStack = new Stack<UserDTO>();
+
         private byte[] _applicationUserAvatarBytes = null!;
         private string _applicationUserUsername = string.Empty!;
         private string _searchText = string.Empty!;
@@ -24,19 +28,20 @@ namespace Readify.ViewModels
         /// <summary>
         /// Сервис для выхода из аккаунта
         /// </summary>
-        private AuthService _authService;
+        private IAuthService _authService;
 
-        private ProfileViewModel DataContextProfilePage
-        {
-            get => App.ProfilePage?.DataContext! as ProfileViewModel;
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsLogoVisibility
         {
             get => _isLogoVisibility;
             set => SetField(ref _isLogoVisibility, value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsBackVisibility
         {
             get => _isBackVisibility;
@@ -100,9 +105,11 @@ namespace Readify.ViewModels
         /// </summary>
         public ICommand BackFramePageCommand { get; }
 
-        public MainMenuViewModel()
+        public MainMenuViewModel(IAuthService authService)
         {
-            _authService = new AuthService();
+            _navigationStack.Push(App.CurrentUser);
+            _authService = authService;
+
             ApplicationUserAvatarBytes = App.CurrentUser.AvatarImage!;
             ApplicationUserUsername = App.CurrentUser.Nickname!;
             LogoutCommand = new AsyncRelayCommand(ExecuteLogoutAsync);
@@ -111,24 +118,22 @@ namespace Readify.ViewModels
 
         private void ExecuteBackFramePageCommand()
         {
-            if (App.MainMenuPage?.MainMenuFrame?.CanGoBack ?? false)
+            if (_navigationStack.Count > 1)
             {
-                App.MainMenuPage.MainMenuFrame.GoBack();
-                var page = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
+                _navigationStack.Pop();
 
-                App.ProfilePage = page;
-                DataContextProfilePage.CurrentUser = page!.CurrentUser;
+                var previousUser = _navigationStack.Peek();
+
                 UpdateVisibility();
+
+                App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(previousUser));
             }
         }
 
         public void UpdateVisibility()
         {
-            bool isCurrentUser = DataContextProfilePage.CurrentUser.Id == App.CurrentUser.Id;
-            IsLogoVisibility = isCurrentUser;
-            IsBackVisibility = !isCurrentUser;
-
-            MessageBox.Show(DataContextProfilePage.CurrentUser.Id + " " + App.CurrentUser.Id);
+            IsBackVisibility = _navigationStack.Count > 1;
+            IsLogoVisibility = _navigationStack.Peek().Id == App.CurrentUser.Id;
         }
 
         /// <summary>
@@ -153,6 +158,14 @@ namespace Readify.ViewModels
             }
 
             return false;
+        }
+
+        public void NavigateToProfile(UserDTO user)
+        {
+            _navigationStack.Push(user);
+
+            UpdateVisibility();
+            App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(user));
         }
 
     }

@@ -10,10 +10,8 @@
              d:DesignHeight="700" d:DesignWidth="1300">
 
     <Grid Background="#F9F9F9">
-        <ScrollViewer
-            HorizontalScrollBarVisibility="Hidden"
-            VerticalScrollBarVisibility="Hidden">
-            <Border Padding="50 0 50 0"
+        <ScrollViewer Style="{StaticResource MainScrollViewerStyle}">
+            <Border Padding="50 0"
                    Width="450"
                    VerticalAlignment="Center">
 
@@ -37,11 +35,11 @@
                             Padding="20 20 20 20" 
                             Visibility="{Binding IsErrorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                         <DockPanel LastChildFill="True">
-                            
+
                             <!-- Текст ошибки -->
                             <TextBlock DockPanel.Dock="Left" Style="{StaticResource ErrorTextBlockStyle}" 
                                   Text="{Binding ErrorMessage}" MaxWidth="290" x:Name="ErrorText"/>
-                            
+
                             <!-- Кнопка закрытия окна с ошибкой -->
                             <Image DockPanel.Dock="Right" 
                                    Source="pack://application:,,,/Images/close.png" 
@@ -56,24 +54,27 @@
                                 </Image.InputBindings>
                             </Image>
                         </DockPanel>
-
                     </Border>
 
+                    <!-- Основа -->
                     <Border CornerRadius="8" 
-                       Background="#FFFFFF"
-                       BorderBrush="#C5C5C5"
-                       BorderThickness="2"
-                       Padding="20 25 20 20"
-                       Margin="0 0 0 10">
+                            Background="#FFFFFF"
+                            BorderBrush="#C5C5C5"
+                            BorderThickness="2"
+                            Padding="20 25 20 20"
+                            Margin="0 0 0 10">
 
                         <StackPanel>
+                            <!-- Текст "Имя пользователя или email" -->
                             <TextBlock Text="Имя пользователя или email"
                                   Style="{StaticResource FormLabelLoginTextBlockStyle}"/>
 
+                            <!-- Поле ввода логина -->
                             <TextBox x:Name="Login" Text="{Binding Username}"
                                 Style="{StaticResource RoundedShadowTextBox}" TabIndex="0"
                                      PreviewKeyDown="Enter_PreviewKeyDown"/>
 
+                            <!-- Панель с надписями "Пароль" и "Забыли пароль?" -->
                             <DockPanel LastChildFill="False">
                                 <TextBlock DockPanel.Dock="Left"
                                       Text="Пароль"
@@ -88,16 +89,20 @@
                                 </TextBlock>
                             </DockPanel>
 
+                            <!-- Поле ввода пароля -->
                             <PasswordBox x:Name="Password" PasswordChanged="PasswordBox_PasswordChanged"
                                     Style="{StaticResource RoundedShadowPasswordBox}" TabIndex="1"
                                     PreviewKeyDown="Enter_PreviewKeyDown"/>
 
+                            <!-- Кнопка входа -->
                             <Button x:Name="LoginButton"
                                Command="{Binding LoginCommand}"
                                Style="{StaticResource GreenLoginButton}"
                                Content="Войти" Focusable="True" TabIndex="2"/>
                         </StackPanel>
                     </Border>
+
+                    <!-- Основа для перехода на регистрацию -->
                     <Border Padding="20 18 20 18" 
                             CornerRadius="8" 
                             BorderBrush="#C5C5C5"
@@ -120,6 +125,5 @@
                 </StackPanel>
             </Border>
         </ScrollViewer>
-
     </Grid>
 </UserControl>

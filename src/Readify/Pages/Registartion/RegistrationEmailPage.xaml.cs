@@ -1,6 +1,8 @@
-﻿using Readify.DTO.Users;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.DTO.Users;
+using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels.Registration;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -12,6 +14,9 @@ namespace Readify.Pages.Registartion
     /// </summary>
     public partial class RegistrationEmailPage : UserControl
     {
+        private IAuthService _authService = App.ServiceProvider.GetService<IAuthService>()!;
+        private IRegistrationService _registrationService = App.ServiceProvider.GetService<IRegistrationService>()!;
+
         /// <summary>
         /// Конструктор
         /// </summary>
@@ -19,7 +24,7 @@ namespace Readify.Pages.Registartion
         public RegistrationEmailPage(RegistrationDTO registrationDTO)
         {
             InitializeComponent();
-            DataContext = new RegistrationEmailViewModel(registrationDTO);
+            DataContext = new RegistrationEmailViewModel(_authService, _registrationService, registrationDTO);
         }
 
         private void Digit_PreviewTextInput(object sender, TextCompositionEventArgs e)

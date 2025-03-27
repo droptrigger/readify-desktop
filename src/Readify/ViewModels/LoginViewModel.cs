@@ -3,6 +3,7 @@ using Readify.DTO.Users;
 using Readify.Pages;
 using Readify.Pages.Registartion;
 using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels.Base;
 using System.Net.Http;
 using System.Windows;
@@ -23,7 +24,7 @@ namespace Readify.ViewModels
         /// <summary>
         /// Сервис авторизации
         /// </summary>
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
         /// <summary>
         /// Имя пользователя
@@ -84,9 +85,9 @@ namespace Readify.ViewModels
         /// <summary>
         /// Конструктор
         /// </summary>
-        public LoginViewModel()
+        public LoginViewModel(IAuthService authService)
         {
-            _authService = new AuthService();
+            _authService = authService;
             LoginCommand = new RelayCommand(ExecuteLoginAsync);
             ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword);
             GoToRegisterCommand = new RelayCommand(ExecuteGoToRegister);
@@ -96,11 +97,11 @@ namespace Readify.ViewModels
         /// <summary>
         /// Конструктор с выводом ошибки
         /// </summary>
-        public LoginViewModel(string message)
+        public LoginViewModel(IAuthService authService, string message)
         {
             ShowError(message);
 
-            _authService = new AuthService();
+            _authService = authService;
             LoginCommand = new RelayCommand(ExecuteLoginAsync);
             ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword);
             GoToRegisterCommand = new RelayCommand(ExecuteGoToRegister);

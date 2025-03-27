@@ -1,9 +1,9 @@
-﻿using Readify.DTO.Books;
-using Readify.DTO.Library;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Readify.DTO.Users;
+using Readify.Pages.MainMenu.Profile;
+using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels.MainMenu;
-using System.Drawing;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -17,42 +17,17 @@ namespace Readify.Pages.MainMenu
     /// </summary>
     public partial class ProfilePage : UserControl
     {
-        private UserDTO _currentUser = null!;
-
-        /// <summary>
-        /// Профиль показываемого пользователя
-        /// </summary>
-        public UserDTO CurrentUser
-        {
-            get => _currentUser;
-        }
+        private IUserService _userService = App.ServiceProvider.GetService<IUserService>()!;
 
         /// <summary>
         /// Конструктор
         /// </summary>
-        /// <param name="userDTO"></param>
-        public ProfilePage(UserDTO userDTO)
+        /// <param name="user">Данные пользователя</param>
+        public ProfilePage(UserDTO user)
         {
             InitializeComponent();
-            _currentUser = userDTO;
-            DataContext = new ProfileViewModel(userDTO);
-        }
-
-        /// <summary>
-        /// Метод прокрутки книг и отзывов
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HorizontalScroll_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            var scrollViewer = (ScrollViewer)sender;
-            if (scrollViewer.ExtentWidth > scrollViewer.ViewportWidth)
-            {
-                scrollViewer.ScrollToHorizontalOffset(
-                    scrollViewer.HorizontalOffset + (e.Delta > 0 ? -25 : 25)
-                );
-                e.Handled = true;
-            }
+            DataContext = new ProfileViewModel(_userService, user);
+            ProfileFrame.Navigate(new ProfileMainPage(user));
         }
 
         /// <summary>

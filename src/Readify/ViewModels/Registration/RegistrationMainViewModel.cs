@@ -3,6 +3,7 @@ using Readify.DTO.Users;
 using Readify.Pages;
 using Readify.Pages.Registartion;
 using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels.Base;
 using ReadifyChecker;
 using System.Windows;
@@ -19,7 +20,7 @@ namespace Readify.ViewModels.Registration
         
         private const string REQUIRED_TO_FILL_IN_ERROR = "Поле обязательно для заполнения";
 
-        private readonly RegistrationService _registrationService;
+        private readonly IRegistrationService _registrationService;
 
         private readonly PasswordChecker _passwordChecker;
         private readonly EmailChecker _emailChecker;
@@ -199,9 +200,9 @@ namespace Readify.ViewModels.Registration
         /// <summary>
         /// Конструктор
         /// </summary>
-        public RegistrationMainViewModel()
+        public RegistrationMainViewModel(IRegistrationService registrationService)
         {
-            _registrationService = new RegistrationService();
+            _registrationService = registrationService;
 
             _passwordChecker = new PasswordChecker();
             _emailChecker = new EmailChecker();
@@ -220,9 +221,9 @@ namespace Readify.ViewModels.Registration
         /// Конструктор, использующийся для перехода со страницы <see cref="RegistrationEmailPage"/>
         /// </summary>
         /// <param name="registrationDTO">Данные, которые вводил пользователь</param>
-        public RegistrationMainViewModel(RegistrationDTO registrationDTO)
+        public RegistrationMainViewModel(IRegistrationService registrationService, RegistrationDTO registrationDTO)
         {
-            _registrationService = new RegistrationService();
+            _registrationService = registrationService;
 
             Email = registrationDTO.Email!;
             Password = registrationDTO.Password!;

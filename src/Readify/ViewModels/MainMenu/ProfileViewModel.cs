@@ -12,12 +12,7 @@ namespace Readify.ViewModels.MainMenu
 {
     public class ProfileViewModel : BaseViewModel
     {
-        private const string NULL_BOOKS_CURRENT_TEXT = "Вы не добавили ни одной книги";
-        private const string NULL_BOOKS_USER_TEXT = "Пользователь не добавил ни одной книги";
-        private const string NULL_REVIEWS_CURRENT_TEXT = "Вы не написали ни одного отзыва";
-        private const string NULL_REVIEWS_USER_TEXT = "Пользователь не написал ни одного отзыва";
-
-        private UserService _userService;
+        private IUserService _userService;
 
         private byte[] _currentUserAvatarBytes = null!;
 
@@ -27,9 +22,6 @@ namespace Readify.ViewModels.MainMenu
 
         private int _currentUserSubscribers;
         private int _currentUserSubscribtions;
-        private int _currentUserCountReviews;
-        private int _currentUserCountLikes;
-        private int _currentUserId;
 
         private UserDTO _currentUser;
 
@@ -64,85 +56,6 @@ namespace Readify.ViewModels.MainMenu
                     AvatarImage = ApplicationUser.AvatarImage,
                     Name = ApplicationUser.Name
                 };
-            }
-        }
-
-        /// <summary>
-        /// Текск "Книг не добавлено"
-        /// </summary>
-        public string NullBooksText
-        {
-            get
-            {
-                if (App.CurrentUser.Id == CurrentUser.Id)
-                    return NULL_BOOKS_CURRENT_TEXT;
-                else return NULL_BOOKS_USER_TEXT;
-            }
-        }
-
-        /// <summary>
-        /// Текск "Отзывов не написано"
-        /// </summary>
-        public string NullReviewsText
-        {
-            get 
-            {
-                if (App.CurrentUser.Id == CurrentUser.Id)
-                    return NULL_REVIEWS_CURRENT_TEXT;
-                else return NULL_REVIEWS_USER_TEXT;
-            }
-        }
-
-        /// <summary>
-        /// Видимость "Книг не добавлено"
-        /// </summary>
-        public bool IsNullBooksVisible
-        {
-            get 
-            {
-                if (CurrentUser.Books?.Count == 0)
-                    return true;
-                else return false;
-            }
-
-        }
-
-        /// <summary>
-        /// Видимость "Отзывов не написано"
-        /// </summary>
-        public bool IsNullReviewsVisible
-        {
-            get
-            {
-                if (CurrentUser.Reviews?.Count == 0)
-                    return true;
-                else return false;
-            }
-        }
-
-        /// <summary>
-        /// Видимость "Показать все" книг
-        /// </summary>
-        public bool IsShowAllBooksVisible
-        {
-            get
-            {
-                if (CurrentUser.Books?.Count > 3)
-                    return true;
-                else return false;
-            }
-        }
-
-        /// <summary>
-        /// Видимость "Показать все" отзывов
-        /// </summary>
-        public bool IsShowAllReviewsVisible
-        {
-            get
-            {
-                if (CurrentUser.Reviews?.Count > 3)
-                    return true;
-                else return false;
             }
         }
 
@@ -198,33 +111,6 @@ namespace Readify.ViewModels.MainMenu
         {
             get => _currentUserDescription == null ? "Чудесный пользователь Readify" : _currentUserDescription;
             set => SetField(ref _currentUserDescription, value);
-        }
-
-        /// <summary>
-        /// Количество отзывов
-        /// </summary>
-        public int CurrentReviews
-        {
-            get => _currentUserCountReviews;
-            set => SetField(ref _currentUserCountReviews, value);
-        }
-
-        /// <summary>
-        /// Количество отзывов
-        /// </summary>
-        public int CurrentLikes
-        {
-            get => _currentUserCountLikes;
-            set => SetField(ref _currentUserCountLikes, value);
-        }
-
-        /// <summary>
-        /// Id пользователя
-        /// </summary>
-        public int CurrentId
-        {
-            get => _currentUserId;
-            set => SetField(ref _currentUserId, value);
         }
 
         /// <summary>
@@ -299,10 +185,9 @@ namespace Readify.ViewModels.MainMenu
         public ICommand EditUserCommand { get; }
 
         /// <summary>
-        /// Команда, срабатывающая при нажатии на никнейм автора книги
+        /// Инициализация всех данных пользователя
         /// </summary>
-        public ICommand ShowAuthorCommand { get; }
-
+        /// <param name="userDTO"></param>
         private void SetUserValues(UserDTO userDTO)
         {
             CurrentUser = userDTO;
@@ -315,44 +200,18 @@ namespace Readify.ViewModels.MainMenu
 
             CurrentSubscribers = userDTO.Subscribers?.Count ?? 0;
             CurrentSubscribtions = userDTO.Subscriptions?.Count ?? 0;
-            CurrentReviews = userDTO.Reviews?.Count ?? 0;
-            CurrentId = userDTO.Id!;
         }
-
-
-        public ProfileViewModel()
+        
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="userService">Сервис управления пользователями</param>
+        /// <param name="user">Информация пользователя</param>
+        public ProfileViewModel(IUserService userService, UserDTO user)
         {
-            SetUserValues(ApplicationUser);
-            _userService = new UserService();
-
-            ShowAuthorCommand = new AsyncRelayCommand<int>(ExecuteShowAuthorAsync);
-        }
-
-        public ProfileViewModel(UserDTO userDTO)
-        {
-            SetUserValues(userDTO);
-            _userService = new UserService();
-
-            ShowAuthorCommand = new AsyncRelayCommand<int>(ExecuteShowAuthorAsync);
-        }
-
-        public async Task ExecuteShowAuthorAsync(int idAuthor)
-        {
-            if (idAuthor != CurrentId)
-            {
-                var getUser = await _userService.GetUserByIdAsync(idAuthor);
-
-                if (getUser == null)
-                    MessageBox.Show("Ошибка");
-
-                ProfilePage newProfilePage = new ProfilePage(getUser!);
-                App.ProfilePage = newProfilePage;
-
-                var mainMenuPageData = App.MainMenuPage?.DataContext! as MainMenuViewModel;
-                mainMenuPageData!.UpdateVisibility();
-
-                App.MainMenuPage!.MainMenuFrame.Navigate(newProfilePage);
-            }
+            SetUserValues(user);
+            _userService = userService; 
+            _currentUser = user;
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Readify"
         mc:Ignorable="d"
-        Title="Readify" MinHeight="600" MinWidth="1200" 
+        Title="Readify" MinHeight="770" MinWidth="1200" 
         WindowStartupLocation="CenterScreen" 
         Icon="pack://application:,,,/Images/Logo/Logo.png">
     
