@@ -1,4 +1,7 @@
-﻿using Readify.ViewModels;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.Services;
+using Readify.Services.Base;
+using Readify.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,13 +14,15 @@ namespace Readify.Pages
     /// </summary>
     public partial class LoginPage : UserControl
     {
+        private IAuthService _authService = App.ServiceProvider.GetService<IAuthService>()!;
+
         /// <summary>
         /// Конструктор
         /// </summary>
         public LoginPage()
         {
             InitializeComponent();
-            DataContext = new LoginViewModel();
+            DataContext = new LoginViewModel(_authService);
         }
 
         /// <summary>
@@ -27,7 +32,7 @@ namespace Readify.Pages
         public LoginPage(string error)
         {
             InitializeComponent();
-            DataContext = new LoginViewModel(error);
+            DataContext = new LoginViewModel(_authService, error);
         }
 
         /// <summary>

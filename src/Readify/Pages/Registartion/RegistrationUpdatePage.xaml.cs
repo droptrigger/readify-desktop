@@ -1,4 +1,7 @@
-﻿using Readify.ViewModels.Registration;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.Services;
+using Readify.Services.Base;
+using Readify.ViewModels.Registration;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,10 +14,12 @@ namespace Readify.Pages.Registartion
     /// </summary>
     public partial class RegistrationUpdatePage : UserControl
     {
+        private IRegistrationService _registrationService = App.ServiceProvider.GetService<IRegistrationService>()!;
+
         public RegistrationUpdatePage()
         {
             InitializeComponent();
-            DataContext = new RegistrationUpdateViewModel();
+            DataContext = new RegistrationUpdateViewModel(_registrationService);
         }
 
         /// <summary>

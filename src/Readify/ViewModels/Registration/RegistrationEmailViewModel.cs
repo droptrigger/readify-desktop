@@ -19,8 +19,8 @@ namespace Readify.ViewModels.Registration
     {
         private string _emailText = "Мы отправили код на адрес ";
         private readonly RegistrationDTO _registrationDTO;
-        private readonly RegistrationService _registrationService;
-        private readonly AuthService _authService;
+        private readonly IRegistrationService _registrationService;
+        private readonly IAuthService _authService;
         private readonly string[] _code = new string[6];
 
         private string _errorMessage = string.Empty;
@@ -146,10 +146,13 @@ namespace Readify.ViewModels.Registration
         /// Конструктор
         /// </summary>
         /// <param name="registrationDTO"></param>
-        public RegistrationEmailViewModel(RegistrationDTO registrationDTO)
+        public RegistrationEmailViewModel(
+            IAuthService authService, 
+            IRegistrationService registrationService, 
+            RegistrationDTO registrationDTO)
         {
-            _registrationService = new RegistrationService();
-            _authService = new AuthService();
+            _registrationService = registrationService;
+            _authService = authService;
 
             _registrationDTO = registrationDTO;
             EmailText += registrationDTO.Email;

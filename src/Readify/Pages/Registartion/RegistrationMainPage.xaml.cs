@@ -1,4 +1,7 @@
-﻿using Readify.DTO.Users;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.DTO.Users;
+using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels.Registration;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,13 +15,15 @@ namespace Readify.Pages.Registartion
     /// </summary>
     public partial class RegistrationMainPage : UserControl
     {
+        private IRegistrationService _registrationService = App.ServiceProvider.GetService<IRegistrationService>()!;
+
         /// <summary>
         /// Конструктор
         /// </summary>
         public RegistrationMainPage()
         {
             InitializeComponent();
-            DataContext = new RegistrationMainViewModel();
+            DataContext = new RegistrationMainViewModel(_registrationService);
         }
 
         /// <summary>
@@ -28,7 +33,7 @@ namespace Readify.Pages.Registartion
         public RegistrationMainPage(RegistrationDTO registrationDTO)
         {
             InitializeComponent();
-            DataContext = new RegistrationMainViewModel(registrationDTO);
+            DataContext = new RegistrationMainViewModel(_registrationService, registrationDTO);
         }
 
         /// <summary>

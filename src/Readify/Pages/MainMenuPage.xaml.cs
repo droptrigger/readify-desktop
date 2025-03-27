@@ -1,4 +1,7 @@
-﻿using Readify.Pages.MainMenu;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.Pages.MainMenu;
+using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels;
 using System;
 using System.Linq;
@@ -14,6 +17,8 @@ namespace Readify.Pages
     /// </summary>
     public partial class MainMenuPage : UserControl
     {
+        private IAuthService _authService = App.ServiceProvider.GetService<IAuthService>()!;   
+
         /// <summary>
         /// Список скроллов, при наведении мышки на которыз скролл не двигался
         /// </summary>
@@ -30,7 +35,7 @@ namespace Readify.Pages
         {
             InitializeComponent();
             NavigateToProfilePage();
-            DataContext = new MainMenuViewModel();
+            DataContext = new MainMenuViewModel(_authService);
         }
 
         /// <summary>
@@ -50,7 +55,6 @@ namespace Readify.Pages
         private void NavigateToProfilePage()
         {
             ProfilePage profilePage = new ProfilePage(App.CurrentUser);
-            App.ProfilePage = profilePage;
             MainMenuFrame.Navigate(profilePage);
         }
 

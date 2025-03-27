@@ -1,7 +1,8 @@
-﻿using Readify.DTO.Users;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.DTO.Users;
 using Readify.Pages;
-using Readify.Pages.MainMenu;
 using Readify.Services;
+using Readify.Services.Base;
 using System.Net.Http;
 using System.Windows;
 
@@ -17,46 +18,31 @@ namespace Readify
         /// </summary>
         private AuthService _authService = new AuthService();
 
-        private static UserDTO _currentUser = null!;
-
-        private static MainMenuPage _mainMenuPage = null!;
-
-        private static ProfilePage _profilePage = null!;
+        /// <summary>
+        /// Сервайс провайдер для реализации DI
+        /// </summary>
+        public static IServiceProvider ServiceProvider { get; private set; } = null!;
 
         /// <summary>
         /// Текущий авторизованный пользователь
         /// </summary>
-        public static UserDTO CurrentUser
-        {
-            get => _currentUser;
-            set => _currentUser = value;
-        }
+        public static UserDTO CurrentUser { get; set; } = null!;
 
         /// <summary>
         /// Текущий авторизованный пользователь
         /// </summary>
-        public static MainMenuPage MainMenuPage
-        {
-            get => _mainMenuPage;
-            set => _mainMenuPage = value;
-        }
-
+        public static MainMenuPage MainMenuPage { get; set; } = null!;
 
         /// <summary>
-        /// Текущая страница профиля
-        /// </summary>
-        public static ProfilePage ProfilePage
-        {
-            get => _profilePage;
-            set => _profilePage = value;
-        }
-
-        /// <summary>
-        /// Метод, который вызывавется при запуске приложения
+        /// Метод, который вызывавется при запуске приложения (проверка refresh-токена)
         /// </summary>
         /// <param name="e"></param>
         protected override async void OnStartup(StartupEventArgs e)
         {
+            var serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            ServiceProvider = serviceCollection.BuildServiceProvider();
+
             base.OnStartup(e);
 
             var mainWindow = new MainWindow();
@@ -85,6 +71,13 @@ namespace Readify
             }
 
             mainWindow.Show();
+        }
+
+        private void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IRegistrationService, RegistrationService>();
         }
     }
 

@@ -1,4 +1,7 @@
-﻿using Readify.DTO.Users;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.DTO.Users;
+using Readify.Services;
+using Readify.Services.Base;
 using Readify.ViewModels.Registration;
 using System.Windows.Controls;
 
@@ -9,6 +12,8 @@ namespace Readify.Pages.Registartion
     /// </summary>
     public partial class RegistrationCapthaPage : UserControl
     {
+        private IRegistrationService registrationService = App.ServiceProvider.GetService<IRegistrationService>()!;
+
         /// <summary>
         /// Конструктор
         /// </summary>
@@ -16,7 +21,7 @@ namespace Readify.Pages.Registartion
         public RegistrationCapthaPage(RegistrationDTO registrationDTO)
         {
             InitializeComponent();
-            DataContext = new RegistrationCaptchaViewModel(registrationDTO);
+            DataContext = new RegistrationCaptchaViewModel(registrationService, registrationDTO);
         }
     }
 }
