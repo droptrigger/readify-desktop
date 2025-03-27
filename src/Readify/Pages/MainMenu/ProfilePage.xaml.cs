@@ -19,11 +19,18 @@ namespace Readify.Pages.MainMenu
     {
         private UserDTO _currentUser = null!;
 
+        /// <summary>
+        /// Профиль показываемого пользователя
+        /// </summary>
         public UserDTO CurrentUser
         {
             get => _currentUser;
         }
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="userDTO"></param>
         public ProfilePage(UserDTO userDTO)
         {
             InitializeComponent();
@@ -31,6 +38,11 @@ namespace Readify.Pages.MainMenu
             DataContext = new ProfileViewModel(userDTO);
         }
 
+        /// <summary>
+        /// Метод прокрутки книг и отзывов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HorizontalScroll_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             var scrollViewer = (ScrollViewer)sender;
@@ -43,23 +55,28 @@ namespace Readify.Pages.MainMenu
             }
         }
 
+        /// <summary>
+        /// Метод, срабатываемый при наведении на надпись с подписчиками.
+        /// 
+        /// Является workaround'ом для перекраски SVG (Триггеры не перекрашивали SVG)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Followers_MouseEnter(object sender, MouseEventArgs e)
         {
             FollowersSVG.Fill = Brushes.Red;
         }
 
+        /// <summary>
+        /// Метод, срабатываемый при убирании курсора с надписи с подписчиками.
+        /// 
+        /// Является workaround'ом для перекраски SVG (Триггеры не перекрашивали SVG)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Followers_MouseLeave(object sender, MouseEventArgs e)
         {
             FollowersSVG.Fill = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#515355"));
-        }
-
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var data = (sender! as TextBlock).DataContext as LibraryDTO;
-
-
-            var viewModel = DataContext as ProfileViewModel;
-            viewModel!.ShowAuthorCommand.Execute(data!.Book!.Author!.Id);
         }
     }
 }

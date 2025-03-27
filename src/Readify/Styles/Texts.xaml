@@ -173,6 +173,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
+    <!-- Стиль для блока меню -->
     <Style x:Key="MenuTextStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontSize" Value="20"/>
@@ -188,6 +189,7 @@
         </Style.Triggers>
     </Style>
 
+    <!-- Текст для кнопки "Выход" -->
     <Style x:Key="LogoutTextStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontWeight" Value="Medium"/>
