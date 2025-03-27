@@ -8,7 +8,7 @@
              d:DataContext="{d:DesignInstance Type=registration:LoginViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1300">
-    
+
     <Grid Background="#F9F9F9">
         <ScrollViewer
             HorizontalScrollBarVisibility="Hidden"
@@ -16,30 +16,39 @@
             <Border Padding="50 0 50 0"
                    Width="450"
                    VerticalAlignment="Center">
+
+                <!-- Основа -->
                 <StackPanel Orientation="Vertical">
 
+                    <!-- Логотип -->
                     <Image Source="pack://application:,,,/Images/Logo/logo.png" Width="85"     
                       RenderOptions.BitmapScalingMode="HighQuality" Margin="0 0 0 10"/>
 
+                    <!-- Текст "Войдите в Readify" -->
                     <TextBlock Style="{StaticResource CenteredHeaderTextStyle}"
                           Text="Войдите в Readify"/>
 
+                    <!-- Блок с ошибкой -->
                     <Border CornerRadius="8"
                             Background="#FFEBE9"
                             BorderBrush="#FFC1C0"
                             BorderThickness="2"
                             Margin="0 0 0 10"
                             Padding="20 20 20 20" 
-                            Visibility="{Binding IsErrorVisible, Converter={StaticResource BoolToVisibilityConverter}}" >
+                            Visibility="{Binding IsErrorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                         <DockPanel LastChildFill="True">
+                            
+                            <!-- Текст ошибки -->
                             <TextBlock DockPanel.Dock="Left" Style="{StaticResource ErrorTextBlockStyle}" 
                                   Text="{Binding ErrorMessage}" MaxWidth="290" x:Name="ErrorText"/>
+                            
+                            <!-- Кнопка закрытия окна с ошибкой -->
                             <Image DockPanel.Dock="Right" 
-                          Source="pack://application:,,,/Images/close.png" 
-                          Width="20"
-                          HorizontalAlignment="Right"
-                          VerticalAlignment="Center"
-                              Cursor="Hand">
+                                   Source="pack://application:,,,/Images/close.png" 
+                                   Width="20"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Cursor="Hand">
                                 <Image.InputBindings>
                                     <MouseBinding 
                                    Command="{Binding HiddenErrorCommand}"
@@ -90,9 +99,9 @@
                         </StackPanel>
                     </Border>
                     <Border Padding="20 18 20 18" 
-                       CornerRadius="8" 
-                       BorderBrush="#C5C5C5"
-                       BorderThickness="2">
+                            CornerRadius="8" 
+                            BorderBrush="#C5C5C5"
+                            BorderThickness="2">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock Text="Новичок в Readify? " 
                                   Style="{StaticResource RegularLoginTextStyle}"/>
@@ -111,6 +120,6 @@
                 </StackPanel>
             </Border>
         </ScrollViewer>
- 
+
     </Grid>
 </UserControl>

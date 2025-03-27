@@ -23,8 +23,10 @@
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
+                    <!-- Левая часть страницы (информация о пользователе) -->
                     <Border Style="{StaticResource ProfilePageMainBorderStyle}">
                         <StackPanel>
+                            <!-- Аватар текущего пользователя -->
                             <Border Style="{StaticResource ProfileAvatarStyle}">
                                 <Grid>
                                     <Image Source="{Binding CurrentUserAvatarBytes, Converter={StaticResource ImageConverter}}"
@@ -39,6 +41,7 @@
                                     </Image>
                                 </Grid>
                             </Border>
+                            <!-- Имя пользователя (Name) -->
                             <TextBox Margin="-3 15 0 0" Text="{Binding CurrentName}" 
                                      FontWeight="Bold" FontFamily="{StaticResource Inter}"
                                      FontSize="22" IsReadOnly="True"
@@ -46,6 +49,7 @@
                                      Background="Transparent"
                                      Cursor="IBeam"/>
 
+                            <!-- Имя пользователя (Username) -->
                             <TextBox Text="{Binding CurrentUsername}" 
                                        FontWeight="Light" FontFamily="{StaticResource Inter}"
                                        FontSize="21" Foreground="#595959"
@@ -54,29 +58,32 @@
                                          Background="Transparent"
                                          Cursor="IBeam"/>
 
+                            <!-- Кнопка "Обновить профиль" -->
                             <Button Content="Обновить профиль" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding EditUserCommand}"
                                     Visibility="{Binding IsEditButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            
+                            <!-- Кнопка "Подписаться" -->
                             <Button Content="Подписаться" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding FollowUserCommand}"
                                     Visibility="{Binding IsFollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                            <!-- Кнопка "Отписаться" -->
                             <Button Content="Отписаться" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding UnfollowUserCommand}" 
                                     Visibility="{Binding IsUnfollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
+                            <!-- Блок с подписчиками и подписками-->
                             <StackPanel Orientation="Horizontal">
                                 <!-- Подписчики -->
                                 <StackPanel Orientation="Horizontal" Cursor="Hand" MouseEnter="Followers_MouseEnter" MouseLeave="Followers_MouseLeave">
                                     <StackPanel.Style>
                                         <Style TargetType="StackPanel">
-                                            <!-- Стили по умолчанию -->
                                             <Setter Property="TextBlock.Foreground" Value="#515355"/>
                                             <Setter Property="Path.Fill" Value="#9198A1"/>
 
-                                            <!-- Триггер при наведении -->
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <!-- Меняем цвет текста и иконки -->
                                                     <Setter Property="TextBlock.Foreground" Value="Red"/>
                                                     <Setter Property="Path.Fill" Value="Red"/>
                                                 </Trigger>
@@ -93,16 +100,18 @@
                                                  FontWeight="Bold" FontFamily="{StaticResource Inter}"
                                                  FontSize="15" VerticalAlignment="Center"/>
 
-                                    <!-- Текст "подписчиков" -->
+                                    <!-- Текст "Тодписчиков" -->
                                     <TextBlock Margin="0 4 0 0" Text=" подписчиков" 
                                          FontWeight="DemiBold" FontFamily="{StaticResource Inter}"
                                          FontSize="15" VerticalAlignment="Center"/>
                                 </StackPanel>
 
+                                <!-- Разделяющая точка -->
                                 <TextBlock Margin="0 3 0 0" Text=" · " 
                                    FontWeight="Bold" FontFamily="{StaticResource Inter}"
                                    FontSize="15" VerticalAlignment="Center" Foreground="#515355"/>
                                 
+                                <!-- Подписки -->
                                 <StackPanel Orientation="Horizontal" Cursor="Hand">
                                     <StackPanel.Style>
                                         <Style TargetType="StackPanel">
@@ -116,22 +125,28 @@
                                             </Style.Triggers>
                                         </Style>
                                     </StackPanel.Style>
-
+                                    
+                                    <!-- Количество подписчиков -->
                                     <TextBlock Margin="0 4 0 0" Text="{Binding CurrentSubscribtions}" 
-                 FontWeight="Bold" FontFamily="{StaticResource Inter}"
-                 FontSize="15" VerticalAlignment="Center"/>
+                                                 FontWeight="Bold" FontFamily="{StaticResource Inter}"
+                                                 FontSize="15" VerticalAlignment="Center"/>
+                                    <!-- Текст подписок -->
                                     <TextBlock Margin="0 4 0 0" Text=" подписок" 
-                 FontWeight="DemiBold" FontFamily="{StaticResource Inter}"
-                 FontSize="15" VerticalAlignment="Center"/>
+                                             FontWeight="DemiBold" FontFamily="{StaticResource Inter}"
+                                             FontSize="15" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
                           
-
+                            <!-- Описание пользователя -->
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                                    
+                                    <!-- SVG-иконка -->
                                     <Path Data="M1.75 1h8.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 10.25 10H7.061l-2.574 2.573A1.458 1.458 0 0 1 2 11.543V10h-.25A1.75 1.75 0 0 1 0 8.25v-5.5C0 1.784.784 1 1.75 1ZM1.5 2.75v5.5c0 .138.112.25.25.25h1a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h3.5a.25.25 0 0 0 .25-.25v-5.5a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25Zm13 2a.25.25 0 0 0-.25-.25h-.5a.75.75 0 0 1 0-1.5h.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 14.25 12H14v1.543a1.458 1.458 0 0 1-2.487 1.03L9.22 12.28a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l2.22 2.22v-2.19a.75.75 0 0 1 .75-.75h1a.25.25 0 0 0 .25-.25Z"
                                       Fill="#515355" VerticalAlignment="Top" Margin="0 5 0 0">
                                     </Path>
+                                    
+                                    <!-- Текст описания пользователя -->
                                     <TextBox Margin="5 4 0 0" Text="{Binding CurrentDescriptrion}" 
                                              FontWeight="SemiBold" FontFamily="{StaticResource Inter}"
                                              FontSize="15" Foreground="#9198A1" TextWrapping="Wrap" MaxWidth="283"
@@ -145,6 +160,7 @@
                         </StackPanel>
                     </Border>
 
+                    <!-- Правая часть страницы (Книги и отзывы пользователя) -->
                     <Border  Padding="30 0" Grid.Column="1">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -153,18 +169,16 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <Border Visibility="{Binding IsNullBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}" 
-                                Grid.Row="0" Background="#F8F8F8" CornerRadius="10" Margin="0 35 0 10">
-                                <TextBlock Text="{Binding NullBooksText}" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Center"
-                                           FontSize="20" FontFamily="{StaticResource Inter}"
-                                           FontWeight="Medium" Foreground="#535353"/>
-                            </Border>
-
+                            <!-- Блок с бибилотекой пользователя (добавленными книгами) -->
                             <StackPanel Grid.Row="0">
+                                <!-- Блок надписей "Добавленные книги" и "Показать все" -->
                                 <DockPanel LastChildFill="True">
+                                    
+                                    <!-- Надпись "Добавленные книги" -->
                                     <TextBlock Text="Добавленные книги" FontFamily="{StaticResource Inter}"
                                        FontWeight="Bold" FontSize="20"/>
+                                    
+                                    <!-- Надпись "Показать все" -->
                                     <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
                                        FontWeight="Regular" FontSize="20" HorizontalAlignment="Right" 
                                        Visibility="{Binding IsShowAllBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -182,6 +196,7 @@
                                     </TextBlock>
                                 </DockPanel>
 
+                                <!-- Прокрутка книг пользователя -->
                                 <ScrollViewer x:Name="BooksHorizontalScroll" Margin="-5 0"
                                               VerticalScrollBarVisibility="Disabled"
                                               HorizontalScrollBarVisibility="Hidden"
@@ -193,6 +208,8 @@
                                             <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True"/>
                                         </Style>
                                     </ScrollViewer.Resources>
+                                    
+                                    <!-- Реализация элементов прокрутки-->
                                     <ItemsControl ItemsSource="{Binding CurrentUser.Books}"
                                                     Margin="0 10 0 0">
                                         <ItemsControl.ItemsPanel>
@@ -202,19 +219,26 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
+                                                
+                                                <!-- Книга -->
                                                 <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
                                                         Background="#EFEFEF" CornerRadius="8" HorizontalAlignment="Center">
                                                     <StackPanel HorizontalAlignment="Center" Width="200">
+                                                        
+                                                        <!-- Изображение книги -->
                                                         <Border Height="215" Width="145">
                                                             <Image Source="{Binding Book.CoverImage, Converter={StaticResource ImageConverter}}"
                                                                     Stretch="UniformToFill"  RenderOptions.BitmapScalingMode="HighQuality"
                                                                     Margin="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                         </Border>
                                                        
+                                                        <!-- Название книги -->
                                                         <TextBlock Text="{Binding Book.Name}" Width="145"
                                                                    FontFamily="{StaticResource Inter}"
                                                                    TextAlignment="Center" FontSize="20"
                                                                    Margin="0 5 0 2" FontWeight="SemiBold"/>
+                                                        
+                                                        <!-- Автор книги -->
                                                         <TextBlock Text="{Binding Book.Author.Nickname}" MaxWidth="145" HorizontalAlignment="Center"
                                                                    FontFamily="{StaticResource Inter}" FontWeight="Regular"
                                                                     TextAlignment="Center" FontSize="16">
@@ -231,20 +255,13 @@
                                                                 </Style>
                                                             </TextBlock.Style>
                                                             <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="MouseLeftButtonDown"> <!-- Изменено с GotFocus -->
+                                                                <i:EventTrigger EventName="MouseLeftButtonDown">
                                                                     <i:InvokeCommandAction 
                                                                         Command="{Binding DataContext.ShowAuthorCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                                         CommandParameter="{Binding Book.Author.Id}"/>
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </TextBlock>
-                                                        <i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                                <i:InvokeCommandAction 
-                                                                    Command="{Binding SelectAvatarCommand}"
-                                                                    CommandParameter="{Binding Book.Id}"/>
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
                                                     </StackPanel>
                                                 </Border>
                                             </DataTemplate>
@@ -253,18 +270,26 @@
                                 </ScrollViewer>
                             </StackPanel>
 
-                            <Border Visibility="{Binding IsNullReviewsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                Grid.Row="1" Background="#F8F8F8" CornerRadius="10" Margin="0 35 0 10">
-                                <TextBlock Text="{Binding NullReviewsText}" 
+                            <!-- Плашка, показывающаяся, если пользователь не добавил ни одной книги -->
+                            <Border Visibility="{Binding IsNullBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                Grid.Row="0" Background="#F8F8F8" CornerRadius="10" Margin="0 35 0 10">
+                                <TextBlock Text="{Binding NullBooksText}" 
                                            VerticalAlignment="Center" HorizontalAlignment="Center"
                                            FontSize="20" FontFamily="{StaticResource Inter}"
                                            FontWeight="Medium" Foreground="#535353"/>
                             </Border>
-
+        
+                            <!-- Блок с отзывами пользователя -->
                             <StackPanel Grid.Row="1">
+
+                                <!-- Блок надписей "Отзывы о книгах" и "Показать все" -->
                                 <DockPanel LastChildFill="True">
+                                    
+                                    <!-- Надпись "Отзывы о книгах" -->
                                     <TextBlock Text="Отзывы о книгах" FontFamily="{StaticResource Inter}"
                                        FontWeight="Bold" FontSize="20"/>
+                                    
+                                    <!-- Надпись "Показать все" -->
                                     <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
                                        FontWeight="Regular" FontSize="20" HorizontalAlignment="Right"
                                        Cursor="Hand" Visibility="{Binding IsShowAllReviewsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -280,6 +305,8 @@
                                         </TextBlock.Style>
                                     </TextBlock>
                                 </DockPanel>
+                                
+                                <!-- Прокрутка отзывов -->
                                 <ScrollViewer x:Name="ReviewsHorizontalScroll" Margin="-5 0"
                                               VerticalScrollBarVisibility="Disabled"
                                               HorizontalScrollBarVisibility="Hidden"
@@ -291,6 +318,8 @@
                                             <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True"/>
                                         </Style>
                                     </ScrollViewer.Resources>
+                                    
+                                    <!-- Реализация элементов прокрутки -->
                                     <ItemsControl ItemsSource="{Binding CurrentUser.Reviews}"
                                                     Margin="0 10 0 0">
                                         <ItemsControl.ItemsPanel>
@@ -300,20 +329,27 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
+                                                
+                                                <!-- Отзыв -->
                                                 <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
                                                         Background="#EFEFEF" CornerRadius="8" HorizontalAlignment="Center">
                                                     <StackPanel HorizontalAlignment="Center">
+                                                        
+                                                        <!-- Изображение книги, на которую сделан отзыв -->
                                                         <Border Height="215" Width="140">
                                                             <Image Source="{Binding Book.CoverImage, Converter={StaticResource ImageConverter}}"
                                                                     Stretch="UniformToFill" 
                                                                     Margin="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                         </Border>
 
+                                                        <!-- Название книги -->
                                                         <TextBlock Text="{Binding Book.Name}" 
                                                                    FontFamily="{StaticResource Inter}"
                                                                    TextAlignment="Center" FontSize="18"
                                                                    Margin="0 5" FontWeight="SemiBold"
                                                                    TextWrapping="Wrap"/>
+                                                        
+                                                        <!-- Автор книги -->
                                                         <TextBlock Text="{Binding Rating}" Width="190" Margin="0 0 0 0"
                                                                    FontFamily="{StaticResource Inter}" FontWeight="Bold"
                                                                    Foreground="#000000" TextAlignment="Right" FontSize="20"/>
@@ -331,6 +367,15 @@
                                     </ItemsControl>
                                 </ScrollViewer>
                             </StackPanel>
+
+                            <!-- Плашка, показывающаяся, если пользователь не написал ни одного отзыва -->
+                            <Border Visibility="{Binding IsNullReviewsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Grid.Row="1" Background="#F8F8F8" CornerRadius="10" Margin="0 35 0 10">
+                                <TextBlock Text="{Binding NullReviewsText}" 
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           FontSize="20" FontFamily="{StaticResource Inter}"
+                                           FontWeight="Medium" Foreground="#535353"/>
+                            </Border>
                         </Grid>
                     </Border>
                 </Grid>

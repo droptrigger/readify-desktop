@@ -14,15 +14,18 @@ namespace Readify.Pages
     /// </summary>
     public partial class MainMenuPage : UserControl
     {
-        string[] scrolls =
+        /// <summary>
+        /// Список скроллов, при наведении мышки на которыз скролл не двигался
+        /// </summary>
+        private string[] _scrolls =
         {
               "BooksHorizontalScroll",
               "ReviewsHorizontalScroll",
         };
 
-        private bool _mayScroll = true;
-
-
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public MainMenuPage()
         {
             InitializeComponent();
@@ -41,6 +44,9 @@ namespace Readify.Pages
             }
         }
 
+        /// <summary>
+        /// Логика навигации на страницу профиля
+        /// </summary>
         private void NavigateToProfilePage()
         {
             ProfilePage profilePage = new ProfilePage(App.CurrentUser);
@@ -48,6 +54,11 @@ namespace Readify.Pages
             MainMenuFrame.Navigate(profilePage);
         }
 
+        /// <summary>
+        /// Обработка прокрути колесиком на скроллере
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (IsMouseOverChildScrollViewer(e.OriginalSource))
@@ -56,48 +67,58 @@ namespace Readify.Pages
                 return;
             }
 
-            var scrollViewer = (ScrollViewer)sender;
-            if (_mayScroll)
-                scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + (e.Delta > 0 ? -25 : 25));
+            MainScrollViewer.ScrollToVerticalOffset(MainScrollViewer.VerticalOffset + (e.Delta > 0 ? -25 : 25));
             e.Handled = true;
         }
 
+        /// <summary>
+        /// Метод проверки находится ли мышка на каком-нибудь скроллере
+        /// </summary>
+        /// <param name="originalSource"></param>
+        /// <returns></returns>
         private bool IsMouseOverChildScrollViewer(object originalSource)
         {
             var element = originalSource as DependencyObject;
             while (element != null)
             {
-                if ((element is ScrollViewer sv && scrolls.Contains(sv.Name)))
+                if (element is ScrollViewer sv && _scrolls.Contains(sv.Name))
                     return true;
                 element = VisualTreeHelper.GetParent(element);
             }
             return false;
         }
 
-        private void UserAvatarBorder_MouseEnter(object sender, MouseEventArgs e)
-        {
-            _mayScroll = false;
-            UserPopup.IsOpen = true;
+        /// <summary>
+        /// Метод наведения мышки на область с аватаром
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UserAvatarBorder_MouseEnter(object sender, MouseEventArgs e) 
+            => UserPopup.IsOpen = true;
 
-        }
-
+        /// <summary>
+        /// Метод отведения мышки от области с аватаром
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserAvatarBorder_MouseLeave(object sender, MouseEventArgs e)
-        {
-            _mayScroll = true;
-            UserPopup.IsOpen = false;
-        }
+            => UserPopup.IsOpen = false;
 
+        /// <summary>
+        /// Метод наведения мышки на меню выхода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Popup_MouseEnter(object sender, MouseEventArgs e)
-        {
-            _mayScroll = false;
-            // Удерживаем Popup открытым при наведении на него
-            UserPopup.StaysOpen = true;
-        }
-
+            => UserPopup.StaysOpen = true;
+        
+        /// <summary>
+        /// Метод отведения мышки с меню выхода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Popup_MouseLeave(object sender, MouseEventArgs e)
         {
-            _mayScroll = true;
-            // Возвращаем стандартное поведение
             UserPopup.StaysOpen = false;
             UserPopup.IsOpen = false;
         }
