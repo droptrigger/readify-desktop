@@ -109,9 +109,9 @@
 
     <!-- Стиль для кнопки "Подписаться/Отписаться" -->
     <Style x:Key="SubscriptionButtonStyle" TargetType="Button">
-        <Setter Property="Width" Value="150"/>
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Width" Value="120"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Margin" Value="0 12 0 0"/>
@@ -120,6 +120,7 @@
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">

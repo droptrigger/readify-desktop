@@ -1,4 +1,5 @@
 ﻿using Readify.DTO.Users;
+using Readify.Services.Base;
 using Readify.ViewModels.MainMenu.Profile;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,11 @@ namespace Readify.Pages.MainMenu.Profile
     {
         private UserDTO _currentUser;
 
-        public ProfileFollowersPage(UserDTO currentUser)
+        public ProfileFollowersPage(IUserService userService, UserDTO currentUser)
         {
             _currentUser = currentUser;
             InitializeComponent();
-            DataContext = new ProfileFollowersViewModel(currentUser);
+            DataContext = new ProfileFollowersViewModel(userService, currentUser);
         }
     }
 }

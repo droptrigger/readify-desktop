@@ -183,7 +183,7 @@ namespace Readify.ViewModels.MainMenu
         /// Инициализация всех данных пользователя
         /// </summary>
         /// <param name="userDTO"></param>
-        private void SetUserValues(UserDTO userDTO)
+        public void SetUserValues(UserDTO userDTO)
         {
             CurrentUser = userDTO;
 
@@ -197,8 +197,8 @@ namespace Readify.ViewModels.MainMenu
             CurrentSubscribtions = userDTO.Subscriptions?.Count ?? 0;
 
             SetEditButtonVisibility();
-            SetVisibilityButtons();
             SetTextFollowButton();
+            SetVisibilityButtons();
         }
         
         /// <summary>
@@ -276,7 +276,7 @@ namespace Readify.ViewModels.MainMenu
             try
             {
                 var currentPage = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
-                currentPage!.ProfileFrame.Navigate(new ProfileFollowersPage(await _userService.GetUserByIdAsync(CurrentUser.Id)));
+                currentPage!.ProfileFrame.Navigate(new ProfileFollowersPage(_userService, await _userService.GetUserByIdAsync(CurrentUser.Id)));
             }
             catch (Exception ex)
             {

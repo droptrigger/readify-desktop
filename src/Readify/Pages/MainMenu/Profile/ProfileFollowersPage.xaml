@@ -45,16 +45,39 @@
                                                     </Image.RenderTransform>
                                                 </Image>
                                             </Grid>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                    <i:InvokeCommandAction 
+                                                        Command="{Binding DataContext.ShowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding Id}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                         </Border>
-                                        <StackPanel Orientation="Vertical" Margin="10 10 0 0">
+                                        <StackPanel Orientation="Vertical" Margin="10 15 0 0">
                                             <StackPanel Orientation="Horizontal" 
                                                     VerticalAlignment="Bottom" 
                                                     Height="22">
-                                                <TextBox Style="{StaticResource FollowersHeaderTextBlockStyle}"
-                                                        Text="{Binding Name}"/>
+                                                <TextBlock Style="{StaticResource FollowersHeaderTextBlockStyle}"
+                                                        Text="{Binding Name}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                            <i:InvokeCommandAction 
+                                                                    Command="{Binding DataContext.ShowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    CommandParameter="{Binding Id}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </TextBlock>
 
-                                                <TextBox Style="{StaticResource FollowersSubheaderTextBlockStyle}"
-                                                    Text="{Binding Nickname}"/>
+                                                <TextBlock Style="{StaticResource FollowersSubheaderTextBlockStyle}"
+                                                    Text="{Binding Nickname}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                            <i:InvokeCommandAction 
+                                                                    Command="{Binding DataContext.ShowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    CommandParameter="{Binding Id}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </TextBlock>
                                             </StackPanel>
 
                                             <TextBox Style="{StaticResource FollowersDescriptionTextBlockStyle}"
@@ -62,12 +85,18 @@
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel>
-                                        <Button Style="{StaticResource SubscriptionButtonStyle}" Content="Подписаться" />
-                                        <Button Style="{StaticResource SubscriptionButtonStyle}" Content="Отписаться" />
+                                        <Button Style="{StaticResource SubscriptionButtonStyle}" Content="Подписаться" 
+                                                Visibility="{Binding IsFollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                Command="{Binding DataContext.FollowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding Id}"/>
+                                        <Button Style="{StaticResource SubscriptionButtonStyle}" Content="Отписаться"
+                                                Visibility="{Binding IsUnfollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                Command="{Binding DataContext.UnfollowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding Id}"/>
                                     </StackPanel>
                                 </DockPanel>
                             </Border>
-                            <Border Height="0.1" Background="Black"/>
+                            <Border Height="0.1" Background="#1D1F22"/>
                         </StackPanel>
                         <!-- Подписчик -->
 
