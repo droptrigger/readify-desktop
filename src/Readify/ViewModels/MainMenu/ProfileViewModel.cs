@@ -175,9 +175,14 @@ namespace Readify.ViewModels.MainMenu
         public ICommand EditUserCommand { get; }
 
         /// <summary>
-        /// Команда срабатывающая при нажатии на кнопку "Обновить профиль"
+        /// Команда срабатывающая при нажатии на "... подписчиков"
         /// </summary>
         public ICommand GoToFollowersPage { get; }
+
+        /// <summary>
+        /// Команда, срабатывающая при нажатии на "... подписок"
+        /// </summary>
+        public ICommand GoToFollowingPage { get; }
 
         /// <summary>
         /// Инициализация всех данных пользователя
@@ -215,6 +220,7 @@ namespace Readify.ViewModels.MainMenu
             FollowUserCommand = new AsyncRelayCommand(ExecuteFollowUserCommandAsync);
             UnfollowUserCommand = new AsyncRelayCommand(ExecuteUnfollowUserCommandAsync);
             GoToFollowersPage = new AsyncRelayCommand(ExecuteGoToFollowersPageAsync);
+            GoToFollowingPage = new AsyncRelayCommand(ExecuteGoToFollowingPageAsync);
         }
 
         /// <summary>
@@ -233,6 +239,12 @@ namespace Readify.ViewModels.MainMenu
             {
                 SetUserValues(await _userService.FollowToUserAsync(subscribeDTO));
                 App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
+
+                if (App.IsMainOnProfile && App.ProfilePage.ProfileFrame.Content is ProfileFollowersPage)
+                {
+                    ProfileFollowersPage page = App.ProfilePage.ProfileFrame.Content as ProfileFollowersPage;
+                    page.UpdateFollowers(CurrentUser);
+                }
             }
             catch (HttpRequestException)
             {
@@ -243,6 +255,7 @@ namespace Readify.ViewModels.MainMenu
                 MessageBox.Show($"Error: {ex}");
             }
         }
+
 
         /// <summary>
         /// 
@@ -260,6 +273,13 @@ namespace Readify.ViewModels.MainMenu
             {
                 SetUserValues(await _userService.UnfollowForUserAsync(subscribeDTO));
                 App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
+
+                if (App.IsMainOnProfile && App.ProfilePage.ProfileFrame.Content is ProfileFollowersPage)
+                {
+                    ProfileFollowersPage page = App.ProfilePage.ProfileFrame.Content as ProfileFollowersPage;
+                    page.UpdateFollowers(CurrentUser);
+                }
+                
             }
             catch (HttpRequestException)
             {
@@ -282,7 +302,19 @@ namespace Readify.ViewModels.MainMenu
             {
                 MessageBox.Show(ex.Message);
             }
+        }
 
+        public async Task ExecuteGoToFollowingPageAsync()
+        {
+            try
+            {
+                var currentPage = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
+                currentPage!.ProfileFrame.Navigate(new ProfileFollowingPage(_userService, await _userService.GetUserByIdAsync(CurrentUser.Id)));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>

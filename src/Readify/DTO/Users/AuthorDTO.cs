@@ -41,6 +41,16 @@
             }
         }
 
+        public bool IsYouTexVisible
+        {
+            get
+            {
+                if (Id == App.CurrentUser.Id)
+                    return true;
+
+                return false;
+            }
+        }
         public bool IsUnfollowButtonVisible
         {
             get

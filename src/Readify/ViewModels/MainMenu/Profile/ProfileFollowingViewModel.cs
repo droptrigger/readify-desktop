@@ -1,24 +1,23 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Readify.DTO.Subscribe;
 using Readify.DTO.Users;
-using Readify.Pages.MainMenu;
 using Readify.Pages.MainMenu.Profile;
-using Readify.Services;
+using Readify.Pages.MainMenu;
 using Readify.Services.Base;
-using Readify.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows;
+using Readify.ViewModels.Base;
 
-namespace Readify.ViewModels.MainMenu.Profile
+namespace Readify.ViewModels.MainMenu.Profile 
 {
-    class ProfileFollowersViewModel : BaseViewModel
+    class ProfileFollowingViewModel : BaseViewModel
     {
         private IUserService _userService;
 
@@ -42,10 +41,10 @@ namespace Readify.ViewModels.MainMenu.Profile
             get
             {
                 if (CurrentUser.Id == App.CurrentUser.Id)
-                    return $"У Вас пока что нет подписчиков.";
+                    return $"Вы ни на кого не подписаны";
                 else
-                    return $"У {CurrentUser.Nickname} пока что нет подписчиков.";
-            } 
+                    return $"{CurrentUser.Nickname} ни на кого не подписан.";
+            }
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace Readify.ViewModels.MainMenu.Profile
         /// <summary>
         /// Конструктор
         /// </summary>
-        public ProfileFollowersViewModel(IUserService userService, UserDTO currentUser)
+        public ProfileFollowingViewModel(IUserService userService, UserDTO currentUser)
         {
             _userService = userService;
             CurrentUser = currentUser;
@@ -116,13 +115,20 @@ namespace Readify.ViewModels.MainMenu.Profile
         {
             if (idAuthor != CurrentUser.Id)
             {
-                var getUser = await _userService.GetUserByIdAsync(idAuthor);
+                try
+                {
+                    var getUser = await _userService.GetUserByIdAsync(idAuthor);
 
-                if (getUser == null)
-                    MessageBox.Show("Ошибка");
+                    if (getUser == null)
+                        MessageBox.Show("Ошибка");
 
-                var mainMenuPageData = App.MainMenuPage?.DataContext! as MainMenuViewModel;
-                mainMenuPageData!.NavigateToProfile(getUser!);
+                    var mainMenuPageData = App.MainMenuPage?.DataContext! as MainMenuViewModel;
+                    mainMenuPageData!.NavigateToProfile(getUser!);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
 
             }
         }
@@ -153,8 +159,8 @@ namespace Readify.ViewModels.MainMenu.Profile
 
                 vm!.SetUserValues(CurrentUser);
                 ProfilePage currentPage = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
-                currentPage.ProfileFrame.Navigate(new ProfileFollowersPage(_userService, CurrentUser));
-                
+                currentPage.ProfileFrame.Navigate(new ProfileFollowingPage(_userService, CurrentUser));
+
             }
             catch (HttpRequestException)
             {
@@ -191,7 +197,7 @@ namespace Readify.ViewModels.MainMenu.Profile
 
                 vm!.SetUserValues(CurrentUser);
                 ProfilePage currentPage = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
-                currentPage.ProfileFrame.Navigate(new ProfileFollowersPage(_userService, CurrentUser));
+                currentPage.ProfileFrame.Navigate(new ProfileFollowingPage(_userService, CurrentUser));
             }
             catch (HttpRequestException)
             {
@@ -211,6 +217,5 @@ namespace Readify.ViewModels.MainMenu.Profile
             else
                 IsNullFollowVisible = false;
         }
-
     }
 }

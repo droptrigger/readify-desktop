@@ -1,19 +1,20 @@
-﻿<UserControl x:Class="Readify.Pages.MainMenu.Profile.ProfileFollowersPage"
+﻿<UserControl x:Class="Readify.Pages.MainMenu.Profile.ProfileFollowingPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Readify.Pages.MainMenu.Profile" 
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:Readify.Pages.MainMenu.Profile" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
              xmlns:main="clr-namespace:Readify.ViewModels.MainMenu.Profile"
-             d:DataContext="{d:DesignInstance Type=main:ProfileFollowersViewModel}"
-             mc:Ignorable="d" d:DesignWidth="800" Height="Auto">
-    <!-- Блок с подписчиками пользователя -->
+             d:DataContext="{d:DesignInstance Type=main:ProfileFollowingViewModel}"
+             d:DesignHeight="589.437" d:DesignWidth="800">
+
+     <!-- Блок с подписками пользователя -->
     <StackPanel>
         <DockPanel LastChildFill="True">
 
-            <!-- Надпись "Подписчики пользователя" -->
-            <TextBlock Text="Подписчики пользователя" FontFamily="{StaticResource Inter}"
+            <!-- Надпись "Подписки пользователя" -->
+            <TextBlock Text="Подписки пользователя" FontFamily="{StaticResource Inter}"
                                     FontWeight="Bold" FontSize="20"/>
 
             <!-- Надпись "Вернуться в профиль" -->
@@ -38,7 +39,7 @@
                 </i:Interaction.Triggers>
             </TextBlock>
         </DockPanel>
-        <ItemsControl ItemsSource="{Binding CurrentUser.Subscribers}" x:Name="Followers">
+        <ItemsControl ItemsSource="{Binding CurrentUser.Subscriptions}" x:Name="Followers">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical"/>
@@ -121,13 +122,11 @@
                         </Border>
                         <Border Height="0.2" Background="#1D1F22"/>
                     </StackPanel>
-                    <!-- Подписчик -->
-
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <!-- Плашка, показывающаяся, если у пользователя нет подписчиков -->
+        <!-- Плашка, показывающаяся, если пользователь ни на кого не подписан -->
         <Border Visibility="{Binding IsNullFollowVisible, Converter={StaticResource BoolToVisibilityConverter}}" 
                             Grid.Row="0" Background="#F8F8F8" CornerRadius="10" Height="400" >
             <StackPanel VerticalAlignment="Center">
@@ -143,5 +142,4 @@
 
         </Border>
     </StackPanel>
-
 </UserControl>

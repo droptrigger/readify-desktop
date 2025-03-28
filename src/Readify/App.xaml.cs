@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Readify.DTO.Users;
 using Readify.Pages;
+using Readify.Pages.MainMenu;
 using Readify.Services;
 using Readify.Services.Base;
 using System.Net.Http;
@@ -32,6 +33,25 @@ namespace Readify
         /// Текущий авторизованный пользователь
         /// </summary>
         public static MainMenuPage MainMenuPage { get; set; } = null!;
+
+        public static bool IsMainOnProfile
+        {
+            get
+            {
+                return MainMenuPage.MainMenuFrame.Content is ProfilePage;
+            }
+        }
+
+        /// <summary>
+        /// Текущая страница профиля
+        /// </summary>
+        public static ProfilePage ProfilePage 
+        {
+            get
+            {
+                return MainMenuPage.MainMenuFrame.Content as ProfilePage;
+            } 
+        }
 
         /// <summary>
         /// Метод, который вызывавется при запуске приложения (проверка refresh-токена)

@@ -1,4 +1,5 @@
-﻿using Readify.DTO.Users;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.DTO.Users;
 using Readify.Services.Base;
 using Readify.ViewModels.MainMenu.Profile;
 using System;
@@ -19,22 +20,14 @@ using System.Windows.Shapes;
 namespace Readify.Pages.MainMenu.Profile
 {
     /// <summary>
-    /// Логика взаимодействия для ProfileFollowersAndFollowingPage.xaml
+    /// Логика взаимодействия для ProfileFollowingPage.xaml
     /// </summary>
-    public partial class ProfileFollowersPage : UserControl
+    public partial class ProfileFollowingPage : UserControl
     {
-        private UserDTO _currentUser;
-
-        public ProfileFollowersPage(IUserService userService, UserDTO currentUser)
+        public ProfileFollowingPage(IUserService userService, UserDTO user)
         {
-            _currentUser = currentUser;
             InitializeComponent();
-            DataContext = new ProfileFollowersViewModel(userService, currentUser);
+            DataContext = new ProfileFollowingViewModel(userService, user);
         }
-
-        public void UpdateFollowers(UserDTO user)
-        {
-            Followers.ItemsSource = user.Subscribers;
-        } 
     }
 }

@@ -11,9 +11,9 @@ namespace Readify.ViewModels.MainMenu.Profile
     public class ProfileMainViewModel : BaseViewModel
     {
         private const string NULL_BOOKS_CURRENT_TEXT = "Вы не добавили ни одной книги";
-        private const string NULL_BOOKS_USER_TEXT = "Пользователь не добавил ни одной книги";
+        private const string NULL_BOOKS_USER_TEXT = " не добавил(a) ни одной книги";
         private const string NULL_REVIEWS_CURRENT_TEXT = "Вы не написали ни одного отзыва";
-        private const string NULL_REVIEWS_USER_TEXT = "Пользователь не написал ни одного отзыва";
+        private const string NULL_REVIEWS_USER_TEXT = " не написал(a) ни одного отзыва";
 
         private IUserService _userService;
 
@@ -28,7 +28,7 @@ namespace Readify.ViewModels.MainMenu.Profile
             {
                 if (App.CurrentUser.Id == CurrentUser.Id)
                     return NULL_BOOKS_CURRENT_TEXT;
-                else return NULL_BOOKS_USER_TEXT;
+                else return CurrentUser.Nickname + NULL_BOOKS_USER_TEXT;
             }
         }
 
@@ -41,7 +41,7 @@ namespace Readify.ViewModels.MainMenu.Profile
             {
                 if (App.CurrentUser.Id == CurrentUser.Id)
                     return NULL_REVIEWS_CURRENT_TEXT;
-                else return NULL_REVIEWS_USER_TEXT;
+                else return CurrentUser.Nickname + NULL_REVIEWS_USER_TEXT;
             }
         }
 
