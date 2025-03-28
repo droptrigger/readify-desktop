@@ -12,11 +12,6 @@
     <Grid>
         <Border>
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="20" />
-                </Grid.RowDefinitions>
-
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -77,6 +72,14 @@
                             <StackPanel Orientation="Horizontal">
                                 <!-- Подписчики -->
                                 <StackPanel Orientation="Horizontal" Cursor="Hand" MouseEnter="Followers_MouseEnter" MouseLeave="Followers_MouseLeave">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction 
+                                                    Command="{Binding GoToFollowersPage}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
                                     <StackPanel.Style>
                                         <Style TargetType="StackPanel">
                                             <Setter Property="TextBlock.Foreground" Value="#515355"/>
@@ -116,7 +119,7 @@
                                     <StackPanel.Style>
                                         <Style TargetType="StackPanel">
                                             <Setter Property="TextBlock.Foreground" Value="#515355"/>
-                                            <Setter Property="Path.Fill" Value="#9198A1"/>
+                                            <Setter Property="Path.Fill" Value="#515355"/>
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter Property="TextBlock.Foreground" Value="Red"/>
@@ -134,6 +137,13 @@
                                     <TextBlock Margin="0 4 0 0" Text=" подписок" 
                                              FontWeight="DemiBold" FontFamily="{StaticResource Inter}"
                                              FontSize="15" VerticalAlignment="Center"/>
+                                    
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction 
+                                                    Command="{Binding GoToFollowingPage}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                 </StackPanel>
                             </StackPanel>
                           
@@ -161,10 +171,13 @@
                     </Border>
 
                     <!-- Правая часть страницы (Книги и отзывы пользователя) -->
-                    <Border  Padding="30 0" Grid.Column="1">
+                    <Border Grid.Column="1" Padding="30 0"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch">
                         <Frame x:Name="ProfileFrame" 
-                               NavigationUIVisibility="Hidden"/>
-
+                           NavigationUIVisibility="Hidden"
+                           VerticalAlignment="Top"
+                            HorizontalAlignment="Stretch"/>
                     </Border>
                 </Grid>
             </Grid>
