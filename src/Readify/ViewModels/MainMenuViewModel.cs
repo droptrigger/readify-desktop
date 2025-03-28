@@ -97,9 +97,9 @@ namespace Readify.ViewModels
         public ICommand GoToLibararyPageCommand { get; }
 
         /// <summary>
-        /// Команда обработки нажатия на "Подписки"
+        /// Команда обработки нажатия на "Профиль"
         /// </summary>
-        public ICommand GoToSubscriptionsPageCommand { get; }
+        public ICommand GoToProfilePageCommand { get; }
 
         /// <summary>
         /// Команда обработки нажатия на "Выход"
@@ -121,6 +121,8 @@ namespace Readify.ViewModels
             ApplicationUserUsername = App.CurrentUser.Nickname!;
             LogoutCommand = new AsyncRelayCommand(ExecuteLogoutAsync);
             BackFramePageCommand = new AsyncRelayCommand(ExecuteBackFramePageCommandAsync);
+
+            GoToProfilePageCommand = new AsyncRelayCommand(ExecuteGoToProfilePageAsync);
         }
 
         private async Task ExecuteBackFramePageCommandAsync()
@@ -134,6 +136,19 @@ namespace Readify.ViewModels
                     await _userService.GetUserByIdAsync(previousUser.Id)));
 
                 UpdateVisibility();
+            }
+        }
+
+        private async Task ExecuteGoToProfilePageAsync()
+        {
+            try
+            {
+                App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
+                App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(App.CurrentUser));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
