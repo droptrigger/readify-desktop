@@ -18,6 +18,7 @@ namespace Readify.Pages
     public partial class MainMenuPage : UserControl
     {
         private IAuthService _authService = App.ServiceProvider.GetService<IAuthService>()!;   
+        private IUserService _userService = App.ServiceProvider.GetService<IUserService>()!;   
 
         /// <summary>
         /// Список скроллов, при наведении мышки на которыз скролл не двигался
@@ -35,7 +36,7 @@ namespace Readify.Pages
         {
             InitializeComponent();
             NavigateToProfilePage();
-            DataContext = new MainMenuViewModel(_authService);
+            DataContext = new MainMenuViewModel(_authService, _userService);
         }
 
         /// <summary>

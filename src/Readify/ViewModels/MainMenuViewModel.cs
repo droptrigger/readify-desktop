@@ -7,6 +7,7 @@ using Readify.Services;
 using Readify.Services.Base;
 using Readify.ViewModels.Base;
 using Readify.ViewModels.MainMenu;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Navigation;
@@ -29,6 +30,11 @@ namespace Readify.ViewModels
         /// Сервис для выхода из аккаунта
         /// </summary>
         private IAuthService _authService;
+
+        /// <summary>
+        /// Сервис для работы с пользователями
+        /// </summary>
+        private IUserService _userService;
 
         /// <summary>
         /// 
@@ -105,28 +111,29 @@ namespace Readify.ViewModels
         /// </summary>
         public ICommand BackFramePageCommand { get; }
 
-        public MainMenuViewModel(IAuthService authService)
+        public MainMenuViewModel(IAuthService authService, IUserService userService)
         {
             _navigationStack.Push(App.CurrentUser);
             _authService = authService;
+            _userService = userService;
 
             ApplicationUserAvatarBytes = App.CurrentUser.AvatarImage!;
             ApplicationUserUsername = App.CurrentUser.Nickname!;
             LogoutCommand = new AsyncRelayCommand(ExecuteLogoutAsync);
-            BackFramePageCommand = new RelayCommand(ExecuteBackFramePageCommand);
+            BackFramePageCommand = new AsyncRelayCommand(ExecuteBackFramePageCommandAsync);
         }
 
-        private void ExecuteBackFramePageCommand()
+        private async Task ExecuteBackFramePageCommandAsync()
         {
             if (_navigationStack.Count > 1)
             {
                 _navigationStack.Pop();
-
                 var previousUser = _navigationStack.Peek();
 
-                UpdateVisibility();
+                App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(
+                    await _userService.GetUserByIdAsync(previousUser.Id)));
 
-                App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(previousUser));
+                UpdateVisibility();
             }
         }
 

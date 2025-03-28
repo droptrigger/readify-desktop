@@ -64,7 +64,7 @@
                                     Visibility="{Binding IsEditButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             
                             <!-- Кнопка "Подписаться" -->
-                            <Button Content="Подписаться" Style="{StaticResource ProfileUserButton}" 
+                            <Button Content="{Binding TextFollowButton}" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding FollowUserCommand}"
                                     Visibility="{Binding IsFollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
 

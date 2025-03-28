@@ -1,4 +1,5 @@
-﻿using Readify.DTO.Users;
+﻿using Readify.DTO.Subscribe;
+using Readify.DTO.Users;
 
 namespace Readify.Services.Base
 {
@@ -13,5 +14,19 @@ namespace Readify.Services.Base
         /// <param name="id">Id пользователя</param>
         /// <returns>Информация о пользователе</returns>
         Task<UserDTO> GetUserByIdAsync(int id);
+
+        /// <summary>
+        /// Метод подписки на пользователя
+        /// </summary>
+        /// <param name="subscribeDTO">Данные подписки</param>
+        /// <returns>Информация об авторе (на кого подписываются)</returns>
+        Task<UserDTO> FollowToUserAsync(SubscribeDTO subscribeDTO);
+
+        /// <summary>
+        /// Метод отписки от пользователя
+        /// </summary>
+        /// <param name="subscribeDTO">Данные подписки</param>
+        /// <returns>Информация об авторе (на кого подписываются)</returns>
+        Task<UserDTO> UnfollowForUserAsync(SubscribeDTO subscribeDTO);
     }
 }

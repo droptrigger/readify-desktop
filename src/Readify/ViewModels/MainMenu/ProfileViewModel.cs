@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Readify.DTO.Subscribe;
 using Readify.DTO.Users;
 using Readify.Pages;
 using Readify.Pages.MainMenu;
 using Readify.Services;
 using Readify.Services.Base;
 using Readify.ViewModels.Base;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Input;
 
@@ -20,8 +22,14 @@ namespace Readify.ViewModels.MainMenu
         private string _currentUserUsername = string.Empty!;
         private string _currentUserDescription = string.Empty!;
 
+        private string _textFollowButton = string.Empty!;
+
         private int _currentUserSubscribers;
         private int _currentUserSubscribtions;
+
+        private bool _isFollowButtonVisible;
+        private bool _isUnfolowButtonVisible;
+        private bool _isEditButtonVisible;
 
         private UserDTO _currentUser;
 
@@ -45,18 +53,10 @@ namespace Readify.ViewModels.MainMenu
         /// <summary>
         /// 
         /// </summary>
-        public AuthorDTO AppplicationUserAsAuthor
+        public string TextFollowButton
         {
-            get
-            {
-                return new AuthorDTO
-                {
-                    Id = ApplicationUser.Id,
-                    Nickname = ApplicationUser.Nickname,
-                    AvatarImage = ApplicationUser.AvatarImage,
-                    Name = ApplicationUser.Name
-                };
-            }
+            get => _textFollowButton;
+            set => SetField(ref _textFollowButton, value);
         }
 
         /// <summary>
@@ -118,12 +118,8 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public bool IsEditButtonVisible
         {
-            get
-            {
-                if (ApplicationUser.Id == CurrentUser.Id)
-                    return true;
-                else return false;
-            }
+            get => _isEditButtonVisible;
+            set => SetField(ref _isEditButtonVisible, value);
         }
 
         /// <summary>
@@ -131,12 +127,8 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public bool IsFollowButtonVisible
         {
-            get
-            {
-                if (!CurrentUser.Subscribers!.Contains(AppplicationUserAsAuthor) && !IsEditButtonVisible)
-                    return true;
-                else return false;
-            }
+            get => _isFollowButtonVisible;
+            set => SetField(ref _isFollowButtonVisible, value);
         }
 
         /// <summary>
@@ -144,16 +136,12 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public bool IsUnfollowButtonVisible
         {
-            get
-            {
-                if (CurrentUser.Subscribers!.Contains(AppplicationUserAsAuthor) && !IsEditButtonVisible)
-                    return true;
-                else return false;
-            }
+            get => _isUnfolowButtonVisible;
+            set => SetField(ref _isUnfolowButtonVisible, value);
         }
 
         /// <summary>
-        /// Текст для блока с подписками
+        /// Текст для блока с подписчиками
         /// </summary>
         public string Followers
         {
@@ -200,6 +188,10 @@ namespace Readify.ViewModels.MainMenu
 
             CurrentSubscribers = userDTO.Subscribers?.Count ?? 0;
             CurrentSubscribtions = userDTO.Subscriptions?.Count ?? 0;
+
+            SetEditButtonVisibility();
+            SetVisibilityButtons();
+            SetTextFollowButton();
         }
         
         /// <summary>
@@ -210,8 +202,105 @@ namespace Readify.ViewModels.MainMenu
         public ProfileViewModel(IUserService userService, UserDTO user)
         {
             SetUserValues(user);
+
             _userService = userService; 
-            _currentUser = user;
+
+            FollowUserCommand = new AsyncRelayCommand(ExecuteFollowUserCommandAsync);
+            UnfollowUserCommand = new AsyncRelayCommand(ExecuteUnfollowUserCommandAsync);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private async Task ExecuteFollowUserCommandAsync()
+        {
+            SubscribeDTO subscribeDTO = new SubscribeDTO
+            {
+                AuthorId = CurrentUser.Id,
+                SubscriberId = App.CurrentUser.Id
+            };
+
+            try
+            {
+                SetUserValues(await _userService.FollowToUserAsync(subscribeDTO));
+                App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show($"Отсутствует подключение к серверу");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex}");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private async Task ExecuteUnfollowUserCommandAsync()
+        {
+            SubscribeDTO subscribeDTO = new SubscribeDTO
+            {
+                AuthorId = CurrentUser.Id,
+                SubscriberId = App.CurrentUser.Id
+            };
+
+            try
+            {
+                SetUserValues(await _userService.UnfollowForUserAsync(subscribeDTO));
+                App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show($"Отсутствует подключение к серверу");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex}");
+            }
+        }
+
+        /// <summary>
+        /// Метод для 
+        /// </summary>
+        private void SetEditButtonVisibility()
+        {
+            if (ApplicationUser.Id == CurrentUser.Id)
+                _isEditButtonVisible = true;
+            else 
+                _isEditButtonVisible = false;
+        }
+
+        private void SetTextFollowButton()
+        {
+            var hasSubscribers = App.CurrentUser.Subscribers?.Any() == true;
+
+            var isSubscribed = hasSubscribers && App.CurrentUser.Subscribers!
+                .Any(s => s.Id == CurrentUser?.Id);
+
+            if (isSubscribed)
+                TextFollowButton = "Подписаться в ответ";
+
+
+            else
+                TextFollowButton = "Подписаться";
+
+        }
+
+        private void SetVisibilityButtons()
+        {
+            var hasSubscribers = CurrentUser.Subscribers?.Any() == true;
+
+            var isSubscribed = hasSubscribers && CurrentUser.Subscribers!
+                .Any(s => s.Id == App.CurrentUser?.Id);
+
+
+            IsFollowButtonVisible = !isSubscribed && !IsEditButtonVisible;
+            IsUnfollowButtonVisible = isSubscribed && !IsEditButtonVisible;
+        }
+
     }
 }
