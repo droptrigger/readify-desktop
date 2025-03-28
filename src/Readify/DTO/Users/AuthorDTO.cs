@@ -21,5 +21,10 @@
         /// Имя пользователя
         /// </summary>
         public string? Name { get; set; } = null!;
+
+        /// <summary>
+        /// Описание пользователя
+        /// </summary>
+        public string? Description { get; set; } = null!;
     }
 }
