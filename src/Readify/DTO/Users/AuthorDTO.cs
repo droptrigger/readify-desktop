@@ -21,5 +21,48 @@
         /// Имя пользователя
         /// </summary>
         public string? Name { get; set; } = null!;
+
+        /// <summary>
+        /// Описание пользователя
+        /// </summary>
+        public string? Description { get; set; } = null!;
+
+        public bool IsFollowButtonVisible
+        {
+            get
+            {
+                if (Id == App.CurrentUser.Id)
+                    return false;
+
+                if (App.CurrentUser.Subscriptions!.Any(s => s.Id == Id))
+                    return false;
+
+                return true;
+            }
+        }
+
+        public bool IsYouTexVisible
+        {
+            get
+            {
+                if (Id == App.CurrentUser.Id)
+                    return true;
+
+                return false;
+            }
+        }
+        public bool IsUnfollowButtonVisible
+        {
+            get
+            {
+                if (Id == App.CurrentUser.Id)
+                    return false;
+
+                if (!App.CurrentUser.Subscriptions!.Any(s => s.Id == Id))
+                    return false;
+
+                return true;
+            }
+        }
     }
 }

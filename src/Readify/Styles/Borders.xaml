@@ -35,6 +35,21 @@
         </Setter>
     </Style>
 
+    <!-- Стиль для аватара подписчиков и подписок на главной панели -->
+    <Style x:Key="RoundAvatarFollowBorderStyle" TargetType="Border">
+        <Setter Property="Height" Value="80"/>
+        <Setter Property="Width" Value="80"/>
+        <Setter Property="Background" Value="#FFFFFF"/>
+        <Setter Property="CornerRadius" Value="100"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Clip">
+            <Setter.Value>
+                <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Стиль для панели выхода из аккаунта -->
     <Style x:Key="UserPopupStyle" TargetType="Popup">
         <Setter Property="AllowsTransparency" Value="True"/>

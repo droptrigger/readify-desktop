@@ -140,7 +140,7 @@ namespace Readify.ViewModels
         public void UpdateVisibility()
         {
             IsBackVisibility = _navigationStack.Count > 1;
-            IsLogoVisibility = _navigationStack.Peek().Id == App.CurrentUser.Id;
+            IsLogoVisibility = _navigationStack.Count() == 1;
         }
 
         /// <summary>
