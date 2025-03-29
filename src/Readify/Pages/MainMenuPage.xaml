@@ -68,15 +68,17 @@
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource MenuTextStyle}" Text="Книги">
+
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Поиск"/>
+                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Библиотека"/>
+                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Профиль">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding GoToProfilePageCommand}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         </TextBlock>
-                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Поиск"/>
-                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Библиотека"/>
-                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Профиль"/>
                     </StackPanel>
 
                     <!-- Меню, показывающееся при наведении на область с аватаром -->

@@ -143,6 +143,10 @@ namespace Readify.ViewModels
         {
             try
             {
+                _navigationStack.Clear();
+                _navigationStack.Push(App.CurrentUser);
+                UpdateVisibility();
+
                 App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
                 App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(App.CurrentUser));
             }

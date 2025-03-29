@@ -17,11 +17,11 @@ namespace ReadifyChecker
         {
             return !string.IsNullOrEmpty(username) &&
                    Regex.IsMatch(username, @"^
-                        (?![_])                  # Не начинается с _
+                        (?![_0-9])               # Не начинается с _ или цифры
                         (?!.*[_]{2,})            # Нет двух и более _ подряд
                         (?!.*[_]$)               # Не заканчивается на _
                         [a-zA-Z0-9_]{5,40}       # Длина 5-40, разрешенные символы
-                    $", RegexOptions.IgnorePatternWhitespace);
+            $", RegexOptions.IgnorePatternWhitespace);
         }
     }
 }

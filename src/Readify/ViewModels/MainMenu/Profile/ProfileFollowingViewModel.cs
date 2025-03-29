@@ -211,7 +211,7 @@ namespace Readify.ViewModels.MainMenu.Profile
 
         private void SetNullFollowVisible()
         {
-            if (CurrentUser.Subscribers!.Count == 0)
+            if (CurrentUser.Subscriptions!.Count == 0)
                 IsNullFollowVisible = true;
 
             else

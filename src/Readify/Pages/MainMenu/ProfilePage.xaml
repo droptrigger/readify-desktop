@@ -9,9 +9,13 @@
              d:DataContext="{d:DesignInstance Type=main:ProfileViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1100">
-    <Grid>
-        <Border>
+
+
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="20" />
+                </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -181,6 +185,6 @@
                     </Border>
                 </Grid>
             </Grid>
-        </Border>
-    </Grid>
+
+
 </UserControl>

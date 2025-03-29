@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Readify.Pages.MainMenu.Profile" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             mc:Ignorable="d" d:DesignWidth="800"
+             mc:Ignorable="d" d:DesignWidth="800" Height="661"
              xmlns:main="clr-namespace:Readify.ViewModels.MainMenu.Profile"
              d:DataContext="{d:DesignInstance Type=main:ProfileMainViewModel}">
     <Grid>
@@ -68,7 +68,20 @@
 
                             <!-- Книга -->
                             <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
-                                                        Background="#EFEFEF" CornerRadius="8" HorizontalAlignment="Center">
+                                    CornerRadius="8" HorizontalAlignment="Center">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <!-- Стандартный фон -->
+                                        <Setter Property="Background" Value="#FFFFFF"/>
+                                        <!-- Триггер при наведении -->
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#EFEFEF"/>
+                                                <!-- Замените на нужный цвет -->
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
                                 <StackPanel HorizontalAlignment="Center" Width="200">
 
                                     <!-- Изображение книги -->
@@ -130,6 +143,7 @@
             </StackPanel>
 
         </Border>
+
 
         <!-- Блок с отзывами пользователя -->
         <StackPanel Grid.Row="1">

@@ -51,14 +51,14 @@
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Border x:Name="UserAvatarBorder"
-                                        Style="{StaticResource RoundAvatarFollowBorderStyle}"
-                                        HorizontalAlignment="Right">
+                    Style="{StaticResource RoundAvatarFollowBorderStyle}"
+                    HorizontalAlignment="Right">
                                         <Grid>
                                             <Image Source="{Binding AvatarImage, Converter={StaticResource ImageConverter}}"
-                                                        Stretch="UniformToFill"
-                                                        RenderOptions.BitmapScalingMode="HighQuality"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center" >
+                                    Stretch="UniformToFill"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" >
                                                 <Image.RenderTransform>
                                                     <TransformGroup>
                                                         <TranslateTransform X="0" Y="0"/>
@@ -69,53 +69,53 @@
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                                 <i:InvokeCommandAction 
-                                                    Command="{Binding DataContext.ShowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding Id}"/>
+                                Command="{Binding DataContext.ShowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding Id}"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
                                     <StackPanel Orientation="Vertical" Margin="10 15 0 0">
                                         <StackPanel Orientation="Horizontal" 
-                                                VerticalAlignment="Bottom" 
-                                                Height="22">
+                            VerticalAlignment="Bottom" 
+                            Height="22">
                                             <TextBlock Style="{StaticResource FollowersHeaderTextBlockStyle}"
-                                                    Text="{Binding Name}">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                        <i:InvokeCommandAction 
-                                                                Command="{Binding DataContext.ShowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                CommandParameter="{Binding Id}"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                Text="{Binding Name}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction 
+                                            Command="{Binding DataContext.ShowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding Id}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                                             </TextBlock>
 
                                             <TextBlock Style="{StaticResource FollowersSubheaderTextBlockStyle}"
-                                                Text="{Binding Nickname}">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                        <i:InvokeCommandAction 
-                                                                Command="{Binding DataContext.ShowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                CommandParameter="{Binding Id}"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                            Text="{Binding Nickname}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction 
+                                            Command="{Binding DataContext.ShowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding Id}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                                             </TextBlock>
                                         </StackPanel>
 
                                         <TextBox Style="{StaticResource FollowersDescriptionTextBlockStyle}"
-                                            Text="{Binding Description}"/>
+                        Text="{Binding Description}"/>
                                     </StackPanel>
                                 </StackPanel>
                                 <StackPanel>
                                     <TextBlock  Text="Это вы" HorizontalAlignment="Right" Margin="0 17 0 0" Visibility="{Binding IsYouTexVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                FontFamily="{StaticResource Inter}" Foreground="#515355" FontWeight="SemiBold" FontSize="15"></TextBlock>
+                            FontFamily="{StaticResource Inter}" Foreground="#515355" FontWeight="SemiBold" FontSize="15"></TextBlock>
                                     <Button Style="{StaticResource SubscriptionButtonStyle}" Content="Подписаться" 
-                                            Visibility="{Binding IsFollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                            Command="{Binding DataContext.FollowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                            CommandParameter="{Binding Id}"/>
+                        Visibility="{Binding IsFollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                        Command="{Binding DataContext.FollowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding Id}"/>
                                     <Button Style="{StaticResource SubscriptionButtonStyle}" Content="Отписаться"
-                                            Visibility="{Binding IsUnfollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                            Command="{Binding DataContext.UnfollowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                            CommandParameter="{Binding Id}"/>
+                        Visibility="{Binding IsUnfollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                        Command="{Binding DataContext.UnfollowUserCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding Id}"/>
                                 </StackPanel>
                             </DockPanel>
                         </Border>

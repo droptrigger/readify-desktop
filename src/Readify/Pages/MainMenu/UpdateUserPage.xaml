@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="Readify.Pages.MainMenu.UpdateUserPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Readify.Pages.MainMenu" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <Border Width="170" 
+                    Height="165" 
+                    CornerRadius="100"
+                    Margin="0 10 0 10"
+                    HorizontalAlignment="Center" 
+                    Cursor="Hand">
+                <Border.Clip>
+                    <EllipseGeometry Center="65,65" RadiusX="65" RadiusY="65"/>
+                </Border.Clip>
+
+                <Grid>
+                    <Image Source="{Binding AvatarBytes, Converter={StaticResource ImageConverter}}"
+                                       Stretch="UniformToFill"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform X="0" Y="0"/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+
+                    <Border x:Name="HoverOverlay"
+                                        Background="#40000000"
+                                        CornerRadius="100"
+                                        Visibility="Collapsed">
+                        <Border.Clip>
+                            <EllipseGeometry Center="65,65" RadiusX="65" RadiusY="65"/>
+                        </Border.Clip>
+                    </Border>
+                </Grid>
+
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverOverlay"
+                                                 Storyboard.TargetProperty="Visibility">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+
+                    <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverOverlay"
+                                                 Storyboard.TargetProperty="Visibility">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}"/>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding SelectAvatarCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>
