@@ -207,4 +207,16 @@
         </Style.Triggers>
     </Style>
 
+    <!-- Стиль для счетчика символов -->
+    <Style x:Key="CharCounterStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#666"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Style.Triggers>
+            <Trigger Property="Text" Value="0">
+                <Setter Property="Foreground" Value="Red"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

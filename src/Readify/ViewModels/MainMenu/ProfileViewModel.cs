@@ -221,6 +221,20 @@ namespace Readify.ViewModels.MainMenu
             UnfollowUserCommand = new AsyncRelayCommand(ExecuteUnfollowUserCommandAsync);
             GoToFollowersPage = new AsyncRelayCommand(ExecuteGoToFollowersPageAsync);
             GoToFollowingPage = new AsyncRelayCommand(ExecuteGoToFollowingPageAsync);
+            EditUserCommand = new AsyncRelayCommand(ExecuteUpdateUserCommandAsync);
+        }
+
+        private async Task ExecuteUpdateUserCommandAsync()
+        {
+            try
+            {
+                App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
+                App.MainMenuPage.MainMenuFrame.Navigate(new UpdateUserPage());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);    
+            }
         }
 
         /// <summary>

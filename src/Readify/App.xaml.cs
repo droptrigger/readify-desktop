@@ -17,7 +17,7 @@ namespace Readify
         /// <summary>
         /// Сервис аутентификации
         /// </summary>
-        private AuthService _authService = new AuthService();
+       private AuthService _authService = new AuthService();
 
         /// <summary>
         /// Сервайс провайдер для реализации DI

@@ -160,6 +160,9 @@ namespace Readify.ViewModels
         {
             IsBackVisibility = _navigationStack.Count > 1;
             IsLogoVisibility = _navigationStack.Count() == 1;
+
+            ApplicationUserAvatarBytes = App.CurrentUser.AvatarImage!;
+            ApplicationUserUsername = App.CurrentUser.Nickname!;
         }
 
         /// <summary>

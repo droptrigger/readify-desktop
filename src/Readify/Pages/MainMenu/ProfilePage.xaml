@@ -4,18 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Readify.Pages.MainMenu"
-             xmlns:main="clr-namespace:Readify.ViewModels.MainMenu" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:main="clr-namespace:Readify.ViewModels.MainMenu" 
              d:DataContext="{d:DesignInstance Type=main:ProfileViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1100">
 
 
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="20" />
-                </Grid.RowDefinitions>
+
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

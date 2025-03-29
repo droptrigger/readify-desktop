@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.Services.Base;
+using Readify.ViewModels.MainMenu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +23,13 @@ namespace Readify.Pages.MainMenu
     /// </summary>
     public partial class UpdateUserPage : UserControl
     {
+        private IRegistrationService _registrationService = App.ServiceProvider.GetService<IRegistrationService>()!;
+        private IUserService _userService = App.ServiceProvider.GetService<IUserService>()!;
+
         public UpdateUserPage()
         {
             InitializeComponent();
+            DataContext = new UpdateUserViewModel(_registrationService, _userService);
         }
     }
 }

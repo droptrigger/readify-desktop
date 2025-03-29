@@ -5,17 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Readify.Pages.MainMenu.Profile" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             mc:Ignorable="d" d:DesignWidth="800" Height="661"
+             mc:Ignorable="d" d:DesignWidth="800" Height="Auto"
              xmlns:main="clr-namespace:Readify.ViewModels.MainMenu.Profile"
              d:DataContext="{d:DesignInstance Type=main:ProfileMainViewModel}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="315"/>
             <RowDefinition Height="315"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Блок с бибилотекой пользователя (добавленными книгами) -->
+        <!-- Блок с библиотекой пользователя (добавленными книгами) -->
         <StackPanel Grid.Row="0">
             <!-- Блок надписей "Добавленные книги" и "Показать все" -->
             <DockPanel LastChildFill="True">
