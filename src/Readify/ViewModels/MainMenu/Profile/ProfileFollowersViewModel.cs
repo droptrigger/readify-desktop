@@ -212,5 +212,16 @@ namespace Readify.ViewModels.MainMenu.Profile
                 IsNullFollowVisible = false;
         }
 
+        public async Task Update()
+        {
+            try
+            {
+                CurrentUser = await _userService.GetUserByIdAsync(CurrentUser.Id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

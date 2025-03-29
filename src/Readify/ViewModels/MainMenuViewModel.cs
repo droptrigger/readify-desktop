@@ -9,6 +9,7 @@ using Readify.ViewModels.Base;
 using Readify.ViewModels.MainMenu;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Xml.Schema;
@@ -17,7 +18,7 @@ namespace Readify.ViewModels
 {
     public class MainMenuViewModel : BaseViewModel
     {
-        private Stack<UserDTO> _navigationStack = new Stack<UserDTO>();
+        private Stack<object> _navigationStack = new Stack<object>();
 
         private byte[] _applicationUserAvatarBytes = null!;
         private string _applicationUserUsername = string.Empty!;
@@ -25,6 +26,15 @@ namespace Readify.ViewModels
 
         private bool _isLogoVisibility = true;
         private bool _isBackVisibility = false;
+
+        /// <summary>
+        /// Стэк открытых страниц внутри фрейма
+        /// </summary>
+        public Stack<object> NavigationStack 
+        {
+            get => _navigationStack;
+            set => SetField(ref _navigationStack, value);
+        }
 
         /// <summary>
         /// Сервис для выхода из аккаунта
@@ -113,7 +123,8 @@ namespace Readify.ViewModels
 
         public MainMenuViewModel(IAuthService authService, IUserService userService)
         {
-            _navigationStack.Push(App.CurrentUser);
+            NavigationStack.Push(App.InitProfilePage);
+
             _authService = authService;
             _userService = userService;
 
@@ -127,15 +138,34 @@ namespace Readify.ViewModels
 
         private async Task ExecuteBackFramePageCommandAsync()
         {
-            if (_navigationStack.Count > 1)
-            {
-                _navigationStack.Pop();
-                var previousUser = _navigationStack.Peek();
+            var page = NavigationStack.Peek();
 
-                App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(
-                    await _userService.GetUserByIdAsync(previousUser.Id)));
+            if (page is ProfilePage)
+            {
+                ProfilePage profile = (ProfilePage)page;
+                ProfileViewModel profileVM = (ProfileViewModel)profile.DataContext;
+
+                if (profileVM.NavigationStack.Count > 1)
+                    profileVM?.GoBackFrameAsync();
+
+                else
+                {
+                    if (NavigationStack.Count > 1)
+                        NavigationStack.Pop();
+
+                    page = NavigationStack.Peek();
+                    profile = (ProfilePage)page;
+                    profileVM = (ProfileViewModel)profile.DataContext;
+                    profileVM.CurrentUser = await _userService.GetUserByIdAsync(profileVM.CurrentUser.Id);
+
+                    App.MainMenuPage.MainMenuFrame.Navigate(profile);
+                }
 
                 UpdateVisibility();
+            }
+            if (page is UpdateUserPage)
+            {
+                await ExecuteGoToProfilePageAsync();
             }
         }
 
@@ -143,12 +173,15 @@ namespace Readify.ViewModels
         {
             try
             {
-                _navigationStack.Clear();
-                _navigationStack.Push(App.CurrentUser);
-                UpdateVisibility();
-
                 App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
-                App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(App.CurrentUser));
+                ProfilePage profile = new ProfilePage(App.CurrentUser);
+
+                NavigationStack.Clear();
+                NavigationStack.Push(profile);
+                App.InitProfilePage = profile;
+
+                App.MainMenuPage.MainMenuFrame.Navigate(profile);
+                UpdateVisibility();
             }
             catch (Exception ex)
             {
@@ -158,8 +191,19 @@ namespace Readify.ViewModels
 
         public void UpdateVisibility()
         {
-            IsBackVisibility = _navigationStack.Count > 1;
-            IsLogoVisibility = _navigationStack.Count() == 1;
+            var page = NavigationStack.Peek();
+            bool goBack = false;
+
+            if (page is ProfilePage)
+            {
+                ProfilePage profilePage = (ProfilePage)page;
+                ProfileViewModel profileViewModel = (ProfileViewModel)profilePage.DataContext;
+                goBack = profileViewModel.NavigationStack.Count > 1;
+            }
+
+            IsBackVisibility = NavigationStack.Count > 1 || goBack;
+
+            IsLogoVisibility = !IsBackVisibility;
 
             ApplicationUserAvatarBytes = App.CurrentUser.AvatarImage!;
             ApplicationUserUsername = App.CurrentUser.Nickname!;
@@ -191,10 +235,13 @@ namespace Readify.ViewModels
 
         public void NavigateToProfile(UserDTO user)
         {
-            _navigationStack.Push(user);
+            ProfilePage profile = new ProfilePage(user);
+            App.InitProfilePage = profile;
 
+            NavigationStack.Push(profile);
+
+            App.MainMenuPage.MainMenuFrame.Navigate(profile);
             UpdateVisibility();
-            App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(user));
         }
 
     }

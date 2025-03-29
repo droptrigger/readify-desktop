@@ -56,6 +56,7 @@ namespace Readify.Pages
         private void NavigateToProfilePage()
         {
             ProfilePage profilePage = new ProfilePage(App.CurrentUser);
+            App.InitProfilePage = profilePage;
             MainMenuFrame.Navigate(profilePage);
         }
 

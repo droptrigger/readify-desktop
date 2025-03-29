@@ -4,6 +4,7 @@ using Readify.Pages;
 using Readify.Pages.MainMenu;
 using Readify.Services;
 using Readify.Services.Base;
+using Readify.ViewModels;
 using System.Net.Http;
 using System.Windows;
 
@@ -33,6 +34,16 @@ namespace Readify
         /// Текущий авторизованный пользователь
         /// </summary>
         public static MainMenuPage MainMenuPage { get; set; } = null!;
+
+        public static MainMenuViewModel DataContextMainMenu
+        {
+            get => MainMenuPage.DataContext as MainMenuViewModel;
+        }
+
+        /// <summary>
+        /// Текущая страница
+        /// </summary>
+        public static object InitProfilePage { get; set; } = null!;
 
         public static bool IsMainOnProfile
         {

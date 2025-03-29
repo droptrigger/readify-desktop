@@ -7,6 +7,7 @@ using Readify.Pages.MainMenu.Profile;
 using Readify.Services;
 using Readify.Services.Base;
 using Readify.ViewModels.Base;
+using Readify.ViewModels.MainMenu.Profile;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,7 @@ namespace Readify.ViewModels.MainMenu
     public class ProfileViewModel : BaseViewModel
     {
         private IUserService _userService;
+        private Stack<object> _navigationStack = new Stack<object>();
 
         private byte[] _currentUserAvatarBytes = null!;
 
@@ -41,6 +43,15 @@ namespace Readify.ViewModels.MainMenu
         public UserDTO ApplicationUser
         {
             get => App.CurrentUser;
+        }
+
+        /// <summary>
+        /// Стэк открытых страниц внутри фрейма
+        /// </summary>
+        public Stack<object> NavigationStack
+        {
+            get => _navigationStack;
+            set => SetField(ref _navigationStack, value);
         }
 
         /// <summary>
@@ -219,17 +230,27 @@ namespace Readify.ViewModels.MainMenu
 
             FollowUserCommand = new AsyncRelayCommand(ExecuteFollowUserCommandAsync);
             UnfollowUserCommand = new AsyncRelayCommand(ExecuteUnfollowUserCommandAsync);
-            GoToFollowersPage = new AsyncRelayCommand(ExecuteGoToFollowersPageAsync);
-            GoToFollowingPage = new AsyncRelayCommand(ExecuteGoToFollowingPageAsync);
+            GoToFollowersPage = new AsyncRelayCommand<string>(ExecuteGoToFollowersPageAsync);
+            GoToFollowingPage = new AsyncRelayCommand<string>(ExecuteGoToFollowingPageAsync);
             EditUserCommand = new AsyncRelayCommand(ExecuteUpdateUserCommandAsync);
         }
-
+        
+        /// <summary>
+        /// Метод для обновления информации о себе
+        /// </summary>
+        /// <returns></returns>
         private async Task ExecuteUpdateUserCommandAsync()
         {
             try
             {
+                UpdateUserPage page = new UpdateUserPage();
+
+                App.DataContextMainMenu.NavigationStack.Push(page);
+
                 App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
-                App.MainMenuPage.MainMenuFrame.Navigate(new UpdateUserPage());
+                App.MainMenuPage.MainMenuFrame.Navigate(page);
+
+                App.DataContextMainMenu.UpdateVisibility();
             }
             catch (Exception ex)
             {
@@ -238,7 +259,7 @@ namespace Readify.ViewModels.MainMenu
         }
 
         /// <summary>
-        /// 
+        /// Метод для подписки на пользователя
         /// </summary>
         /// <returns></returns>
         private async Task ExecuteFollowUserCommandAsync()
@@ -272,9 +293,8 @@ namespace Readify.ViewModels.MainMenu
 
 
         /// <summary>
-        /// 
+        /// Метод для отписки от пользователя
         /// </summary>
-        /// <returns></returns>
         private async Task ExecuteUnfollowUserCommandAsync()
         {
             SubscribeDTO subscribeDTO = new SubscribeDTO
@@ -305,25 +325,26 @@ namespace Readify.ViewModels.MainMenu
             }
         }
 
-        public async Task ExecuteGoToFollowersPageAsync()
+        /// <summary>
+        /// Метод перехода на страницу подписчиков пользователя (нажатие из приложения)
+        /// </summary>
+        /// <returns></returns>
+        public async Task ExecuteGoToFollowersPageAsync(string addToNavigationStack = "1")
         {
             try
             {
-                var currentPage = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
-                currentPage!.ProfileFrame.Navigate(new ProfileFollowersPage(_userService, await _userService.GetUserByIdAsync(CurrentUser.Id)));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+                ProfileFollowersPage page = new ProfileFollowersPage(
+                    _userService,
+                    await _userService.GetUserByIdAsync(CurrentUser.Id)
+                    );
 
-        public async Task ExecuteGoToFollowingPageAsync()
-        {
-            try
-            {
+                if (addToNavigationStack == "1" && NavigationStack.Peek() is not ProfileFollowersPage)
+                    NavigationStack.Push(page);
+
+                App.DataContextMainMenu.UpdateVisibility();
+
                 var currentPage = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
-                currentPage!.ProfileFrame.Navigate(new ProfileFollowingPage(_userService, await _userService.GetUserByIdAsync(CurrentUser.Id)));
+                currentPage!.ProfileFrame.Navigate(page);
             }
             catch (Exception ex)
             {
@@ -332,7 +353,33 @@ namespace Readify.ViewModels.MainMenu
         }
 
         /// <summary>
-        /// Метод для 
+        /// Метод перехода на страницу подписок пользователя (нажатие из приложения)
+        /// </summary>
+        public async Task ExecuteGoToFollowingPageAsync(string addToNavigationStack = "1")
+        {
+            try
+            {
+                ProfileFollowingPage page = new ProfileFollowingPage(
+                    _userService, 
+                    await _userService.GetUserByIdAsync(CurrentUser.Id)
+                    );
+
+                if (addToNavigationStack == "1" && NavigationStack.Peek() is not ProfileFollowingPage)
+                    NavigationStack.Push(page);
+
+                App.DataContextMainMenu.UpdateVisibility();
+
+                var currentPage = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
+                currentPage!.ProfileFrame.Navigate(page);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Метод для установки видимости на кнопку "Изменить профиль"
         /// </summary>
         private void SetEditButtonVisibility()
         {
@@ -342,6 +389,9 @@ namespace Readify.ViewModels.MainMenu
                 _isEditButtonVisible = false;
         }
 
+        /// <summary>
+        /// Метод для установки текста на кнопку "Подписаться"
+        /// </summary>
         private void SetTextFollowButton()
         {
             var hasSubscribers = App.CurrentUser.Subscribers?.Any() == true;
@@ -352,12 +402,13 @@ namespace Readify.ViewModels.MainMenu
             if (isSubscribed)
                 TextFollowButton = "Подписаться в ответ";
 
-
             else
                 TextFollowButton = "Подписаться";
-
         }
 
+        /// <summary>
+        /// Метод для установки видимости на кнопку "Подписаться/Отписаться"
+        /// </summary>
         private void SetVisibilityButtons()
         {
             var hasSubscribers = CurrentUser.Subscribers?.Any() == true;
@@ -370,5 +421,68 @@ namespace Readify.ViewModels.MainMenu
             IsUnfollowButtonVisible = isSubscribed && !IsEditButtonVisible;
         }
 
+        /// <summary>
+        /// Метод для навигации назад
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> GoBackFrameAsync()
+        {
+            try
+            {
+                await Navigate();
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Метод навигации на профиль (нажатие кнопки "Назад")
+        /// </summary>
+        private async Task GoToProfileMainAsync()
+        {
+            try
+            {
+                var currentPage = App.MainMenuPage.MainMenuFrame.Content as ProfilePage;
+                currentPage!.ProfileFrame.Navigate(new ProfileMainPage(await _userService.GetUserByIdAsync(CurrentUser.Id)));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Регулятор навигации
+        /// </summary>
+        private async Task Navigate()
+        {
+            NavigationStack.Pop();
+            var page = NavigationStack.Peek();
+
+            if (page is ProfileFollowersPage)
+            {
+                await ExecuteGoToFollowersPageAsync("0");
+            }
+            if (page is ProfileFollowingPage)
+            {
+                await ExecuteGoToFollowingPageAsync("0");
+            }
+            if (page is ProfileMainPage)
+            {
+                await GoToProfileMainAsync();
+            }
+            if (page is UpdateUserPage)
+            {
+                App.MainMenuPage.MainMenuFrame.Navigate(new ProfilePage(
+                    await _userService.GetUserByIdAsync(App.CurrentUser.Id))
+                    );
+            }
+
+            App.DataContextMainMenu.UpdateVisibility();
+        }
     }
 }

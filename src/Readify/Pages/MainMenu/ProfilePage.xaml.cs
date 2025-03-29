@@ -26,8 +26,11 @@ namespace Readify.Pages.MainMenu
         public ProfilePage(UserDTO user)
         {
             InitializeComponent();
-            DataContext = new ProfileViewModel(_userService, user);
-            ProfileFrame.Navigate(new ProfileMainPage(user));
+            ProfileViewModel profileVM = new ProfileViewModel(_userService, user);
+            ProfileMainPage profile = new ProfileMainPage(user);
+            profileVM.NavigationStack.Push(profile);
+            DataContext = profileVM;
+            ProfileFrame.Navigate(profile);
         }
 
         /// <summary>
