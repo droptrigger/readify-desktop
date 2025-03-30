@@ -22,7 +22,7 @@ namespace Readify.Services
             _apiClient = new ApiClient();
         }
 
-        // <summary>
+        /// <summary>
         /// Метод авторизации в приложении
         /// </summary>
         /// <param name="loginDTO">Данные для входа</param>

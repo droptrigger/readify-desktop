@@ -47,6 +47,11 @@ namespace Readify.ViewModels
         private IUserService _userService;
 
         /// <summary>
+        /// Сервис для работы с библиотекой
+        /// </summary>
+        private ILibraryService _libraryService;
+
+        /// <summary>
         /// 
         /// </summary>
         public bool IsLogoVisibility
@@ -121,12 +126,13 @@ namespace Readify.ViewModels
         /// </summary>
         public ICommand BackFramePageCommand { get; }
 
-        public MainMenuViewModel(IAuthService authService, IUserService userService)
+        public MainMenuViewModel(IAuthService authService, IUserService userService, ILibraryService libraryService)
         {
             NavigationStack.Push(App.InitProfilePage);
 
             _authService = authService;
             _userService = userService;
+            _libraryService = libraryService;
 
             ApplicationUserAvatarBytes = App.CurrentUser.AvatarImage!;
             ApplicationUserUsername = App.CurrentUser.Nickname!;
@@ -134,6 +140,7 @@ namespace Readify.ViewModels
             BackFramePageCommand = new AsyncRelayCommand(ExecuteBackFramePageCommandAsync);
 
             GoToProfilePageCommand = new AsyncRelayCommand(ExecuteGoToProfilePageAsync);
+            GoToLibararyPageCommand = new AsyncRelayCommand(ExecuteGoToLibraryPageAsync);
         }
 
         private async Task ExecuteBackFramePageCommandAsync()
@@ -181,6 +188,27 @@ namespace Readify.ViewModels
                 App.InitProfilePage = profile;
 
                 App.MainMenuPage.MainMenuFrame.Navigate(profile);
+                UpdateVisibility();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async Task ExecuteGoToLibraryPageAsync()
+        {
+            try
+            {
+                App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
+                App.CurrentUserLibrary = await _libraryService.GetBooksByUserIdAsync(App.CurrentUser.Id);
+                LibraryPage library = new LibraryPage();
+
+                NavigationStack.Clear();
+                NavigationStack.Push(library);
+                App.InitProfilePage = library;
+
+                App.MainMenuPage.MainMenuFrame.Navigate(library);
                 UpdateVisibility();
             }
             catch (Exception ex)

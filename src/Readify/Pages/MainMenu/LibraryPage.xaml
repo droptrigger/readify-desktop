@@ -1,0 +1,426 @@
+﻿<UserControl x:Class="Readify.Pages.MainMenu.LibraryPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Readify.Pages.MainMenu" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             xmlns:main="clr-namespace:Readify.ViewModels.MainMenu" 
+             d:DataContext="{d:DesignInstance Type=main:LibraryViewModel}"
+             d:DesignHeight="1318" d:DesignWidth="1090">
+    <Grid>
+        <Border Margin="-5 0">
+            <StackPanel>
+                <TextBlock Text="Библиотека" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Bold" FontSize="30" Margin="0 0 0 10"/>
+                <DockPanel Height="315">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                        <TextBlock Text="Продолжить чтение" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Bold" FontSize="20" Margin="0 0 0 10"/>
+                        <!-- Книга -->
+                        <Border Margin="0 0 0 0" Width="216" Height="270" Cursor="Hand"
+                                   CornerRadius="8" HorizontalAlignment="Center">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <!-- Стандартный фон -->
+                                    <Setter Property="Background" Value="#FFFFFF"/>
+                                    <!-- Триггер при наведении -->
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#EFEFEF"/>
+                                            <!-- Замените на нужный цвет -->
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                            <StackPanel HorizontalAlignment="Center" Width="200">
+
+                                <!-- Изображение книги -->
+                                <Border Height="204" Width="145">
+                                    <Image Margin="0 20 0 0" Source="{Binding LastBook.ImageBytes, Converter={StaticResource ImageConverter}}"
+                                                    Stretch="UniformToFill"  RenderOptions.BitmapScalingMode="HighQuality"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+
+                                <!-- Название книги -->
+                                <TextBlock Text="{Binding LastBook.Name}" Width="145"
+                                                                FontFamily="{StaticResource Inter}"
+                                                                TextAlignment="Center" FontSize="20"
+                                                                Margin="0 5 0 2" FontWeight="SemiBold"/>
+
+                                <!-- Страница -->
+                                <TextBlock Text="{Binding LastBookPageText}" MaxWidth="145" HorizontalAlignment="Center"
+                                                                FontFamily="{StaticResource Inter}" FontWeight="Regular"
+                                                                TextAlignment="Center" FontSize="16">
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Margin="5 0 0 0">
+                        <TextBlock Text="Жанры" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Bold" FontSize="20" Margin="0 0 0 10"/>
+                        <!-- Реализация элементов прокрутки-->
+                        <ItemsControl ItemsSource="{Binding Genres}" Margin="0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <!-- Используем WrapPanel с горизонтальным расположением -->
+                                    <WrapPanel Orientation="Horizontal"
+                                        ItemWidth="230"
+                                        ItemHeight="70"
+                                        HorizontalAlignment="Left"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="216" Height="60" Margin="5 0"
+                    CornerRadius="8" Padding="5 0"
+                    Cursor="Hand"
+                    Background="#F5F5F5">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="#F5F5F5"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#EFEFEF"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Text="{Binding Name}"
+                           FontSize="21"
+                           FontFamily="{StaticResource Inter}"
+                           FontWeight="Medium"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </DockPanel>
+                <StackPanel>
+                    <!-- Блок с библиотекой пользователя (добавленными книгами) -->
+                    <StackPanel>
+                        <!-- Блок надписей "Добавленные книги" и "Показать все" -->
+                        <DockPanel LastChildFill="True">
+
+                            <!-- Надпись "Добавленные книги" -->
+                            <TextBlock Text="Не прочитанные книги" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Bold" FontSize="20"/>
+
+                            <!-- Надпись "Показать все" -->
+                            <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Regular" FontSize="20" HorizontalAlignment="Right" 
+                                       Visibility="{Binding IsShowAllNotFullyReadBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                       Cursor="Hand">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#0B6BD7"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DockPanel>
+
+                        <!-- Прокрутка книг пользователя -->
+                        <ScrollViewer x:Name="NotFullyReadBookHorizontalScroll" Margin="-5 0"
+                                              VerticalScrollBarVisibility="Disabled"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              PreviewMouseWheel="HorizontalScroll_PreviewMouseWheel">
+                            <ScrollViewer.Resources>
+                                <Style TargetType="ScrollViewer">
+                                    <Setter Property="PanningMode" Value="HorizontalOnly"/>
+                                    <Setter Property="UseLayoutRounding" Value="True"/>
+                                    <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True"/>
+                                </Style>
+                            </ScrollViewer.Resources>
+
+                            <!-- Реализация элементов прокрутки-->
+                            <ItemsControl ItemsSource="{Binding NotFullyReadBooks}"
+                                                    Margin="0 10 0 0">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <!-- Книга -->
+                                        <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
+                                    CornerRadius="8" HorizontalAlignment="Center">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <!-- Стандартный фон -->
+                                                    <Setter Property="Background" Value="#FFFFFF"/>
+                                                    <!-- Триггер при наведении -->
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#EFEFEF"/>
+                                                            <!-- Замените на нужный цвет -->
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <StackPanel HorizontalAlignment="Center" Width="200">
+
+                                                <!-- Изображение книги -->
+                                                <Border Height="215" Width="145">
+                                                    <Image Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}"
+                                                                    Stretch="UniformToFill"  RenderOptions.BitmapScalingMode="HighQuality"
+                                                                    Margin="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </Border>
+
+                                                <!-- Название книги -->
+                                                <TextBlock Text="{Binding Name}" Width="145"
+                                                                   FontFamily="{StaticResource Inter}"
+                                                                   TextAlignment="Center" FontSize="20"
+                                                                   Margin="0 5 0 2" FontWeight="SemiBold"/>
+
+                                                <!-- Автор книги -->
+                                                <TextBlock Text="{Binding PageProgressText}" MaxWidth="145" HorizontalAlignment="Center"
+                                                                   FontFamily="{StaticResource Inter}" FontWeight="Regular"
+                                                                    TextAlignment="Center" FontSize="16" Foreground="Black">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                                            <Setter Property="TextDecorations" Value="{x:Null}"/>
+                                                            <Setter Property="Foreground" Value="#7A7A7A"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="TextDecorations" Value="Underline"/>
+                                                                    <Setter Property="Foreground" Value="#FF0000"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+
+                    <!-- Блок с библиотекой пользователя (добавленными книгами) -->
+                    <StackPanel>
+                        <!-- Блок надписей "Добавленные книги" и "Показать все" -->
+                        <DockPanel LastChildFill="True">
+
+                            <!-- Надпись "Добавленные книги" -->
+                            <TextBlock Text="Опубликованные книги" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Bold" FontSize="20"/>
+
+                            <!-- Надпись "Показать все" -->
+                            <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Regular" FontSize="20" HorizontalAlignment="Right" 
+                                       Visibility="{Binding IsShowAllDeployedBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                       Cursor="Hand">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#0B6BD7"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DockPanel>
+
+                        <!-- Прокрутка книг пользователя -->
+                        <ScrollViewer x:Name="DeployedBookHorizontalScroll" Margin="-5 0"
+                                              VerticalScrollBarVisibility="Disabled"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              PreviewMouseWheel="HorizontalScroll_PreviewMouseWheel">
+                            <ScrollViewer.Resources>
+                                <Style TargetType="ScrollViewer">
+                                    <Setter Property="PanningMode" Value="HorizontalOnly"/>
+                                    <Setter Property="UseLayoutRounding" Value="True"/>
+                                    <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True"/>
+                                </Style>
+                            </ScrollViewer.Resources>
+
+                            <!-- Реализация элементов прокрутки-->
+                            <ItemsControl ItemsSource="{Binding DeployedBooks}"
+                                                    Margin="0 10 0 0">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <!-- Книга -->
+                                        <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
+                                    CornerRadius="8" HorizontalAlignment="Center">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <!-- Стандартный фон -->
+                                                    <Setter Property="Background" Value="#FFFFFF"/>
+                                                    <!-- Триггер при наведении -->
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#EFEFEF"/>
+                                                            <!-- Замените на нужный цвет -->
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <StackPanel HorizontalAlignment="Center" Width="200">
+
+                                                <!-- Изображение книги -->
+                                                <Border Height="215" Width="145">
+                                                    <Image Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}"
+                                                                    Stretch="UniformToFill"  RenderOptions.BitmapScalingMode="HighQuality"
+                                                                    Margin="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </Border>
+
+                                                <!-- Название книги -->
+                                                <TextBlock Text="{Binding Name}" Width="145"
+                                                                   FontFamily="{StaticResource Inter}"
+                                                                   TextAlignment="Center" FontSize="20"
+                                                                   Margin="0 5 0 2" FontWeight="SemiBold"/>
+
+                                                <!-- Автор книги -->
+                                                <TextBlock Text="{Binding PageProgressText}" MaxWidth="145" HorizontalAlignment="Center"
+                                                                   FontFamily="{StaticResource Inter}" FontWeight="Regular"
+                                                                    TextAlignment="Center" FontSize="16" Foreground="Black">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                                            <Setter Property="TextDecorations" Value="{x:Null}"/>
+                                                            <Setter Property="Foreground" Value="#7A7A7A"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="TextDecorations" Value="Underline"/>
+                                                                    <Setter Property="Foreground" Value="#FF0000"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                    <!-- Блок с библиотекой пользователя (добавленными книгами) -->
+                    <StackPanel>
+                        <!-- Блок надписей "Добавленные книги" и "Показать все" -->
+                        <DockPanel LastChildFill="True">
+
+                            <!-- Надпись "Добавленные книги" -->
+                            <TextBlock Text="Прочитано" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Bold" FontSize="20"/>
+
+                            <!-- Надпись "Показать все" -->
+                            <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
+                                       FontWeight="Regular" FontSize="20" HorizontalAlignment="Right" 
+                                       Visibility="{Binding IsShowAllFullyReadBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                       Cursor="Hand">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#0B6BD7"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DockPanel>
+
+                        <!-- Прокрутка книг пользователя -->
+                        <ScrollViewer x:Name="FullyReadBookHorizontalScroll" Margin="-5 0"
+                                              VerticalScrollBarVisibility="Disabled"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              PreviewMouseWheel="HorizontalScroll_PreviewMouseWheel">
+                            <ScrollViewer.Resources>
+                                <Style TargetType="ScrollViewer">
+                                    <Setter Property="PanningMode" Value="HorizontalOnly"/>
+                                    <Setter Property="UseLayoutRounding" Value="True"/>
+                                    <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True"/>
+                                </Style>
+                            </ScrollViewer.Resources>
+
+                            <!-- Реализация элементов прокрутки-->
+                            <ItemsControl ItemsSource="{Binding FullyReadBooks}"
+                                                    Margin="0 10 0 0">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <!-- Книга -->
+                                        <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
+                                    CornerRadius="8" HorizontalAlignment="Center">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <!-- Стандартный фон -->
+                                                    <Setter Property="Background" Value="#FFFFFF"/>
+                                                    <!-- Триггер при наведении -->
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#EFEFEF"/>
+                                                            <!-- Замените на нужный цвет -->
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <StackPanel HorizontalAlignment="Center" Width="200">
+
+                                                <!-- Изображение книги -->
+                                                <Border Height="215" Width="145">
+                                                    <Image Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}"
+                                                                    Stretch="UniformToFill"  RenderOptions.BitmapScalingMode="HighQuality"
+                                                                    Margin="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </Border>
+
+                                                <!-- Название книги -->
+                                                <TextBlock Text="{Binding Name}" Width="145"
+                                                                   FontFamily="{StaticResource Inter}"
+                                                                   TextAlignment="Center" FontSize="20"
+                                                                   Margin="0 5 0 2" FontWeight="SemiBold"/>
+
+                                                <!-- Автор книги -->
+                                                <TextBlock Text="{Binding PageProgressText}" MaxWidth="145" HorizontalAlignment="Center"
+                                                                   FontFamily="{StaticResource Inter}" FontWeight="Regular"
+                                                                    TextAlignment="Center" FontSize="16" Foreground="Black">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                                            <Setter Property="TextDecorations" Value="{x:Null}"/>
+                                                            <Setter Property="Foreground" Value="#7A7A7A"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="TextDecorations" Value="Underline"/>
+                                                                    <Setter Property="Foreground" Value="#FF0000"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

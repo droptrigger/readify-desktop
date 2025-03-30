@@ -19,6 +19,7 @@ namespace Readify.Pages
     {
         private IAuthService _authService = App.ServiceProvider.GetService<IAuthService>()!;   
         private IUserService _userService = App.ServiceProvider.GetService<IUserService>()!;   
+        private ILibraryService _libraryService = App.ServiceProvider.GetService<ILibraryService>()!;   
 
         /// <summary>
         /// Список скроллов, при наведении мышки на которыз скролл не двигался
@@ -27,6 +28,9 @@ namespace Readify.Pages
         {
               "BooksHorizontalScroll",
               "ReviewsHorizontalScroll",
+              "FullyReadBookHorizontalScroll",
+              "NotFullyReadBookHorizontalScroll",
+              "DeployedBookHorizontalScroll",
         };
 
         /// <summary>
@@ -36,7 +40,7 @@ namespace Readify.Pages
         {
             InitializeComponent();
             NavigateToProfilePage();
-            DataContext = new MainMenuViewModel(_authService, _userService);
+            DataContext = new MainMenuViewModel(_authService, _userService, _libraryService);
         }
 
         /// <summary>

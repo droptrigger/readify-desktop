@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.DTO.Library;
 using Readify.DTO.Users;
 using Readify.Pages;
 using Readify.Pages.MainMenu;
@@ -29,6 +30,11 @@ namespace Readify
         /// Текущий авторизованный пользователь
         /// </summary>
         public static UserDTO CurrentUser { get; set; } = null!;
+
+        /// <summary>
+        /// Библиотека пользователя
+        /// </summary>
+        public static SeeLibrariesDTO CurrentUserLibrary { get; set; } = null!;
 
         /// <summary>
         /// Текущий авторизованный пользователь
@@ -109,6 +115,7 @@ namespace Readify
             services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IRegistrationService, RegistrationService>();
+            services.AddSingleton<ILibraryService, LibraryService>();
         }
     }
 

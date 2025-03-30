@@ -71,7 +71,13 @@
 
                         </TextBlock>
                         <TextBlock Style="{StaticResource MenuTextStyle}" Text="Поиск"/>
-                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Библиотека"/>
+                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Библиотека">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding GoToLibararyPageCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        </TextBlock>
                         <TextBlock Style="{StaticResource MenuTextStyle}" Text="Профиль">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
