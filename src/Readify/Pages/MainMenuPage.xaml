@@ -102,7 +102,12 @@
                                                    FontSize="20" Margin="15 0 0 0" Width="80" />
                                     <Border
                                              Style="{StaticResource RoundAvatarBorderStyle}"
-                                             HorizontalAlignment="Right" Cursor="Arrow"  Margin="0 0 40 0">
+                                             HorizontalAlignment="Right" Cursor="Hand"  Margin="0 0 40 0">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding GoToProfilePageCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <Grid>
                                             <Image Source="{Binding ApplicationUserAvatarBytes, Converter={StaticResource ImageConverter}}"
                                                     Stretch="UniformToFill" 
@@ -148,7 +153,7 @@
                                  HorizontalAlignment="Right">
                             <Grid>
                                 <Image Source="{Binding ApplicationUserAvatarBytes, Converter={StaticResource ImageConverter}}"
-                                       Stretch="UniformToFill" 
+                                       Stretch="UniformToFill"
                                        RenderOptions.BitmapScalingMode="HighQuality"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center" >

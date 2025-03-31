@@ -57,7 +57,7 @@
                             </StackPanel>
                         </Border>
                     </StackPanel>
-                    <StackPanel Margin="5 0 0 0">
+                    <StackPanel Margin="2 0 0 0">
                         <TextBlock Text="Жанры" FontFamily="{StaticResource Inter}"
                                        FontWeight="Bold" FontSize="20" Margin="0 0 0 10"/>
                         <!-- Реализация элементов прокрутки-->
@@ -66,17 +66,16 @@
                                 <ItemsPanelTemplate>
                                     <!-- Используем WrapPanel с горизонтальным расположением -->
                                     <WrapPanel Orientation="Horizontal"
-                                        ItemWidth="230"
+                                        ItemWidth="220"
                                         ItemHeight="70"
                                         HorizontalAlignment="Left"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Width="216" Height="60" Margin="5 0"
-                    CornerRadius="8" Padding="5 0"
-                    Cursor="Hand"
-                    Background="#F5F5F5">
+                                    <Border Width="216" Height="60" Margin="0 0"
+                                            CornerRadius="8" Padding="5 0"
+                                            Cursor="Hand">
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="Background" Value="#F5F5F5"/>
@@ -88,11 +87,11 @@
                                             </Style>
                                         </Border.Style>
                                         <TextBlock Text="{Binding Name}"
-                           FontSize="21"
-                           FontFamily="{StaticResource Inter}"
-                           FontWeight="Medium"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"/>
+                                                   FontSize="21"
+                                                   FontFamily="{StaticResource Inter}"
+                                                   FontWeight="Medium"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"/>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

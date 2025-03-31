@@ -144,4 +144,115 @@
         </Setter>
     </Style>
 
+    <!-- Стиль для кнопок на странице книги -->
+    <Style x:Key="BookReadButton" TargetType="Button">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Background" Value="#25292E"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Margin" Value="0 5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"  Height="40"
+                                CornerRadius="8"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0">
+                        <ContentPresenter x:Name="content" 
+                                            Content="{TemplateBinding Content}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="10,0"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#1A1D21"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#0E1012"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Стиль для кнопок на странице книги -->
+    <Style x:Key="BookButton" TargetType="Button">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Background" Value="#EFEFEF"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Margin" Value="0 5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"  Height="40"
+                                CornerRadius="8"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0">
+                        <ContentPresenter x:Name="content" 
+                                            Content="{TemplateBinding Content}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="10,0"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#E4E4E4"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#BABABA"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Стиль для кнопок на странице книги -->
+    <Style x:Key="DeleteBookButton" TargetType="Button">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Background" Value="#D1242F"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Margin" Value="0 5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"  Height="40"
+                                CornerRadius="8"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0">
+                        <ContentPresenter x:Name="content" 
+                                            Content="{TemplateBinding Content}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="10,0"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#CD1722"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#C7000D"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
