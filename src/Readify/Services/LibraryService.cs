@@ -54,7 +54,7 @@ namespace Readify.Services
                 return content!;
             }
 
-            throw new Exception("Ответ сервера: " + response.StatusCode.ToString());
+            throw new Exception("Ответ сервера: " + response.Content.ToString());
         }
     }
 }

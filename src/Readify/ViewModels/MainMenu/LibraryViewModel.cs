@@ -31,7 +31,7 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public bool IsShowAllNotFullyReadBooksVisible
         {
-            get => FullyReadBooks.Count > 5;
+            get => NotFullyReadBooks?.Count > 5;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public bool IsShowAllDeployedBooksVisible
         {
-            get => DeployedBooks.Count > 5;
+            get => DeployedBooks?.Count > 5;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Readify.ViewModels.MainMenu
         /// </summary>
         public bool IsShowAllFullyReadBooksVisible
         {
-            get => FullyReadBooks.Count > 5;
+            get => FullyReadBooks?.Count > 5;
         }
 
         public bool IsLastBookVisible
@@ -102,7 +102,7 @@ namespace Readify.ViewModels.MainMenu
 
         public string LastBookPageText
         {
-            get => $"стр {LastBook.LastPage}/{LastBook.PageQuantity}";
+            get => $"стр {LastBook?.LastPage}/{LastBook?.PageQuantity}";
         }
 
         private void SetValues(SeeLibrariesDTO library)
