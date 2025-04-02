@@ -4,6 +4,6 @@ namespace Readify.ViewModels
 {
     public class BookViewModel : BaseViewModel
     {
-        private 
+
     }
 }
