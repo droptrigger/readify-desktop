@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Readify.DTO.Users;
+using Readify.Pages.MainMenu;
 using Readify.Services;
 using Readify.Services.Base;
 using Readify.ViewModels.Base;
@@ -16,6 +17,8 @@ namespace Readify.ViewModels.MainMenu.Profile
         private const string NULL_REVIEWS_USER_TEXT = " не написал(a) ни одного отзыва";
 
         private IUserService _userService;
+        private IBookService _bookService;
+        private ILibraryService _libraryService;
 
         private UserDTO _currentUser = null!;
 
@@ -113,16 +116,29 @@ namespace Readify.ViewModels.MainMenu.Profile
         public ICommand ShowUserCommand { get; }
 
         /// <summary>
+        /// Команла, срабатывающаяя при нажатии на книгу
+        /// </summary>
+        public ICommand ShowBookCommand { get; }
+
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="userService"></param>
         /// <param name="currentUser"></param>
-        public ProfileMainViewModel(IUserService userService, UserDTO currentUser)
+        public ProfileMainViewModel(
+            IUserService userService,  
+            UserDTO currentUser, 
+            IBookService bookService, 
+            ILibraryService libraryService)
         {
             CurrentUser = currentUser;
             _userService = userService;
+            _bookService = bookService;
+            _libraryService = libraryService;
 
             ShowUserCommand = new AsyncRelayCommand<int>(ExecuteShowUserAsync);
+            ShowBookCommand = new AsyncRelayCommand<int>(ExecuteShowBookAsync);
+
         }
 
         /// <summary>
@@ -142,6 +158,27 @@ namespace Readify.ViewModels.MainMenu.Profile
                 var mainMenuPageData = App.MainMenuPage?.DataContext! as MainMenuViewModel;
                 mainMenuPageData!.NavigateToProfile(getUser!);
 
+            }
+        }
+
+        /// <summary>
+        /// Метод для перехода на страницу пользователя
+        /// </summary>
+        /// <param name="idAuthor"></param>
+        /// <returns></returns>
+        public async Task ExecuteShowBookAsync(int idBook)
+        {
+            if (idBook > 0)
+            {
+                App.CurrentUserLibrary = await _libraryService.GetBooksByUserIdAsync(App.CurrentUser.Id);
+                var getBook = await _bookService.GetBookByIdAsync(idBook);
+
+                if (getBook == null)
+                    MessageBox.Show("Ошибка");
+
+                BookPage page = new BookPage(getBook!);
+
+                App.MainMenuPage?.MainMenuFrame.Navigate(page);
             }
         }
     }

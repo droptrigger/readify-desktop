@@ -41,5 +41,10 @@ namespace Readify.DTO.Reviews
         /// Список лайков отзыва
         /// </summary>
         public List<LikeDTO>? Likes { get; set; }
+
+        public string RatingText
+        {
+            get => $"{Rating}/5";
+        }
     }
 }

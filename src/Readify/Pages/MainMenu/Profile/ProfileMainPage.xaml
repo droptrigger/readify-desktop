@@ -68,6 +68,15 @@
                             <!-- Книга -->
                             <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
                                     CornerRadius="8" HorizontalAlignment="Center">
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                        <i:InvokeCommandAction 
+                                                    Command="{Binding DataContext.ShowBookCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding Book.Id}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <!-- Стандартный фон -->

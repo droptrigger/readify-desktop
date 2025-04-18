@@ -1,13 +1,19 @@
-﻿using Readify.DTO.Books;
+﻿using CommunityToolkit.Mvvm.Input;
+using Readify.DTO.Books;
 using Readify.DTO.Library;
+using Readify.Pages.MainMenu;
+using Readify.Services;
 using Readify.Services.Base;
 using Readify.ViewModels.Base;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Readify.ViewModels.MainMenu
 {
     public class LibraryViewModel : BaseViewModel
     {
         private ILibraryService _libraryService;
+        private IBookService _bookService;
 
         private SeeLibrariesDTO _library = null!;
 
@@ -35,6 +41,71 @@ namespace Readify.ViewModels.MainMenu
         }
 
         /// <summary>
+        /// Видимость последней прочитанной книги
+        /// </summary>
+        public bool IsLastBookVisible
+        {
+            get => LastBook is not null;
+        }
+
+        /// <summary>
+        /// Видимость блока с недочитанными книгами
+        /// </summary>
+        public bool IsNotReadVisible
+        {
+            get => Library.NotFullyReadBooks?.Count > 0;
+        }
+
+        /// <summary>
+        /// Видимость заглушки блока с недочитанными книгами
+        /// </summary>
+        public bool IsBlockNotReadVisible
+        {
+            get => !IsNotReadVisible;
+        }
+
+        /// <summary>
+        /// Видимость блока с опубликованными книгами
+        /// </summary>
+        public bool IsDeployedVisible
+        {
+            get => Library.DeployedBooks?.Count > 0;
+        }
+
+
+        /// <summary>
+        /// Видимость заглушки блока с опубликованными книгами
+        /// </summary>
+        public bool IsBlockDeployedVisible
+        {
+            get => !IsDeployedVisible;
+        }
+
+        /// <summary>
+        /// Видимость блока с прочитанными книгами
+        /// </summary>
+        public bool IsReadVisible
+        {
+            get => Library.FullyReadBooks?.Count > 0;
+        }
+
+        /// <summary>
+        /// Видимость заглушки блока с прочитанными книгами
+        /// </summary>
+        public bool IsBlockReadVisible
+        {
+            get => !IsReadVisible;
+        }
+
+        /// <summary>
+        /// Видимость последней прочитанной книги
+        /// </summary>
+        public bool IsBlockLastBookVisible
+        {
+            get => !IsLastBookVisible;
+        }
+
+        /// <summary>
         /// Видимость надписи "Посмотреть все" у выложенных книг
         /// </summary>
         public bool IsShowAllDeployedBooksVisible
@@ -50,17 +121,12 @@ namespace Readify.ViewModels.MainMenu
             get => FullyReadBooks?.Count > 5;
         }
 
-        public bool IsLastBookVisible
-        {
-            get => _lastBook != null;
-        }
-
         /// <summary>
         /// Последняя книга, которую читал пользователь
         /// </summary>
         public SeeLibraryBookDTO LastBook
         {
-            get => _lastBook!;
+            get => _lastBook;
             set => SetField(ref _lastBook, value);
         }
 
@@ -114,11 +180,40 @@ namespace Readify.ViewModels.MainMenu
             DeployedBooks = Library.DeployedBooks!;
         }
 
-        public LibraryViewModel(ILibraryService libraryService)
+        /// <summary>
+        /// Команда, срабатывающая при нажатии на книгу
+        /// </summary>
+        public ICommand ShowBookCommand { get; }
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="libraryService"></param>
+        public LibraryViewModel(
+            ILibraryService libraryService, 
+            IBookService bookService)
         {
             _libraryService = libraryService;
             Library = App.CurrentUserLibrary;
             SetValues(Library);
+            ShowBookCommand = new AsyncRelayCommand<int>(ExecuteShowBookAsync);
+            _bookService = bookService;
+        }
+
+        private async Task ExecuteShowBookAsync(int idBook)
+        {
+            if (idBook > 0)
+            {
+                App.CurrentUserLibrary = await _libraryService.GetBooksByUserIdAsync(App.CurrentUser.Id);
+                var getBook = await _bookService.GetBookByIdAsync(idBook);
+
+                if (getBook == null)
+                    MessageBox.Show("Ошибка");
+
+                BookPage page = new BookPage(getBook!);
+
+                App.MainMenuPage?.MainMenuFrame.Navigate(page);
+            }
         }
     }
 }

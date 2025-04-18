@@ -19,7 +19,15 @@
                                        FontWeight="Bold" FontSize="20" Margin="0 0 0 10"/>
                         <!-- Книга -->
                         <Border Margin="0 0 0 0" Width="216" Height="270" Cursor="Hand"
-                                   CornerRadius="8" HorizontalAlignment="Center">
+                                   CornerRadius="8" HorizontalAlignment="Center" 
+                                Visibility="{Binding IsLastBookVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction 
+                                                    Command="{Binding ShowBookCommand}"
+                                                    CommandParameter="{Binding LastBook.Id}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <!-- Стандартный фон -->
@@ -54,6 +62,34 @@
                                                                 FontFamily="{StaticResource Inter}" FontWeight="Regular"
                                                                 TextAlignment="Center" FontSize="16">
                                 </TextBlock>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Если нет последней книги -->
+                        <Border Margin="0 0 0 0" Width="216" Height="270" Cursor="Hand"
+                                CornerRadius="8" HorizontalAlignment="Center" 
+                                Visibility="{Binding IsBlockLastBookVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <!-- Стандартный фон -->
+                                    <Setter Property="Background" Value="#F5F5F5"/>
+                                    <!-- Триггер при наведении -->
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#EFEFEF"/>
+                                            <!-- Замените на нужный цвет -->
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                            <StackPanel HorizontalAlignment="Center" Width="200" VerticalAlignment="Center">
+                                <Path VerticalAlignment="Center" Fill="#515355" HorizontalAlignment="Center"
+                                        Data="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"
+                                        Stretch="Uniform" Width="50" Height="30" Margin="0 0 0 10"/>  
+                                <TextBlock FontSize="18" Text="Вы не начинали читать ни одну книгу" TextWrapping="Wrap" 
+                                           FontFamily="{StaticResource Inter}" FontWeight="Medium" TextAlignment="Center"/>
+
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -128,7 +164,7 @@
 
                         <!-- Прокрутка книг пользователя -->
                         <ScrollViewer x:Name="NotFullyReadBookHorizontalScroll" Margin="-5 0"
-                                              VerticalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Disabled" Visibility="{Binding IsNotReadVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                                               HorizontalScrollBarVisibility="Hidden"
                                               PreviewMouseWheel="HorizontalScroll_PreviewMouseWheel">
                             <ScrollViewer.Resources>
@@ -152,7 +188,14 @@
 
                                         <!-- Книга -->
                                         <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
-                                    CornerRadius="8" HorizontalAlignment="Center">
+                                                CornerRadius="8" HorizontalAlignment="Center">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                    <i:InvokeCommandAction 
+                                                    Command="{Binding DataContext.ShowBookCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding Id}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <Border.Style>
                                                 <Style TargetType="Border">
                                                     <!-- Стандартный фон -->
@@ -205,6 +248,17 @@
                             </ItemsControl>
                         </ScrollViewer>
                     </StackPanel>
+
+                    <!-- Если книг нет -->
+                    <Border Height="250" Background="#F5F5F5" CornerRadius="10" Visibility="{Binding IsBlockNotReadVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <StackPanel VerticalAlignment="Center">
+                            <Path VerticalAlignment="Center" Fill="#515355" HorizontalAlignment="Center"
+                                        Data="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"
+                                        Stretch="Uniform" Width="45" Height="45" Margin="0 0 0 10"/>
+                            <TextBlock FontSize="25" Text="Здесь пусто..." TextWrapping="Wrap" 
+                                           FontFamily="{StaticResource Inter}" FontWeight="Medium" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
 
                     <!-- Блок с библиотекой пользователя (добавленными книгами) -->
                     <StackPanel>
@@ -235,7 +289,8 @@
 
                         <!-- Прокрутка книг пользователя -->
                         <ScrollViewer x:Name="DeployedBookHorizontalScroll" Margin="-5 0"
-                                              VerticalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Disabled" 
+                                      Visibility="{Binding IsDeployedVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                                               HorizontalScrollBarVisibility="Hidden"
                                               PreviewMouseWheel="HorizontalScroll_PreviewMouseWheel">
                             <ScrollViewer.Resources>
@@ -259,7 +314,14 @@
 
                                         <!-- Книга -->
                                         <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
-                                    CornerRadius="8" HorizontalAlignment="Center">
+                                                CornerRadius="8" HorizontalAlignment="Center">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                    <i:InvokeCommandAction 
+                                                    Command="{Binding DataContext.ShowBookCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding Id}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <Border.Style>
                                                 <Style TargetType="Border">
                                                     <!-- Стандартный фон -->
@@ -312,6 +374,18 @@
                             </ItemsControl>
                         </ScrollViewer>
                     </StackPanel>
+
+                    <!-- Если книг нет -->
+                    <Border Height="250" Background="#F5F5F5" CornerRadius="10" Visibility="{Binding IsBlockDeployedVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <StackPanel VerticalAlignment="Center">
+                            <Path VerticalAlignment="Center" Fill="#515355" HorizontalAlignment="Center"
+                                        Data="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"
+                                        Stretch="Uniform" Width="45" Height="45" Margin="0 0 0 10"/>
+                            <TextBlock FontSize="25" Text="Здесь пусто..." TextWrapping="Wrap" 
+                                           FontFamily="{StaticResource Inter}" FontWeight="Medium" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
                     <!-- Блок с библиотекой пользователя (добавленными книгами) -->
                     <StackPanel>
                         <!-- Блок надписей "Добавленные книги" и "Показать все" -->
@@ -343,6 +417,7 @@
                         <ScrollViewer x:Name="FullyReadBookHorizontalScroll" Margin="-5 0"
                                               VerticalScrollBarVisibility="Disabled"
                                               HorizontalScrollBarVisibility="Hidden"
+                                      Visibility="{Binding IsReadVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                                               PreviewMouseWheel="HorizontalScroll_PreviewMouseWheel">
                             <ScrollViewer.Resources>
                                 <Style TargetType="ScrollViewer">
@@ -365,7 +440,14 @@
 
                                         <!-- Книга -->
                                         <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
-                                    CornerRadius="8" HorizontalAlignment="Center">
+                                                CornerRadius="8" HorizontalAlignment="Center">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                    <i:InvokeCommandAction 
+                                                    Command="{Binding DataContext.ShowBookCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding Id}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <Border.Style>
                                                 <Style TargetType="Border">
                                                     <!-- Стандартный фон -->
@@ -418,6 +500,17 @@
                             </ItemsControl>
                         </ScrollViewer>
                     </StackPanel>
+
+                    <!-- Если книг нет -->
+                    <Border Height="250" Background="#F5F5F5" CornerRadius="10" Visibility="{Binding IsBlockReadVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <StackPanel VerticalAlignment="Center">
+                            <Path VerticalAlignment="Center" Fill="#515355" HorizontalAlignment="Center"
+                                        Data="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"
+                                        Stretch="Uniform" Width="45" Height="45" Margin="0 0 0 10"/>
+                            <TextBlock FontSize="25" Text="Здесь пусто..." TextWrapping="Wrap" 
+                                           FontFamily="{StaticResource Inter}" FontWeight="Medium" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </StackPanel>
         </Border>

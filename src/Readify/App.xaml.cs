@@ -116,6 +116,7 @@ namespace Readify
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IRegistrationService, RegistrationService>();
             services.AddSingleton<ILibraryService, LibraryService>();
+            services.AddSingleton<IBookService, BookService>();
         }
     }
 

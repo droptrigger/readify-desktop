@@ -67,9 +67,7 @@
                                     Orientation="Horizontal" 
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Книги">
 
-                        </TextBlock>
                         <TextBlock Style="{StaticResource MenuTextStyle}" Text="Поиск"/>
                         <TextBlock Style="{StaticResource MenuTextStyle}" Text="Библиотека">
                         <i:Interaction.Triggers>

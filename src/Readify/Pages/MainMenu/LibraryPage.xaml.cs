@@ -13,6 +13,7 @@ namespace Readify.Pages.MainMenu
     public partial class LibraryPage : UserControl
     {
         private ILibraryService _libraryService = App.ServiceProvider.GetService<ILibraryService>();
+        private IBookService _bookService = App.ServiceProvider.GetService<IBookService>();
 
         /// <summary>
         /// Конструктор
@@ -20,7 +21,7 @@ namespace Readify.Pages.MainMenu
         public LibraryPage()
         {
             InitializeComponent();
-            DataContext = new LibraryViewModel(_libraryService);
+            DataContext = new LibraryViewModel(_libraryService, _bookService);
         }
 
         private void HorizontalScroll_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

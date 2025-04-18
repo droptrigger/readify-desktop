@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Readify.DTO.Books;
+using Readify.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,10 @@ namespace Readify.Pages.MainMenu
     /// </summary>
     public partial class BookPage : UserControl
     {
-        public BookPage()
+        public BookPage(BookDTO book)
         {
             InitializeComponent();
+            DataContext = new BookViewModel(book);
         }
     }
 }

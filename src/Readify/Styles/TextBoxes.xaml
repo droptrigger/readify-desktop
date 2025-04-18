@@ -314,6 +314,19 @@
         <Setter Property="Cursor" Value="IBeam"/>
     </Style>
 
+    <!-- Стиль для текста в отзыве -->
+    <Style x:Key="ReviewTextBoxStyle" TargetType="TextBox">
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Margin" Value="0 2 0 0"/>
+        <Setter Property="MaxWidth" Value="500"/>
+        <Setter Property="Cursor" Value="IBeam"/>
+    </Style>
     <!-- Стиль для TextBox с счетчиком -->
     <Style x:Key="LimitedTextBoxStyle" TargetType="TextBox">
         <Setter Property="MaxLength" Value="50"/>

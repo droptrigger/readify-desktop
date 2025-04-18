@@ -25,6 +25,8 @@ namespace Readify.Pages.MainMenu.Profile
     public partial class ProfileMainPage : UserControl
     {
         private IUserService _userService = App.ServiceProvider.GetService<IUserService>()!;
+        private IBookService _bookService = App.ServiceProvider.GetService<IBookService>()!;
+        private ILibraryService _libraryService = App.ServiceProvider.GetService<ILibraryService>()!;
         private UserDTO _currentUser;
 
         /// <summary>
@@ -34,7 +36,7 @@ namespace Readify.Pages.MainMenu.Profile
         {
             InitializeComponent();
             _currentUser = user;
-            DataContext = new ProfileMainViewModel(_userService, user);
+            DataContext = new ProfileMainViewModel(_userService, user, _bookService, _libraryService);
         }
 
         /// <summary>
