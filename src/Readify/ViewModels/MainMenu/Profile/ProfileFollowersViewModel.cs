@@ -3,15 +3,9 @@ using Readify.DTO.Subscribe;
 using Readify.DTO.Users;
 using Readify.Pages.MainMenu;
 using Readify.Pages.MainMenu.Profile;
-using Readify.Services;
 using Readify.Services.Base;
 using Readify.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,20 +26,6 @@ namespace Readify.ViewModels.MainMenu.Profile
         {
             get => _currentUser;
             set => SetField(ref _currentUser, value);
-        }
-
-        /// <summary>
-        /// Текст для блока, говорящем о том, что у пользователя нет подписчиков
-        /// </summary>
-        public string NullText
-        {
-            get
-            {
-                if (CurrentUser.Id == App.CurrentUser.Id)
-                    return $"У Вас пока что нет подписчиков.";
-                else
-                    return $"У {CurrentUser.Nickname} пока что нет подписчиков.";
-            } 
         }
 
         /// <summary>

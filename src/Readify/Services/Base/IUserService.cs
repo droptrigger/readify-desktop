@@ -1,4 +1,5 @@
-﻿using Readify.DTO.Subscribe;
+﻿using Readify.DTO;
+using Readify.DTO.Subscribe;
 using Readify.DTO.Users;
 
 namespace Readify.Services.Base
@@ -28,5 +29,12 @@ namespace Readify.Services.Base
         /// <param name="subscribeDTO">Данные подписки</param>
         /// <returns>Информация об авторе (на кого подписываются)</returns>
         Task<UserDTO> UnfollowForUserAsync(SubscribeDTO subscribeDTO);
+
+        /// <summary>
+        /// Метод поиска
+        /// </summary>
+        /// <param name="searchText">Поисковые данные</param>
+        /// <returns>Найденные данные</returns>
+        Task<SearchDTO> SearchAsync(string searchText);
     }
 }

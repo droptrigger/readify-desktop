@@ -11,7 +11,7 @@
     <Grid>
         <Border Margin="0 0">
             <StackPanel>
-                <TextBlock Text="Чистый код" FontFamily="{StaticResource Inter}"
+                <TextBlock Text="{Binding Book.Name}" FontFamily="{StaticResource Inter}"
                                       FontWeight="Bold" FontSize="30" Margin="0 0 0 10"/>
                 <Grid>
                     <Grid.ColumnDefinitions>

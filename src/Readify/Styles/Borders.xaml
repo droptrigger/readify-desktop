@@ -60,11 +60,31 @@
         <Setter Property="VerticalOffset" Value="-55"/>
     </Style>
 
+    <!-- Стиль для панели поиска -->
+    <Style x:Key="SearchPopupStyle" TargetType="Popup">
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="PopupAnimation" Value="None"/>
+        <Setter Property="StaysOpen" Value="False"/>
+        <Setter Property="Placement" Value="Bottom"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalOffset" Value="-41"/>
+        <Setter Property="HorizontalOffset" Value="-250"/>
+    </Style>
+
     <!-- Стиль для контента панели выхода из аккаунта -->
     <Style x:Key="PopupContentStyle" TargetType="Border">
         <Setter Property="Background" Value="#DEDEDE"/>
         <Setter Property="Width" Value="200"/>
         <Setter Property="CornerRadius" Value="0 30 30 30"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <!-- Стиль для контента панели выхода из аккаунта -->
+    <Style x:Key="SearchPopupContentStyle" TargetType="Border">
+        <Setter Property="Background" Value="#DEDEDE"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Width" Value="325"/>
+        <Setter Property="CornerRadius" Value="30 30 30 30"/>
         <Setter Property="Padding" Value="0"/>
     </Style>
 

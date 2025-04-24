@@ -2,17 +2,11 @@
 using Readify.DTO.Users;
 using Readify.Pages;
 using Readify.Pages.MainMenu;
-using Readify.Pages.Registartion;
-using Readify.Services;
 using Readify.Services.Base;
 using Readify.ViewModels.Base;
 using Readify.ViewModels.MainMenu;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Navigation;
-using System.Xml.Schema;
 
 namespace Readify.ViewModels
 {
@@ -97,6 +91,11 @@ namespace Readify.ViewModels
         }
 
         /// <summary>
+        /// Команда поиска
+        /// </summary>
+        public ICommand SearchCommand { get; }
+
+        /// <summary>
         /// Команда обработки нажатия на "Readify" и "Книги"
         /// </summary>
         public ICommand GoToBookPageCommand { get; }
@@ -141,6 +140,7 @@ namespace Readify.ViewModels
 
             GoToProfilePageCommand = new AsyncRelayCommand(ExecuteGoToProfilePageAsync);
             GoToLibararyPageCommand = new AsyncRelayCommand(ExecuteGoToLibraryPageAsync);
+            SearchCommand = new AsyncRelayCommand(ExecuteSearchAsync);
         }
 
         private async Task ExecuteBackFramePageCommandAsync()
@@ -214,6 +214,20 @@ namespace Readify.ViewModels
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        private async Task ExecuteSearchAsync()
+        {
+            SearchText = SearchText;
+            if (SearchText != "")
+            {
+                var result = await _userService.SearchAsync(SearchText);
+                SearchPage search = new SearchPage(result);
+
+                App.MainMenuPage.MainMenuFrame.Navigate(search);
+                SearchText = "";
             }
         }
 

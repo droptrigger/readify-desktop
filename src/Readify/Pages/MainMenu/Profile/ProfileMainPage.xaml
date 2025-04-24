@@ -69,14 +69,6 @@
                             <Border Margin="5 0" Width="216" Height="270" Cursor="Hand"
                                     CornerRadius="8" HorizontalAlignment="Center">
 
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction 
-                                                    Command="{Binding DataContext.ShowBookCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding Book.Id}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <!-- Стандартный фон -->
@@ -94,6 +86,13 @@
 
                                     <!-- Изображение книги -->
                                     <Border Height="215" Width="145">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                <i:InvokeCommandAction 
+                                                    Command="{Binding DataContext.ShowBookCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding Book.Id}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <Image Source="{Binding Book.CoverImage, Converter={StaticResource ImageConverter}}"
                                                                     Stretch="UniformToFill"  RenderOptions.BitmapScalingMode="HighQuality"
                                                                     Margin="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>

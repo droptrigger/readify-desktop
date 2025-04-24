@@ -38,6 +38,11 @@
                                 HorizontalAlignment="Left" 
                                 Text="Readify" 
                                    Visibility="{Binding IsLogoVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding GoToProfilePageCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </TextBlock>
 
                     <!-- Кнопка навигации "Назад" -->
@@ -68,20 +73,21 @@
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center">
 
-                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Поиск"/>
+                        <TextBlock Style="{StaticResource MenuTextStyle}" Text="Поиск" x:Name="SearchHoverRegion"
+                                 MouseEnter="SearchBorder_MouseEnter" Cursor="Hand"/>
                         <TextBlock Style="{StaticResource MenuTextStyle}" Text="Библиотека">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding GoToLibararyPageCommand}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding GoToLibararyPageCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </TextBlock>
                         <TextBlock Style="{StaticResource MenuTextStyle}" Text="Профиль">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding GoToProfilePageCommand}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding GoToProfilePageCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </TextBlock>
                     </StackPanel>
 
@@ -137,6 +143,33 @@
                                                  MouseAction="LeftClick"/>
                                     </TextBlock.InputBindings>
                                 </TextBlock>
+                            </StackPanel>
+
+                        </Border>
+                    </Popup>
+
+                    <!-- Меню, показывающееся при наведении на поиск -->
+                    <Popup x:Name="SearchPopup"
+                           Style="{StaticResource SearchPopupStyle}"
+                           PlacementTarget="{Binding ElementName=SearchHoverRegion}"
+                           MouseEnter="SearchPopup_MouseEnter"
+                           MouseLeave="SearchPopup_MouseLeave">
+                        <Border Style="{StaticResource SearchPopupContentStyle}"
+                                MouseEnter="SearchPopup_MouseEnter"
+                                MouseLeave="SearchPopup_MouseLeave" VerticalAlignment="Center">
+                            <StackPanel Height="60" VerticalAlignment="Center" Orientation="Horizontal">
+                                <Path Data="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"
+                                      Fill="Black" Stretch="Uniform" VerticalAlignment="Center" 
+                                      Margin="15 0 0 0" Width="20" Height="20"/>
+                                <TextBox x:Name="SearchBox" 
+                                         Tag="Поиск" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{StaticResource SearchTextBox}">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding Key="Enter" 
+                                                    Command="{Binding SearchCommand}"/>
+                                    </TextBox.InputBindings>
+                                    
+                                </TextBox>
                             </StackPanel>
 
                         </Border>

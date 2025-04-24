@@ -1,4 +1,5 @@
-﻿using Readify.DTO.Subscribe;
+﻿using Readify.DTO;
+using Readify.DTO.Subscribe;
 using Readify.DTO.Users;
 using Readify.Services.Base;
 using Readify.Services.Connections;
@@ -18,6 +19,7 @@ namespace Readify.Services
         private const string GET_USER_ENDPOINT = $"/api/user/";
         private const string FOLLOW_USER_ENDPOINT = $"/api/user/subscribe";
         private const string UNFOLLOW_USER_ENDPOINT = $"/api/user/unsubscribe";
+        private const string SEARCH_ENDPOINT = $"/api/user/search";
 
         /// <summary>
         /// ApiClient для работы с API
@@ -104,6 +106,35 @@ namespace Readify.Services
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadFromJsonAsync<UserDTO>();
+                return content!;
+            }
+
+            throw new Exception("Ответ сервера: " + response.StatusCode.ToString());
+        }
+
+        /// <summary>
+        /// Метод поиска
+        /// </summary>
+        /// <param name="searchText">Поисковые данные</param>
+        /// <returns>Найденные данные</returns>
+        public async Task<SearchDTO> SearchAsync(string searchText)
+        {
+            var response = await _apiClient.SendRequestAsync(
+                HttpMethod.Get,
+                SEARCH_ENDPOINT,
+                new
+                {
+                    SearchText = searchText
+                }, true);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthoizeException("Сессия закончена");
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadFromJsonAsync<SearchDTO>();
                 return content!;
             }
 

@@ -31,6 +31,8 @@ namespace Readify.Pages
               "FullyReadBookHorizontalScroll",
               "NotFullyReadBookHorizontalScroll",
               "DeployedBookHorizontalScroll",
+              "UsersHorizontalScroll",
+              "SearchBookHorizontalScroll"
         };
 
         /// <summary>
@@ -131,6 +133,46 @@ namespace Readify.Pages
         {
             UserPopup.StaysOpen = false;
             UserPopup.IsOpen = false;
+        }
+
+
+
+        /// <summary>
+        /// Метод наведения мышки на область с аватаром
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchBorder_MouseEnter(object sender, MouseEventArgs e)
+            => SearchPopup.IsOpen = true;
+
+        /// <summary>
+        /// Метод отведения мышки от области с аватаром
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchBorder_MouseLeave(object sender, MouseEventArgs e)
+            => SearchPopup.IsOpen = false;
+
+        /// <summary>
+        /// Метод наведения мышки на меню выхода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchPopup_MouseEnter(object sender, MouseEventArgs e)
+            => SearchPopup.StaysOpen = true;
+
+        /// <summary>
+        /// Метод отведения мышки с меню выхода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchPopup_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (SearchBox.Text.Length == 0)
+            {
+                SearchPopup.StaysOpen = false;
+                SearchPopup.IsOpen = false;
+            }
         }
     }
 }
