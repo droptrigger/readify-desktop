@@ -174,6 +174,10 @@ namespace Readify.ViewModels
             {
                 await ExecuteGoToProfilePageAsync();
             }
+            if (page is DeployBookPage)
+            {
+                await ExecuteGoToProfilePageAsync();
+            }
         }
 
         private async Task ExecuteGoToProfilePageAsync()

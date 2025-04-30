@@ -18,6 +18,8 @@ namespace Readify.Services
     class BookService : IBookService
     {
         private const string GET_BOOK_ENDPOINT = "/api/books/";
+        private const string GET_GENRES_ENDPOINT = "/api/books/genres";
+        private const string DEPLOY_BOOK_ENDPOINT = "/api/books";
 
         /// <summary>
         /// ApiClient для работы с API
@@ -30,6 +32,42 @@ namespace Readify.Services
         public BookService()
         {
             _apiClient = new ApiClient();
+        }
+
+        public async Task<bool> DeployBookAsync(AddBookDTO addBookDTO)
+        {
+            var response = await _apiClient.SendMultipartFormDataAsync(HttpMethod.Post, DEPLOY_BOOK_ENDPOINT, addBookDTO, true);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthoizeException("Сессия закончена");
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ответ сервера: {response.StatusCode} - {responseContent}");
+        }
+
+        public async Task<List<GenreDTO>> GetAllGenresAsync()
+        {
+            var response = await _apiClient.SendRequestAsync(HttpMethod.Get, GET_GENRES_ENDPOINT, new { }, true);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthoizeException("Сессия закончена");
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadFromJsonAsync<List<GenreDTO>>();
+                return content!;
+            }
+
+            throw new Exception("Ответ сервера: " + response.Content.ToString());
         }
 
         /// <summary>

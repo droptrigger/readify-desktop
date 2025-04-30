@@ -1,16 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
+using Readify.DTO.Books;
 using Readify.DTO.Subscribe;
 using Readify.DTO.Users;
-using Readify.Pages;
 using Readify.Pages.MainMenu;
 using Readify.Pages.MainMenu.Profile;
-using Readify.Services;
 using Readify.Services.Base;
 using Readify.ViewModels.Base;
-using Readify.ViewModels.MainMenu.Profile;
 using System.Net.Http;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Readify.ViewModels.MainMenu
@@ -18,6 +16,8 @@ namespace Readify.ViewModels.MainMenu
     public class ProfileViewModel : BaseViewModel
     {
         private IUserService _userService;
+        private IBookService _bookService = App.ServiceProvider.GetService<IBookService>()!;
+
         private Stack<object> _navigationStack = new Stack<object>();
 
         private byte[] _currentUserAvatarBytes = null!;
@@ -196,6 +196,11 @@ namespace Readify.ViewModels.MainMenu
         public ICommand GoToFollowingPage { get; }
 
         /// <summary>
+        /// Команда, срабатывающая при нажатии на "Опубликовать книгу"
+        /// </summary>
+        public ICommand DeployBookCommand { get; }
+
+        /// <summary>
         /// Инициализация всех данных пользователя
         /// </summary>
         /// <param name="userDTO"></param>
@@ -233,6 +238,7 @@ namespace Readify.ViewModels.MainMenu
             GoToFollowersPage = new AsyncRelayCommand<string>(ExecuteGoToFollowersPageAsync);
             GoToFollowingPage = new AsyncRelayCommand<string>(ExecuteGoToFollowingPageAsync);
             EditUserCommand = new AsyncRelayCommand(ExecuteUpdateUserCommandAsync);
+            DeployBookCommand = new AsyncRelayCommand(ExecuteDeployBookCommandAsync);
         }
         
         /// <summary>
@@ -255,6 +261,30 @@ namespace Readify.ViewModels.MainMenu
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);    
+            }
+        }
+
+        /// <summary>
+        /// Метод для публикации книги
+        /// </summary>
+        /// <returns></returns>
+        private async Task ExecuteDeployBookCommandAsync()
+        {
+            try
+            {
+                List<GenreDTO> genres = await _bookService.GetAllGenresAsync();
+                DeployBookPage page = new DeployBookPage(genres);
+
+                App.DataContextMainMenu.NavigationStack.Push(page);
+
+                App.CurrentUser = await _userService.GetUserByIdAsync(App.CurrentUser.Id);
+                App.MainMenuPage.MainMenuFrame.Navigate(page);
+
+                App.DataContextMainMenu.UpdateVisibility();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

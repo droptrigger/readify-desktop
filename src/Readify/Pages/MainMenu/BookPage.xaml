@@ -36,9 +36,6 @@
                             <Button Content="Добавить в библиотеку" Style="{StaticResource BookButton}" 
                                     Command="{Binding EditUserCommand}"
                                     Visibility="{Binding IsBtnAddToLibraryVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <Button Content="Написать отзыв" Style="{StaticResource BookButton}" 
-                                    Command="{Binding EditUserCommand}"
-                                    Visibility="{Binding IsBtnWriteReviewVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <Button Content="Удалить отзыв" Style="{StaticResource BookButton}" 
                                     Command="{Binding EditUserCommand}"
                                     Visibility="{Binding IsBtnDeleteReviewVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
@@ -60,8 +57,13 @@
 
                             <Border Background="#5A5A5A" Height="0.1" Margin="0 20 0 10"/>
 
+                            <TextBox Style="{StaticResource RoundedShadowAboutTextBox}" Tag="Напишите отзыв">
+
+                            </TextBox>
+
                             <TextBlock Text="Отзывы:" FontFamily="{StaticResource Inter}" FontSize="23"
                                        FontWeight="Bold"/>
+
 
                             <ItemsControl ItemsSource="{Binding Book.Reviews}" x:Name="Followers">
                                 <ItemsControl.ItemsPanel>

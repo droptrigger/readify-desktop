@@ -58,8 +58,13 @@
                             <Button Content="Обновить профиль" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding EditUserCommand}"
                                     Visibility="{Binding IsEditButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            
-                            <!-- Кнопка "Подписаться" -->
+
+                            <!-- Кнопка "Обновить профиль" -->
+                            <Button Content="Опубликовать книгу" Style="{StaticResource UploadBookButton}" 
+                                    Command="{Binding DeployBookCommand}"
+                                    Visibility="{Binding IsEditButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                        <!-- Кнопка "Подписаться" -->
                             <Button Content="{Binding TextFollowButton}" Style="{StaticResource ProfileUserButton}" 
                                     Command="{Binding FollowUserCommand}"
                                     Visibility="{Binding IsFollowButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
