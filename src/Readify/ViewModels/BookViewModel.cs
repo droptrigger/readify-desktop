@@ -1,12 +1,6 @@
 ﻿using Readify.DTO.Books;
 using Readify.DTO.Library;
 using Readify.ViewModels.Base;
-using static System.Reflection.Metadata.BlobBuilder;
-using System.Net;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
-using Readify.Pages.MainMenu;
-using System.Windows;
 
 namespace Readify.ViewModels
 {

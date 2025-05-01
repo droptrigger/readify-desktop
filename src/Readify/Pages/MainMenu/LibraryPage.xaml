@@ -143,23 +143,6 @@
                             <!-- Надпись "Добавленные книги" -->
                             <TextBlock Text="Не прочитанные книги" FontFamily="{StaticResource Inter}"
                                        FontWeight="Bold" FontSize="20"/>
-
-                            <!-- Надпись "Показать все" -->
-                            <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
-                                       FontWeight="Regular" FontSize="20" HorizontalAlignment="Right" 
-                                       Visibility="{Binding IsShowAllNotFullyReadBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                       Cursor="Hand">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#0B6BD7"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="Red"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
                         </DockPanel>
 
                         <!-- Прокрутка книг пользователя -->
@@ -268,23 +251,6 @@
                             <!-- Надпись "Добавленные книги" -->
                             <TextBlock Text="Опубликованные книги" FontFamily="{StaticResource Inter}"
                                        FontWeight="Bold" FontSize="20"/>
-
-                            <!-- Надпись "Показать все" -->
-                            <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
-                                       FontWeight="Regular" FontSize="20" HorizontalAlignment="Right" 
-                                       Visibility="{Binding IsShowAllDeployedBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                       Cursor="Hand">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#0B6BD7"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="Red"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
                         </DockPanel>
 
                         <!-- Прокрутка книг пользователя -->
@@ -394,23 +360,6 @@
                             <!-- Надпись "Добавленные книги" -->
                             <TextBlock Text="Прочитано" FontFamily="{StaticResource Inter}"
                                        FontWeight="Bold" FontSize="20"/>
-
-                            <!-- Надпись "Показать все" -->
-                            <TextBlock Text="Показать все →" TextDecorations="Underline" FontFamily="{StaticResource Inter}"
-                                       FontWeight="Regular" FontSize="20" HorizontalAlignment="Right" 
-                                       Visibility="{Binding IsShowAllFullyReadBooksVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                       Cursor="Hand">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#0B6BD7"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="Red"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
                         </DockPanel>
 
                         <!-- Прокрутка книг пользователя -->
