@@ -18,6 +18,8 @@ namespace Readify.ViewModels
         private IBookService _bookService;
         private IUserService _userService;
 
+        private string _ratingText;
+
         private string _addRatingText;
         private byte _selectedRating;
 
@@ -130,7 +132,8 @@ namespace Readify.ViewModels
 
         public string RatingText
         {
-            get => $"{GetRatingBook(Book)}/5";
+            get => _ratingText;
+            set => SetField(ref _ratingText, value);
         }
 
         /// <summary>
@@ -169,6 +172,7 @@ namespace Readify.ViewModels
             IUserService userService)
         {
             Book = book;
+            RatingText = $"{GetRatingBook(_book)}/5";
             SetLibraryButtonsVisible();
             _libraryService = libraryService;
             _bookService = bookService;
@@ -241,6 +245,7 @@ namespace Readify.ViewModels
                         margin: 0
                         );
                     IsBtnWriteReviewVisible = false;
+                    RatingText = $"{GetRatingBook(_book)}/5";
                 }
             }
             catch (Exception ex)

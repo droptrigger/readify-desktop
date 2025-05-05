@@ -52,9 +52,9 @@
                                 </Border>
 
                                 <!-- Название книги -->
-                                <TextBlock Text="{Binding LastBook.Name}" Width="145"
+                                <TextBlock Text="{Binding LastBook.Name}"
                                                                 FontFamily="{StaticResource Inter}"
-                                                                TextAlignment="Center" FontSize="20"
+                                                                TextAlignment="Center" FontSize="18"
                                                                 Margin="0 5 0 2" FontWeight="SemiBold"/>
 
                                 <!-- Страница -->
@@ -202,9 +202,9 @@
                                                 </Border>
 
                                                 <!-- Название книги -->
-                                                <TextBlock Text="{Binding Name}" Width="145"
+                                                <TextBlock Text="{Binding Name}"
                                                                    FontFamily="{StaticResource Inter}"
-                                                                   TextAlignment="Center" FontSize="20"
+                                                                   TextAlignment="Center" FontSize="18"
                                                                    Margin="0 5 0 2" FontWeight="SemiBold"/>
 
                                                 <!-- Автор книги -->

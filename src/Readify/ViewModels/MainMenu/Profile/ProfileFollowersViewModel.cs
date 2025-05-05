@@ -38,6 +38,20 @@ namespace Readify.ViewModels.MainMenu.Profile
         }
 
         /// <summary>
+        /// Текст для блока, говорящем о том, что у пользователя нет подписчиков
+        /// </summary>
+        public string NullText
+        {
+            get
+            {
+                if (CurrentUser.Id == App.CurrentUser.Id)
+                    return $"На вас никто не подписан.";
+                else
+                    return $"На {CurrentUser.Nickname} никто не подписан.";
+            }
+        }
+
+        /// <summary>
         /// Команда, срабатывающая при нажатии на пользователя
         /// </summary>
         public ICommand ShowUserCommand { get; }

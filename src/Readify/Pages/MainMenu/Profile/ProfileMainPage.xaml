@@ -83,9 +83,9 @@
                                     </Border>
 
                                     <!-- Название книги -->
-                                    <TextBlock Text="{Binding Book.Name}" Width="145"
+                                    <TextBlock Text="{Binding Book.Name}"
                                                                    FontFamily="{StaticResource Inter}"
-                                                                   TextAlignment="Center" FontSize="20"
+                                                                   TextAlignment="Center" FontSize="18"
                                                                    Margin="0 5 0 2" FontWeight="SemiBold"/>
 
                                     <!-- Автор книги -->

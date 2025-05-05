@@ -37,11 +37,6 @@ namespace Readify.DTO.Reviews
         /// </summary>
         public DateTime? CreatedAt { get; set; }
 
-        /// <summary>
-        /// Список лайков отзыва
-        /// </summary>
-        public List<LikeDTO>? Likes { get; set; }
-
         public string RatingText
         {
             get => $"{Rating}/5";

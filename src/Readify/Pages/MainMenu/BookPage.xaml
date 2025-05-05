@@ -165,47 +165,49 @@
                                                    HorizontalAlignment="Center"/>
                             </Border>
 
-                            <TextBlock Text="Продолжить чтение" Width="265" FontFamily="{StaticResource Inter}"
+                            <StackPanel Visibility="{Binding IsLastBookVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock Text="Продолжить чтение" Width="265" FontFamily="{StaticResource Inter}"
                                        FontWeight="Bold" FontSize="16" Margin="0 8 0 8"/>
-                            <Border Margin="0 0 0 0" Height="270" Cursor="Hand"
+                                <Border Margin="0 0 0 0" Height="270" Cursor="Hand"
                                    CornerRadius="8" >
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <!-- Стандартный фон -->
-                                        <Setter Property="Background" Value="#FFFFFF"/>
-                                        <!-- Триггер при наведении -->
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#EFEFEF"/>
-                                                <!-- Замените на нужный цвет -->
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <!-- Стандартный фон -->
+                                            <Setter Property="Background" Value="#FFFFFF"/>
+                                            <!-- Триггер при наведении -->
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#EFEFEF"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
 
-                                <StackPanel HorizontalAlignment="Center" Width="200">
+                                    <StackPanel HorizontalAlignment="Center" Width="200">
 
-                                    <!-- Изображение книги -->
-                                    <Border Height="204" Width="145">
-                                        <Image Margin="0 20 0 0" Source="{Binding LastBook.ImageBytes, Converter={StaticResource ImageConverter}}"
+                                        <!-- Изображение книги -->
+                                        <Border Height="204" Width="145">
+                                            <Image Margin="0 20 0 0" Source="{Binding LastBook.ImageBytes, Converter={StaticResource ImageConverter}}"
                                                     Stretch="UniformToFill"  RenderOptions.BitmapScalingMode="HighQuality"
                                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    </Border>
+                                        </Border>
 
-                                    <!-- Название книги -->
-                                    <TextBlock Text="{Binding LastBook.Name}" Width="145"
+                                        <!-- Название книги -->
+                                        <TextBlock Text="{Binding LastBook.Name}"
                                                                 FontFamily="{StaticResource Inter}"
-                                                                TextAlignment="Center" FontSize="20"
+                                                                TextAlignment="Center" FontSize="18"
                                                                 Margin="0 5 0 2" FontWeight="SemiBold"/>
 
-                                    <!-- Страница -->
-                                    <TextBlock Text="{Binding LastBookPageText}" MaxWidth="145" HorizontalAlignment="Center"
+                                        <!-- Страница -->
+                                        <TextBlock Text="{Binding LastBookPageText}" MaxWidth="145" HorizontalAlignment="Center"
                                                                 FontFamily="{StaticResource Inter}" FontWeight="Regular"
                                                                 TextAlignment="Center" FontSize="16">
-                                    </TextBlock>
-                                </StackPanel>
-                            </Border>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
                         </StackPanel>
+
                     </Border>
 
                 </Grid>
