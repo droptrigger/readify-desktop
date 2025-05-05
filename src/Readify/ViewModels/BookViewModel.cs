@@ -178,13 +178,8 @@ namespace Readify.ViewModels
             DeleteFromLibraryCommand = new AsyncRelayCommand(ExecuteDeleteFromLibraryAsync);
             DeleteFromServiceCommand = new AsyncRelayCommand(ExecuteDeleteFromServiceAsync);
             AddReviewCommand = new AsyncRelayCommand(ExecuteAddReviewAsync);
-            ReadBookCommand = new RelayCommand(ExecuteReadBook);
         }
 
-        private void ExecuteReadBook()
-        {
-            App.MainMenuPage.MainMenuFrame.Navigate(new PdfPage(Book));
-        }
 
         private async Task ExecuteAddReviewAsync()
         {

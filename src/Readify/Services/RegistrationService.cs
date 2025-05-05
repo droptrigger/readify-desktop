@@ -53,7 +53,8 @@ namespace Readify.Services
                 return content;
             }
 
-            throw new Exception("Ответ сервера: " + response.StatusCode.ToString());
+            var responseContent = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ответ сервера: {response.StatusCode} - {responseContent}");
         }
 
         /// <summary>
@@ -75,7 +76,8 @@ namespace Readify.Services
                 return content;
             }
 
-            throw new Exception("Ответ сервера: " + response.StatusCode.ToString());
+            var responseContent = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ответ сервера: {response.StatusCode} - {responseContent}");
         }
 
         /// <summary>
@@ -93,7 +95,8 @@ namespace Readify.Services
                 return true;
             }
 
-            throw new Exception("Ответ сервера: " + response.StatusCode.ToString());
+            var responseContent = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ответ сервера: {response.StatusCode} - {responseContent}");
         }
 
         /// <summary>
@@ -114,7 +117,8 @@ namespace Readify.Services
                 return true;
             }
 
-            throw new Exception("Ответ сервера: " + response.StatusCode.ToString());
+            var responseContent = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ответ сервера: {response.StatusCode} - {responseContent}");
         }
 
         /// <summary>
@@ -143,7 +147,8 @@ namespace Readify.Services
                 return true;
             }
 
-            throw new Exception("Ответ сервера: " + response.StatusCode.ToString());
+            var responseContent = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ответ сервера: {response.StatusCode} - {responseContent}");
         }
     }
 }

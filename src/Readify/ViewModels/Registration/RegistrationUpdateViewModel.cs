@@ -149,8 +149,10 @@ namespace Readify.ViewModels.Registration
         /// </summary>
         private void ExecuteGoToProfilePage()
         {
+            MainMenuPage mainMenuPage = new MainMenuPage();
+            App.MainMenuPage = mainMenuPage;
             var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow?.MainFrame.Navigate(new MainMenuPage());
+            mainWindow?.MainFrame.Navigate(mainMenuPage);
         }
 
         /// <summary>
