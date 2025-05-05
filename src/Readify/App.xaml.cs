@@ -37,7 +37,7 @@ namespace Readify
         public static SeeLibrariesDTO CurrentUserLibrary { get; set; } = null!;
 
         /// <summary>
-        /// Текущий авторизованный пользователь
+        /// Главная страница
         /// </summary>
         public static MainMenuPage MainMenuPage { get; set; } = null!;
 

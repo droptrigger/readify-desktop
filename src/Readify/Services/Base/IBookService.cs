@@ -1,4 +1,5 @@
 ﻿using Readify.DTO.Books;
+using Readify.DTO.Reviews;
 
 namespace Readify.Services.Base
 {
@@ -22,5 +23,23 @@ namespace Readify.Services.Base
         /// </summary>
         /// <returns></returns>
         Task<bool> DeployBookAsync(AddBookDTO addBookDTO);
+
+        /// <summary>
+        /// Метод удаления книги
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> DeleteBookAsync(int id);
+
+        /// <summary>
+        /// Метод добавления отзыва
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> AddReviewToBook(AddReviewDTO reviewDTO);
+
+        /// <summary>
+        /// Метод удаления отзыва
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> DeleteReviewToBook(int id);
     }
 }

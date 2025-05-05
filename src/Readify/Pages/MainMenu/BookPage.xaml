@@ -28,19 +28,16 @@
                                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
                             <Button Content="Читать" Style="{StaticResource BookReadButton}" 
-                                    Command="{Binding EditUserCommand}"
-                                    Visibility="{Binding IsEditButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    Command="{Binding ReadBookCommand}"/>
+
                             <Button Content="Удалить из библиотеки" Style="{StaticResource BookButton}" 
-                                    Command="{Binding EditUserCommand}"
+                                    Command="{Binding DeleteFromLibraryCommand}"
                                     Visibility="{Binding IsBtnDeleteFromLibraryVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <Button Content="Добавить в библиотеку" Style="{StaticResource BookButton}" 
-                                    Command="{Binding EditUserCommand}"
+                                    Command="{Binding AddToLibraryCommand}"
                                     Visibility="{Binding IsBtnAddToLibraryVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <Button Content="Удалить отзыв" Style="{StaticResource BookButton}" 
-                                    Command="{Binding EditUserCommand}"
-                                    Visibility="{Binding IsBtnDeleteReviewVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <Button Content="Удалить с сервиса" Style="{StaticResource DeleteBookButton}" 
-                                    Command="{Binding EditUserCommand}"
+                                    Command="{Binding DeleteFromServiceCommand}"
                                     Visibility="{Binding IsBtnDeleteFromServiceVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         </StackPanel>
                     </Border>
@@ -57,10 +54,23 @@
 
                             <Border Background="#5A5A5A" Height="0.1" Margin="0 20 0 10"/>
 
-                            <TextBox Style="{StaticResource RoundedShadowAboutTextBox}" Tag="Напишите отзыв">
-
-                            </TextBox>
-
+                            <StackPanel Visibility="{Binding IsBtnWriteReviewVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBox Text="{Binding AddRatingText}" 
+                                         Style="{StaticResource RoundedShadowAboutTextBox}" 
+                                         Tag="Напишите отзыв"/>
+                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                    <Path Fill="#FEC810"
+                                        Data="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"
+                                        Stretch="Uniform" Margin="0 5 0 5" Height="25" Width="26"/>
+                                    <ComboBox ItemsSource="{Binding Ratings}" BorderThickness="0" Background="#FFEDEDED"
+                                              SelectedItem="{Binding SelectedRating}"
+                                              VerticalAlignment="Center" Width="60" Margin="10 0 0 0" FontFamily="{StaticResource Inter}" FontSize="14" FontWeight="Medium"
+                                              Tag="Выберите жанр"/>
+                                </StackPanel>
+                                <Button Content="Опубликовать" Style="{StaticResource BookReadButton}" 
+                                        Command="{Binding AddReviewCommand}"/>
+                            </StackPanel>
+                            
                             <TextBlock Text="Отзывы:" FontFamily="{StaticResource Inter}" FontSize="23"
                                        FontWeight="Bold"/>
 
@@ -133,7 +143,7 @@
                                                 Data="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"
                                                 Stretch="Uniform" Margin="0 0 0 1" Height="25" Width="26"/>
                             </DockPanel>
-                            <TextBlock Text="Другие книги жанра" Width="265" FontFamily="{StaticResource Inter}"
+                            <TextBlock Text="Жанр" Width="265" FontFamily="{StaticResource Inter}"
                                        FontWeight="Bold" FontSize="16" Margin="0 8 0 8"/>
                             <Border  Height="50" CornerRadius="8" Padding="5 0"
                                             Cursor="Hand">

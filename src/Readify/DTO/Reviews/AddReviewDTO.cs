@@ -15,8 +15,6 @@ namespace Readify.DTO.Reviews
         public string Comment { get; set; } = null!;
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(10)]
         public byte Rating { get; set; }
     }
 }

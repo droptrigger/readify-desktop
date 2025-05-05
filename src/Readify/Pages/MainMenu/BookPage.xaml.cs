@@ -1,4 +1,6 @@
-﻿using Readify.DTO.Books;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Readify.DTO.Books;
+using Readify.Services.Base;
 using Readify.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -22,10 +24,14 @@ namespace Readify.Pages.MainMenu
     /// </summary>
     public partial class BookPage : UserControl
     {
+        private ILibraryService _libraryService = App.ServiceProvider.GetService<ILibraryService>();
+        private IBookService _bookService = App.ServiceProvider.GetService<IBookService>();
+        private IUserService _userService = App.ServiceProvider.GetService<IUserService>();
+
         public BookPage(BookDTO book)
         {
             InitializeComponent();
-            DataContext = new BookViewModel(book);
+            DataContext = new BookViewModel(book, _libraryService, _bookService, _userService);
         }
     }
 }

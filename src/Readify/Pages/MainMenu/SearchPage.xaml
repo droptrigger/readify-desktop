@@ -33,7 +33,7 @@
                             <ComboBox ItemsSource="{Binding Genres}" BorderThickness="0" Background="#FFEDEDED"
                                       SelectedItem="{Binding SelectedGenre}" Visibility="{Binding IsSearchBookVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                                       Width="170" Margin="10 0 0 0" FontFamily="{StaticResource Inter}" FontSize="14" FontWeight="Medium"
-                                      Text="Выберите жанр"/>
+                                      Tag="Выберите жанр"/>
                         </DockPanel>
 
                         <!-- Прокрутка книг пользователя -->

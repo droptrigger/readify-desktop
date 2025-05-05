@@ -15,6 +15,8 @@ namespace Readify.Services
     class LibraryService : ILibraryService
     {
         private const string GET_LIBRARY_ENDPOINT = "/api/library/";
+        private const string ADD_LIBRARY_ENDPOINT = "/api/library";
+        private const string DELETE_LIBRARY_ENDPOINT = "/api/library";
 
         /// <summary>
         /// ApiClient для работы с API
@@ -27,6 +29,40 @@ namespace Readify.Services
         public LibraryService()
         {
             _apiClient = new ApiClient();
+        }
+
+        public async Task<bool> AddLibraryAsync(AddLibraryDTO library)
+        {
+            var response = await _apiClient.SendRequestAsync(HttpMethod.Post, ADD_LIBRARY_ENDPOINT, library, true);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthoizeException("Сессия закончена");
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            throw new Exception("Ответ сервера: " + response.Content.ToString());
+        }
+
+        public async Task<bool> DeleteLibraryAsync(AddLibraryDTO library)
+        {
+            var response = await _apiClient.SendRequestAsync(HttpMethod.Delete, DELETE_LIBRARY_ENDPOINT, library, true);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthoizeException("Сессия закончена");
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            throw new Exception("Ответ сервера: " + response.Content.ToString());
         }
 
         /// <summary>
@@ -56,5 +92,7 @@ namespace Readify.Services
 
             throw new Exception("Ответ сервера: " + response.Content.ToString());
         }
+
+
     }
 }

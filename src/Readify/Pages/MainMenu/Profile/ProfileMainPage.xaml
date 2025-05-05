@@ -192,7 +192,13 @@
 
                                     <!-- Изображение книги, на которую сделан отзыв -->
                                     <Border Height="215" Width="140">
-
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                <i:InvokeCommandAction 
+                                                Command="{Binding DataContext.ShowBookCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding Book.Id}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <Image Source="{Binding Book.CoverImage, Converter={StaticResource ImageConverter}}"
                                                                     Stretch="UniformToFill" 
                                                                     Margin="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
