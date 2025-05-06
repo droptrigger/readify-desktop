@@ -77,7 +77,6 @@
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Background" Value="#EFEFEF"/>
-                                            <!-- Замените на нужный цвет -->
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -100,7 +99,6 @@
                         <ItemsControl ItemsSource="{Binding Genres}" Margin="0">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <!-- Используем WrapPanel с горизонтальным расположением -->
                                     <WrapPanel Orientation="Horizontal"
                                         ItemWidth="220"
                                         ItemHeight="70"
@@ -187,7 +185,6 @@
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" Value="#EFEFEF"/>
-                                                            <!-- Замените на нужный цвет -->
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -296,7 +293,6 @@
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" Value="#EFEFEF"/>
-                                                            <!-- Замените на нужный цвет -->
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -311,9 +307,9 @@
                                                 </Border>
 
                                                 <!-- Название книги -->
-                                                <TextBlock Text="{Binding Name}" Width="145"
+                                                <TextBlock Text="{Binding Name}"
                                                                    FontFamily="{StaticResource Inter}"
-                                                                   TextAlignment="Center" FontSize="20"
+                                                                   TextAlignment="Center" FontSize="18"
                                                                    Margin="0 5 0 2" FontWeight="SemiBold"/>
 
                                                 <!-- Автор книги -->
@@ -405,7 +401,6 @@
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" Value="#EFEFEF"/>
-                                                            <!-- Замените на нужный цвет -->
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Readify.DTO;
 using Readify.DTO.Users;
-using Readify.Services.Exceptions;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;

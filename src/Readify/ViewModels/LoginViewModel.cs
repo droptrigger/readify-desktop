@@ -2,7 +2,6 @@
 using Readify.DTO.Users;
 using Readify.Pages;
 using Readify.Pages.Registartion;
-using Readify.Services;
 using Readify.Services.Base;
 using Readify.ViewModels.Base;
 using System.Net.Http;
@@ -66,11 +65,6 @@ namespace Readify.ViewModels
         /// Команда обработки нажатия на кнопку "Войти"
         /// </summary>
         public ICommand LoginCommand { get; }
-        
-        /// <summary>
-        /// Команда обработки нажатия на "Забыли пароль?"
-        /// </summary>
-        public ICommand ForgotPasswordCommand { get; }
 
         /// <summary>
         /// Команда обработки нажатия на кнопку "Создайте аккаунт"
@@ -89,7 +83,6 @@ namespace Readify.ViewModels
         {
             _authService = authService;
             LoginCommand = new RelayCommand(ExecuteLoginAsync);
-            ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword);
             GoToRegisterCommand = new RelayCommand(ExecuteGoToRegister);
             HiddenErrorCommand = new RelayCommand(() => IsErrorVisible = false);
         }
@@ -103,7 +96,6 @@ namespace Readify.ViewModels
 
             _authService = authService;
             LoginCommand = new RelayCommand(ExecuteLoginAsync);
-            ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword);
             GoToRegisterCommand = new RelayCommand(ExecuteGoToRegister);
             HiddenErrorCommand = new RelayCommand(() => IsErrorVisible = false);
         }
@@ -151,14 +143,6 @@ namespace Readify.ViewModels
                 }
             }
 
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void ExecuteForgotPassword()
-        {
-            //TODO: Навигация на страницу восстановления пароля
         }
 
         /// <summary>

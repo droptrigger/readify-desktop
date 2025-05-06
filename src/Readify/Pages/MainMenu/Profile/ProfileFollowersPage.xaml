@@ -121,8 +121,6 @@
                         </Border>
                         <Border Height="0.2" Background="#1D1F22"/>
                     </StackPanel>
-                    <!-- Подписчик -->
-
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

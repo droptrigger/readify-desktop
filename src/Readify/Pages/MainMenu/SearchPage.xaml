@@ -78,7 +78,6 @@
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" Value="#EFEFEF"/>
-                                                            <!-- Замените на нужный цвет -->
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>

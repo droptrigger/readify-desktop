@@ -79,14 +79,6 @@
                                 <TextBlock DockPanel.Dock="Left"
                                       Text="Пароль"
                                       Style="{StaticResource FormLabelLoginTextBlockStyle}" />
-                                <TextBlock Style="{StaticResource HyperlinkLoginTextBlockStyle}"
-                                       Text="Забыли пароль?">
-                                    <TextBlock.InputBindings>
-                                        <MouseBinding
-                                       Command="{Binding ForgotPasswordCommand}"
-                                       MouseAction="LeftClick"/>
-                                    </TextBlock.InputBindings>
-                                </TextBlock>
                             </DockPanel>
 
                             <!-- Поле ввода пароля -->
